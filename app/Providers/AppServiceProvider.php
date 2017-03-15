@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Schema::defaultStringLength(191);
     }
 
     /**
@@ -24,13 +25,13 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         if (env('APP_DEBUG', false)) {
-            
+
             // Providers
-            $this->app->register('Barryvdh\Debugbar\ServiceProvider');
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 
             // Aliases
             $this->app->alias('Debugbar', 'Barryvdh\Debugbar\Facade');
-            
         }
     }
 }
