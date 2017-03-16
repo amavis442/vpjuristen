@@ -33,7 +33,11 @@ class RoleUser extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('role_users', function (Blueprint $table) {
+            $table->dropForeign('role_users_user_id_foreign');
+            $table->dropForeign('role_users_role_id_foreign');
+        });
+        Schema::dropIfExists('role_users');
     }
 
 }
