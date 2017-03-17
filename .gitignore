@@ -10,3 +10,5 @@ Homestead.yaml
 .env
 /nbproject
 *.DS_Store*
+.phpstorm.meta.php
+_ide_helper*
