@@ -4,6 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Client
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contact[] $contacts
+ * @mixin \Eloquent
+ */
 class Client extends Model
 {
 
