@@ -19,3 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('/aanmelding', 'Frontend\ClientController@create')->name('client-create');
+
+Route::post('/aanmelding/store', 'Frontend\ClientController@store')->name('client-store');
+
