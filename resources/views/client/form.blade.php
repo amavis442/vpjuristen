@@ -54,11 +54,7 @@
             'placeholder'=>'House number'])
         !!}
         </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="form-group">
         {!! Form::label('Zipcode',null, ['class' => 'col-sm-2 control-label']) !!}
         <div class="col-sm-4">{!! Form::text('client[postcode]', null,
             ['required',
