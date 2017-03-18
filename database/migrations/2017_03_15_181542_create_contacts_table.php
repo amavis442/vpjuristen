@@ -21,15 +21,15 @@ class CreateContactsTable extends Migration
             $table->string('middlename');
             $table->char('sexe',1);
             $table->char('title');
-            $table->string('street');
-            $table->string('housenr');
-            $table->string('city');
-            $table->string('zipcode');
-            $table->string('country');
+            $table->string('street')->nullable();
+            $table->string('housenr')->nullable();
+            $table->string('city')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('country')->nullable();
             $table->string('phone');
             $table->string('email');
-            $table->string('fax');
-            $table->string('remarks');
+            $table->string('fax')->nullable();
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }
