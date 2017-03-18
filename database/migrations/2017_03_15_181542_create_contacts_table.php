@@ -23,7 +23,7 @@ class CreateContactsTable extends Migration
             $table->char('title');
             $table->string('street');
             $table->string('housenr');
-            $table->string('place');
+            $table->string('city');
             $table->string('zipcode');
             $table->string('country');
             $table->string('phone');
