@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $title
  * @property string $street
  * @property string $housenr
- * @property string $place
+ * @property string $city
  * @property string $zipcode
  * @property string $country
  * @property string $phone
@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \App\Client $client
+ * @method static \Illuminate\Database\Query\Builder|\App\Contact whereCity($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereClientId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereCountry($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereCreatedAt($value)
@@ -36,7 +37,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereMiddlename($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact wherePhone($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact wherePlace($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereRemarks($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereSexe($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereStreet($value)

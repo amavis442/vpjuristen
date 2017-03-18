@@ -26,7 +26,9 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('client.create');
+        $client = new Client();
+        $client->name ='Dit is mijn test';
+        return view('client.create',['client' => $client]);
     }
 
     /**
@@ -37,7 +39,8 @@ class ClientController extends Controller
      */
     public function store(ClientFormRequest $request)
     {
-        $model= Client::find(1);
+        $data = $request->get('client');
+        $client = Client::create($data);
 
         return \Redirect::route('client-create')->with('message', 'Uw verzoek is ingediend');
     }
