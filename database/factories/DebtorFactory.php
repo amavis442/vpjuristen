@@ -11,18 +11,19 @@
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->defineAs(App\Client::class, 'client', function (Faker\Generator $faker) {
+
+$factory->defineAs(App\Debtor::class, 'debtor', function (Faker\Generator $faker) {
     return [
     ];
 });
 
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->defineAs(App\Company::class, 'client', function (Faker\Generator $faker) {
+$factory->defineAs(App\Company::class, 'debtor', function (Faker\Generator $faker) {
 
     return [
-        'client_id' => function () {
-            return factory(App\Client::class, 'client')->create()->id;
+        'debtor_id' => function () {
+            return factory(App\Debtor::class,'debtor')->create()->id;
         },
         'name' => $faker->name,
         'company' => $faker->word,
@@ -37,12 +38,11 @@ $factory->defineAs(App\Company::class, 'client', function (Faker\Generator $fake
     ];
 });
 
-
-$factory->defineAs(App\Contact::class, 'client', function (Faker\Generator $faker) {
+$factory->define(App\Contact::class, 'debtor', function (Faker\Generator $faker) {
 
     return [
         'company_id' => function () {
-            return factory(App\Company::class)->create()->id;
+            return factory(App\Company::class,'debtor')->create()->id;
         },
         'name' => $faker->lastName,
         'firstname' => $faker->firstNameFemale,

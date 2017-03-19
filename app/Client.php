@@ -38,12 +38,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Client extends Model
 {
-    protected $fillable = ['name', 'company', 'street', 'housenr', 'postcode', 'city', 'country', 'phone', 'email', 'website', 'updated_at', 'created_at'];
+    protected $fillable = ['updated_at', 'created_at'];
 
-
-    public function contacts()
+    public function company()
     {
-        return $this->hasMany('App\Contact');
+        return $this->hasOne('App\Company');
     }
-
 }

@@ -20,10 +20,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Debtor extends Model
 {
+    protected $fillable = ['updated_at', 'created_at'];
 
-    public function client()
+
+    public function company()
     {
-        return $this->hasOne('App\Client');
+        return $this->hasOne('App\Company');
     }
- 
 }

@@ -47,8 +47,9 @@ class ClientController extends Controller
         $data = $request->get('contact');
         $client->contacts()->create($data);
 
-
-        return \Redirect::route('client-create')->with('message', 'Uw verzoek is ingediend');
+        session(['client_id' => $client->id]);
+        
+        return \Redirect::route('debtor-create');
     }
 
     /**

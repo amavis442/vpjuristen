@@ -6,6 +6,6 @@
             <p class="alert alert-info">{{ Session::get('message') }}</p>
         @endif
 
-        @include('client.form')
+        @include('debtor.form')
     </div>
 @endsection

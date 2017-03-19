@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Client $client
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  * @property-read \App\Debtor $debtor
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invoices[] $invoices
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invoice[] $invoices
  * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereClientId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereDebtorId($value)
@@ -45,7 +45,7 @@ class Dossier extends Model
 
     public function invoices()
     {
-        return $this->hasMany('App\Invoices');
+        return $this->hasMany('App\Invoice');
     }
 
 }

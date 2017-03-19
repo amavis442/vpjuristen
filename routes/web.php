@@ -19,7 +19,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/aanmelding', 'Frontend\ClientController@create')->name('client-create');
-
+// Client Frontend maybe put these in a group.
+Route::get('/aanmelding/', 'Frontend\ClientController@create')->name('client-create');
 Route::post('/aanmelding/store', 'Frontend\ClientController@store')->name('client-store');
 
+Route::get('/aanmelding/debtor', 'Frontend\DebtorController@create')->name('debtor-create');
+Route::post('/aanmelding/debtor/store', 'Frontend\DebtorController@store')->name('debtor-store');
+
+Route::get('/aanmelding/dossier', 'Frontend\DossierController@create')->name('dossier-create');
+Route::post('/aanmelding/dossier/store', 'Frontend\DossierController@store')->name('dossier-store');
