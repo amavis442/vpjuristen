@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
  * App\Contact
  *
  * @property int $id
- * @property int $client_id
+ * @property int $company_id
  * @property string $name
- * @property string $surname
+ * @property string $firstname
  * @property string $middlename
  * @property string $sexe
  * @property string $title
@@ -27,11 +27,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property-read \App\Client $client
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereCity($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereClientId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Contact whereCompanyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereCountry($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereEmail($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereFax($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Contact whereFirstname($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereHousenr($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereMiddlename($value)
@@ -40,7 +41,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereRemarks($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereSexe($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereStreet($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereSurname($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereZipcode($value)

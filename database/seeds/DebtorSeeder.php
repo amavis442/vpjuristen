@@ -11,6 +11,10 @@ class DebtorSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Contact::class, 'debtor', 50)->create();
+        factory(App\Debtor::class, 50)->create()
+        ->each(function ($debtor) {
+            $company_id = factory(App\Company::class)->create(['debtor_id' => $debtor->id])->id;
+            factory(App\Contact::class)->create(['company_id' => $company_id]);
+        });
     }
 }

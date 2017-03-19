@@ -11,6 +11,10 @@ class ClientSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Contact::class, 'client', 50)->create();
+        factory(App\Client::class, 50)->create()
+            ->each(function ($client) {
+            $company_id = factory(App\Company::class)->create(['client_id' => $client->id])->id;
+            factory(App\Contact::class)->create(['company_id' => $company_id]);
+        });
     }
 }

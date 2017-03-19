@@ -11,6 +11,6 @@ class DossierSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\Dossier::class, 50)->create();
     }
 }
