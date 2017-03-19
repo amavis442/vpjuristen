@@ -25,7 +25,7 @@ class DossierController extends Controller
      */
     public function create()
     {
-        //
+       return view('dossier.create');
     }
 
     /**
