@@ -17,10 +17,10 @@ class CreateContactsTable extends Migration
             $table->increments('id');
             $table->integer('client_id')->unsigned();
             $table->string('name');
-            $table->string('surname');
-            $table->string('middlename');
+            $table->string('firstname');
+            $table->string('middlename')->nullable();
             $table->char('sexe',1);
-            $table->char('title');
+            $table->char('title')->nullable();
             $table->string('street')->nullable();
             $table->string('housenr')->nullable();
             $table->string('city')->nullable();

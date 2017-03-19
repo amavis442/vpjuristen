@@ -48,6 +48,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Contact extends Model
 {
+    protected $fillable = ['clien_id', 'sexe','firstname','middlename','name','email', 'phone'];
+
     public function client()
     {
         return $this->belongsTo('App\Client');

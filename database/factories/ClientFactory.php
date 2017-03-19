@@ -34,7 +34,7 @@ $factory->define(App\Contact::class, function (Faker\Generator $faker) {
             return factory(App\Client::class)->create()->id;
         },
         'name' => $faker->lastName,
-        'surname' => $faker->firstNameFemale,
+        'firstname' => $faker->firstNameFemale,
         'middlename' => 'van den',
         'sexe' => 'V',
         'title' => $faker->title,
