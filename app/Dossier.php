@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Dossier extends Model
 {
+    protected $fillable = ['client_id','debtor_id','title','created_at','updated_at'];
 
     public function client()
     {

@@ -45,7 +45,7 @@ class DebtorController extends Controller
     public function store(Request $request)
     {
         if (!session()->has('client_id')) {
-            \Redirect::route('client-create');
+            return \Redirect::route('client-create');
         }
 
         $client_id = session('client_id');
