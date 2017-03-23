@@ -23,6 +23,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Invoice whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Invoice whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $title
+ * @property string $remarks
+ * @method static \Illuminate\Database\Query\Builder|\App\Invoice whereRemarks($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Invoice whereTitle($value)
  */
 class Invoice extends Model
 {

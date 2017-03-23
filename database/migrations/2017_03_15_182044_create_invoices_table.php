@@ -16,9 +16,11 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('dossier_id')->unsigned();
+            $table->string('title',255)->nullable();
             $table->float('amount');
             $table->date('due_date');
             $table->string('file');
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }
