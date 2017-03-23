@@ -28,7 +28,8 @@ class DossierController extends Controller
     public function create()
     {
         $dossier = new Dossier;
-        return view('dossier.create', ['dossier' => $dossier]);
+        $invoice = new Invoice();
+        return view('dossier.create', ['dossier' => $dossier,'invoice' =>$invoice, 'numInvoices' => 2]);
     }
 
     /**
@@ -56,29 +57,22 @@ class DossierController extends Controller
             'doc' => 'file|mimes:pdf,doc,docx,jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
+        $invoices = $request->get('invoice');
+        $numInvoices = count($invoices);
+        for($i=0;$i < $numInvoices;$i++) {
+            $doc = $request->file('invoice_'.$i.'_file');
+            $filename = $doc->store('images');
 
-        /* $this->validate($request, [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]); */
-
-        //$imageName = time() . '.' . $request->image->getClientOriginalExtension();
-        //$request->image->move(public_path('images'), $imageName);
-        $doc = $request->file('doc');
-        $filename = $doc->store('images');
-
-        $invoice['dossier_id'] = $dossier->id;
-        $invoice['amount'] = '100.00';
-        $invoice['due_date'] = date('Y-m-d');
-        $invoice['file'] = $filename;
-
-        Invoice::create($invoice);
+            $invoice['title'] = $invoices[$i]['title'];
+            $invoice['dossier_id'] = $dossier->id;
+            $invoice['amount'] = $invoices[$i]['amount'];
+            $invoice['due_date'] = $invoices[$i]['due_date'];
+            $invoice['file'] = $filename;
+            $invoice['remarks'] = $invoices[$i]['remarks'];
+            Invoice::create($invoice);
+        }
 
         return \Redirect::route('dossier-create');
-
-        //foreach ($request->file('doc') as $doc) {
-            //$filename = $doc->store('doc');
-            //Invoice::create()->store();
-        //}
     }
 
     /**
