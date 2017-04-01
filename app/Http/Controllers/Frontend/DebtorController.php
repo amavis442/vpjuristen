@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Company;
+use App\Contact;
 use App\Debtor;
 use App\Client;
 use Illuminate\Contracts\Session\Session;
@@ -11,16 +13,6 @@ use App\Http\Controllers\Controller;
 class DebtorController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -28,12 +20,13 @@ class DebtorController extends Controller
     public function create()
     {
         if (!session()->has('client_id')) { // TODO: Maybe put this in a middleware for debtor and dossier.
-            \Redirect::route('client-create');
+            \Redirect::route('frontend.register.client.create');
         }
 
-        $debtor = new Debtor();
+        $company = new Company();
+        $contact = new Contact();
 
-        return view('debtor.create', ['debtor' => $debtor, 'contactShort' => true]);
+        return view('frontend.debtor.create', ['company' => $company, 'contact' => $contact, 'contactShort' => true]);
     }
 
     /**
@@ -45,68 +38,19 @@ class DebtorController extends Controller
     public function store(Request $request)
     {
         if (!session()->has('client_id')) {
-            return \Redirect::route('client-create');
+            return \Redirect::route('frontend.register.client.create');
         }
 
-        $client_id = session('client_id');
+        $data = $request->get('company');
+        $company = Company::create($data);
+        $debtor = $company->debtor()->create();
 
-        $debtorData = $request->get('debtor');
-        $contactData = $request->get('contact');
-
-        /** @var Debtor $debtor */
-        $debtor = Debtor::create(['client_id' => $client_id]);
-        /** @var Client $client */
-        $client = $debtor->client()->create($debtorData);
-        $client->contacts()->create($contactData);
+        $data = $request->get('contact');
+        $contact = $company->contacts()->create($data);
 
         session('debtor_id', $debtor->id);
 
-        return \Redirect::route('dossier-create');
+        return \Redirect::route('frontend.register.dossier.create');
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Debtor  $debtor
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Debtor $debtor)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Debtor  $debtor
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Debtor $debtor)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Debtor  $debtor
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Debtor $debtor)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Debtor  $debtor
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Debtor $debtor)
-    {
-        //
     }
 }

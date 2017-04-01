@@ -11,16 +11,6 @@ use App\Http\Controllers\Controller;
 class DossierController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -29,7 +19,8 @@ class DossierController extends Controller
     {
         $dossier = new Dossier;
         $invoice = new Invoice();
-        return view('dossier.create', ['dossier' => $dossier,'invoice' =>$invoice, 'numInvoices' => 2]);
+
+        return view('frontend.dossier.create', ['dossier' => $dossier, 'invoice' => $invoice, 'index' => 1]);
     }
 
     /**
@@ -46,8 +37,8 @@ class DossierController extends Controller
 
         $dossier = $request->get('dossier');
 
-        $data['client_id'] = session('client_id',1);
-        $data['debtor_id'] = session('debtor_id',1);
+        $data['client_id'] = session('client_id', 1);
+        $data['debtor_id'] = session('debtor_id', 1);
         $data['title'] = $dossier['name'];
         /** @var Dossier $dossier */
         $dossier = Dossier::create($data);
@@ -59,9 +50,9 @@ class DossierController extends Controller
 
         $invoices = $request->get('invoice');
         $numInvoices = count($invoices);
-        for($i=0;$i < $numInvoices;$i++) {
-            $doc = $request->file('invoice_'.$i.'_file');
-            $filename = $doc->store('images');
+        for ($i = 1; $i <= $numInvoices; $i++) {
+            $doc = $request->file('invoice_' . $i . '_file');
+            $filename = $doc->store('invoices');
 
             $invoice['title'] = $invoices[$i]['title'];
             $invoice['dossier_id'] = $dossier->id;
@@ -72,52 +63,7 @@ class DossierController extends Controller
             Invoice::create($invoice);
         }
 
-        return \Redirect::route('dossier-create');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Dossier $dossier
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Dossier $dossier)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Dossier $dossier
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Dossier $dossier)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Dossier $dossier
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Dossier $dossier)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Dossier $dossier
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Dossier $dossier)
-    {
-        //
+        return \Redirect::route('frontend.register.thankyou');
     }
 
     public function imageUploadPost(Request $request)
@@ -134,5 +80,16 @@ class DossierController extends Controller
             ->with('success', 'Image Uploaded successfully.')
             ->with('path', $imageName);
 
+    }
+
+    public function ajaxAddInvoice()
+    {
+        return view('common.invoice.form');
+    }
+
+
+    public function thankyou(Request $request)
+    {
+        return view('frontend.dossier.thankyou');
     }
 }
