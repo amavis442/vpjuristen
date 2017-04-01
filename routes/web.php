@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::group(['namespace' => 'Frontend', 'prefix' => 'registratie'], function () {
+Route::group(['namespace' => 'Frontend', 'prefix' => 'registratie','middleware'=>['web', 'guest']], function () {
     // Controllers Within The "App\Http\Controllers\Frontend" Namespace
     Route::get('/', 'ClientController@create')->name('frontend.register.client.create');
     Route::post('store', 'ClientController@store')->name('frontend.register.client.store');
@@ -31,8 +31,17 @@ Route::group(['namespace' => 'Frontend', 'prefix' => 'registratie'], function ()
 });
 
 
+Route::get('/user/login', 'Admin\LoginController@login')->name('admin.login')->middleware(['web','guest']);
+Route::get('/user/login/client', 'Admin\LoginClientController@showLoginForm')->name('admin.login.client');
+Route::post('/user/login/client', 'Admin\LoginClientController@login')->name('admin.login.client.validate');
+
+Route::get('/user/login/debtor', 'Admin\LoginDebtorController@showLoginForm')->name('admin.login.debtor');
+Route::post('/user/login/debtor', 'Admin\LoginDebtorController@login')->name('admin.login.debtor.validate');
+
+
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth'], function () {
-    Route::get('dossier/view', 'Common\DossierController@view')->name('admin.dossier.list');
-    Route::get('dossier/create', 'Common\DossierController@create')->name('admin.dossier.create');
+
+    //Route::get('dossier/view', 'Common\DossierController@view')->name('admin.dossier.list');
+    //Route::get('dossier/create', 'Common\DossierController@create')->name('admin.dossier.create');
 });
 
