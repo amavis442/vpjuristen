@@ -14,7 +14,7 @@ class RoleUser extends Migration
      */
     public function up()
     {
-        Schema::create('role_users', function (Blueprint $table) {
+        Schema::create('role_user', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('role_id')->unsigned();
@@ -33,11 +33,11 @@ class RoleUser extends Migration
      */
     public function down()
     {
-        Schema::table('role_users', function (Blueprint $table) {
-            $table->dropForeign('role_users_user_id_foreign');
-            $table->dropForeign('role_users_role_id_foreign');
+        Schema::table('role_user', function (Blueprint $table) {
+            $table->dropForeign('role_user_user_id_foreign');
+            $table->dropForeign('role_user_role_id_foreign');
         });
-        Schema::dropIfExists('role_users');
+        Schema::dropIfExists('role_user');
     }
 
 }
