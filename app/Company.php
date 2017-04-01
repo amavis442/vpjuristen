@@ -58,11 +58,11 @@ class Company extends Model
 
     public function client()
     {
-        return $this->belongsTo('App\Client');
+        return $this->hasOne('App\Client');
     }
 
     public function debtor()
     {
-        return $this->belongsTo('App\Debtor');
+        return $this->hasOne('App\Debtor');
     }
 }

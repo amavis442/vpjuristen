@@ -26,15 +26,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Dossier::class, function (Faker\Generator $faker) {
     return [
         'debtor_id' => function () {
-            $debtor = factory(App\Debtor::class)->create();
-            $company_id = factory(App\Company::class)->create(['debtor_id' => $debtor->id])->id;
-            factory(App\Contact::class)->create(['company_id' => $company_id]);
+            $company = factory(App\Company::class)->create();
+            $contact = factory(App\Contact::class)->create(['company_id' => $company->id]);
+            $debtor = factory(App\Debtor::class)->create(['company_id' => $company->id]);
             return $debtor->id;
 
         },
         'client_id' => function () {
-            $client = factory(App\Client::class)->create();
-            $company_id = factory(App\Company::class)->create(['client_id' => $client->id])->id;
+            $company_id = factory(App\Company::class)->create()->id;
+            $client = factory(App\Client::class)->create(['company_id' => $company_id]);
             factory(App\Contact::class)->create(['company_id' => $company_id]);
             return $client->id;
         },

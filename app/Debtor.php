@@ -15,14 +15,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Debtor whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Debtor whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $company_id
+ * @method static \Illuminate\Database\Query\Builder|\App\Debtor whereCompanyId($value)
  */
 class Debtor extends Model
 {
-    protected $fillable = ['updated_at', 'created_at'];
+    protected $fillable = ['company_id', 'updated_at', 'created_at'];
 
 
     public function company()
     {
-        return $this->hasOne('App\Company');
+        return $this->belongsTo('App\Company');
     }
 }

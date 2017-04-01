@@ -31,12 +31,12 @@ class Dossier extends Model
 
     public function client()
     {
-        return $this->hasOne('App\Client');
+        return $this->belongsTo('App\Client');
     }
 
     public function debtor()
     {
-        return $this->hasOne('App\Debtor');
+        return $this->belongsTo('App\Debtor');
     }
 
     public function comments()

@@ -45,13 +45,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereZipcode($value)
  * @mixin \Eloquent
+ * @property-read \App\Company $company
  */
 class Contact extends Model
 {
-    protected $fillable = ['clien_id', 'sexe','firstname','middlename','name','email', 'phone'];
+    protected $fillable = ['company_id', 'sexe','firstname','middlename','name','email', 'phone'];
 
-    public function client()
+    public function company()
     {
-        return $this->belongsTo('App\Client');
+        return $this->belongsTo('App\Company');
     }
 }

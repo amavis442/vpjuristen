@@ -15,13 +15,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Client whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Client whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $company_id
+ * @method static \Illuminate\Database\Query\Builder|\App\Client whereCompanyId($value)
  */
 class Client extends Model
 {
-    protected $fillable = ['updated_at', 'created_at'];
+    protected $fillable = ['company_id','updated_at', 'created_at'];
 
     public function company()
     {
-        return $this->hasOne('App\Company');
+        return $this->belongsTo('App\Company');
     }
 }
