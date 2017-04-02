@@ -55,10 +55,10 @@ class User extends Authenticatable
     }
 
 
-    public function hasRole($role)
+    public function hasRole($name)
     {
-        foreach (\App\Role::all() as $item) {
-            if ($item->name == $role) {
+        foreach ($this->roles as $role) {
+            if ($role->name == $name) {
                 return true;
             }
         }
