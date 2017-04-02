@@ -66,6 +66,7 @@
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <li><a href="{{ route('dashboard.login') }}">Login</a></li>
+                        <li><a href="{{ route('frontend.register.client.create') }}">Dossier aanmelden</a></li>
                         <li><a href="{{ route('register') }}">Register</a></li>
                     @else
                         <li class="dropdown">
