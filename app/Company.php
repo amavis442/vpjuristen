@@ -65,4 +65,9 @@ class Company extends Model
     {
         return $this->hasOne('App\Debtor');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\Companies');
+    }
 }
