@@ -6,16 +6,21 @@
  * Time: 7:59 PM
  */
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Request;
-
-class LoginDebtorController
+class LoginDebtorController extends Controller
 {
+    use AuthenticatesUsers;
+
+    protected $redirectTo = '/dashboard';
+
     public function showLoginForm(Request $request)
     {
-        return view('admin.auth.debtor');
+        return view('dashboard.auth.debtor');
     }
 
     public function login()

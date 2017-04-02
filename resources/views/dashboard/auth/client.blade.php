@@ -7,8 +7,23 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login Client</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('admin.login.client') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('dashboard.login.client') }}">
                         {{ csrf_field() }}
+
+                        <div class="form-group{{ $errors->has('relation') ? ' has-error' : '' }}">
+                            <label for="relation" class="col-md-4 control-label">Relation ID</label>
+
+                            <div class="col-md-6">
+                                <input id="relation" type="text" class="form-control" name="relation" value="{{ old('relation') }}">
+
+                                @if ($errors->has('relation'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('relation') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
@@ -19,6 +34,20 @@
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('dossier') ? ' has-error' : '' }}">
+                            <label for="dossier" class="col-md-4 control-label">Dossier</label>
+
+                            <div class="col-md-6">
+                                <input id="dossier" type="text" class="form-control" name="dossier">
+
+                                @if ($errors->has('dossier'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('dossier') }}</strong>
                                     </span>
                                 @endif
                             </div>

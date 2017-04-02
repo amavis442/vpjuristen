@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::group(['namespace' => 'Frontend', 'prefix' => 'registratie','middleware'=>['web', 'guest']], function () {
+Route::group(['namespace' => 'Frontend', 'prefix' => 'registratie', 'middleware' => ['web', 'guest']], function () {
     // Controllers Within The "App\Http\Controllers\Frontend" Namespace
     Route::get('/', 'ClientController@create')->name('frontend.register.client.create');
     Route::post('store', 'ClientController@store')->name('frontend.register.client.store');
@@ -31,17 +31,19 @@ Route::group(['namespace' => 'Frontend', 'prefix' => 'registratie','middleware'=
 });
 
 
-Route::get('/user/login', 'Admin\LoginController@login')->name('admin.login')->middleware(['web','guest']);
-Route::get('/user/login/client', 'Admin\LoginClientController@showLoginForm')->name('admin.login.client');
-Route::post('/user/login/client', 'Admin\LoginClientController@login')->name('admin.login.client.validate');
+Route::get('/login', 'Dashboard\LoginController@login')->name('dashboard.login')->middleware(['web', 'guest']);
+Route::get('/dashboard/login/client', 'Dashboard\LoginClientController@showLoginForm')->name('dashboard.login.client');
+Route::get('/dashboard/login/debtor', 'Dashboard\LoginDebtorController@showLoginForm')->name('dashboard.login.debtor');
 
-Route::get('/user/login/debtor', 'Admin\LoginDebtorController@showLoginForm')->name('admin.login.debtor');
-Route::post('/user/login/debtor', 'Admin\LoginDebtorController@login')->name('admin.login.debtor.validate');
+Route::post('/dashboard/login/client', 'Dashboard\LoginClientController@login');
+Route::post('/dashboard/login/debtor', 'Dashboard\LoginDebtorController@validate');
 
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth'], function () {
 
-    //Route::get('dossier/view', 'Common\DossierController@view')->name('admin.dossier.list');
-    //Route::get('dossier/create', 'Common\DossierController@create')->name('admin.dossier.create');
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => 'auth'], function () {
+    Route::get('/', 'DossierController@index')->name('dashboard');
+
+    Route::get('dossier/view', 'DossierController@index')->name('dashboard.dossier.list');
+    Route::get('dossier/create', 'DossierController@create')->name('dashboard.dossier.create');
 });
 

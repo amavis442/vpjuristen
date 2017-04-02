@@ -43,7 +43,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
 
-                    @if (!Auth::guest())
+                    @if (!Auth::guest() && Auth::user()->hasRole('client'))
                         &nbsp;
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -65,7 +65,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
-                        <li><a href="{{ route('admin.login') }}">Login</a></li>
+                        <li><a href="{{ route('dashboard.login') }}">Login</a></li>
                         <li><a href="{{ route('register') }}">Register</a></li>
                     @else
                         <li class="dropdown">
