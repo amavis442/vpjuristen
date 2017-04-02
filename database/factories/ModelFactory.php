@@ -18,40 +18,17 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
+        'active' => true,
         'remember_token' => str_random(10),
     ];
 });
 
-
 $factory->define(App\Dossier::class, function (Faker\Generator $faker) {
     return [
-        'debtor_id' => function () {
-            $company = factory(App\Company::class)->create();
-            $contact = factory(App\Contact::class)->create(['company_id' => $company->id]);
-            $debtor = factory(App\Debtor::class)->create(['company_id' => $company->id]);
-            return $debtor->id;
-
-        },
-        'client_id' => function () {
-            $company_id = factory(App\Company::class)->create()->id;
-            $client = factory(App\Client::class)->create(['company_id' => $company_id]);
-            factory(App\Contact::class)->create(['company_id' => $company_id]);
-            return $client->id;
-        },
         'title' => $faker->title,
+        'status' => $faker->locale
     ];
 });
-
-
-$factory->define(App\Debtor::class, function (Faker\Generator $faker) {
-    return [];
-});
-
-
-$factory->define(App\Client::class, function (Faker\Generator $faker) {
-    return [];
-});
-
 
 $factory->define(App\Company::class, function (Faker\Generator $faker) {
     return [

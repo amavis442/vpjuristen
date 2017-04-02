@@ -15,9 +15,8 @@ class CreateDossiersTable extends Migration
     {
         Schema::create('dossiers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('client_id')->unsigned();
-            $table->integer('debtor_id')->unsigned();
             $table->string('title');
+            $table->string('status');
             $table->timestamps();
         });
     }

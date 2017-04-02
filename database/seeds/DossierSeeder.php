@@ -11,6 +11,16 @@ class DossierSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Dossier::class, 50)->create();
+        for ($i = 0; $i<50;$i++) {
+            $user = factory(App\User::class)->create();
+            $company = factory(App\Company::class)->create();
+
+            factory(App\Contact::class)->create(['company_id' => $company->id]);
+            $dossier = factory(App\Dossier::class)->create();
+
+            $user->companies()->attach($company->id);
+            $dossier->companies()->attach($company->id);
+
+        }
     }
 }
