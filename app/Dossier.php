@@ -27,17 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Dossier extends Model
 {
-    protected $fillable = ['client_id','debtor_id','title','created_at','updated_at'];
-
-    public function client()
-    {
-        return $this->belongsTo('App\Client');
-    }
-
-    public function debtor()
-    {
-        return $this->belongsTo('App\Debtor');
-    }
+    protected $fillable = ['title','status', 'created_at', 'updated_at'];
 
     public function comments()
     {
@@ -49,4 +39,8 @@ class Dossier extends Model
         return $this->hasMany('App\Invoice');
     }
 
+    public function companies()
+    {
+        return $this->belongsToMany('App\Company')->withTimestamps();
+    }
 }

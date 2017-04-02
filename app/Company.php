@@ -56,18 +56,13 @@ class Company extends Model
         return $this->hasMany('App\Contact');
     }
 
-    public function client()
-    {
-        return $this->hasOne('App\Client');
-    }
-
-    public function debtor()
-    {
-        return $this->hasOne('App\Debtor');
-    }
-
     public function users()
     {
-        return $this->belongsToMany('App\Companies');
+        return $this->belongsToMany('App\User');
+    }
+
+    public function dossiers()
+    {
+        return $this->belongsToMany('App\Dossier');
     }
 }
