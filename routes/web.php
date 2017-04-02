@@ -41,7 +41,7 @@ Route::post('/dashboard/login/debtor', 'Dashboard\LoginDebtorController@validate
 
 
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => 'auth'], function () {
-    Route::get('/', 'DossierController@index')->name('dashboard');
+    Route::get('/', 'DashboardController@index')->name('dashboard');
 
     Route::get('dossier/view', 'DossierController@index')->name('dashboard.dossier.list');
     Route::get('dossier/create', 'DossierController@create')->name('dashboard.dossier.create');

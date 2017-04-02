@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class DossierController extends Controller
+class DashboardController extends Controller
 {
     public function __construct()
     {
@@ -18,10 +18,10 @@ class DossierController extends Controller
     {
         $user = Auth::user();
         if ($user->hasRole('client')) {
-            $dossiers = $user->companies()->first()->dossiers()->get();
-            dd($dossiers);
+            $user->companies()->first()->dossiers();
         }
 
-        return view('dashboard.dossier.index');
+
+        return view('dashboard.dashboard');
     }
 }

@@ -45,19 +45,7 @@
 
                     @if (!Auth::guest() && Auth::user()->hasRole('client'))
                         &nbsp;
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false">
-                                Dossiers <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{ route('admin.dossier.create') }}">Create</a>
-                                </li>
 
-                            </ul>
-
-                        </li>
                     @endif
                 </ul>
 
@@ -102,5 +90,8 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+<script language="JavaScript">
+    @yield('javascript-bottom')
+</script>
 </body>
 </html>
