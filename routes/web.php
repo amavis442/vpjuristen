@@ -45,5 +45,10 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
 
     Route::get('dossier/view', 'DossierController@index')->name('dashboard.dossier.list');
     Route::get('dossier/create', 'DossierController@create')->name('dashboard.dossier.create');
+
+    Route::get('user', 'UserController@index')->name('dashboard.user');
+    Route::get('user/edit', 'UserController@edit')->name('dashboard.user.edit');
+    Route::post('user/store', 'UserController@store')->name('dashboard.user.store');
+
 });
 

@@ -69,7 +69,7 @@
     </div>
 
     {!! Form::label('Zipcode',null, ['class' => 'col-sm-2 control-label']) !!}
-    <div class="col-sm-4">{!! Form::text('contact[postcode]', $contact->postcode,
+    <div class="col-sm-4">{!! Form::text('contact[zipcode]', $contact->zipcode,
             ['required',
             'class'=>'form-control',
             'placeholder'=>'Zipcode'])
@@ -110,14 +110,3 @@
                   'placeholder'=>'Your e-mail address')) !!}
     </div>
 </div>
-
-@if (!$contactShort):
-<div class="form-group">
-    {!! Form::label('Website',null, ['class' => 'col-sm-2 control-label']) !!}
-    <div class="col-sm-10">{!! Form::text('contact[website]', $contact->website,
-            ['class'=>'form-control',
-            'placeholder'=>'Website',
-            'id' => 'Client_website'])
-        !!}</div>
-</div>
-@endif

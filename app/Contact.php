@@ -49,7 +49,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Contact extends Model
 {
-    protected $fillable = ['company_id', 'sexe','firstname','middlename','name','email', 'phone'];
+    protected $fillable = ['company_id', 'sexe','firstname','middlename','name','email', 'phone','zipcode','street','housenr','fax','created_at','updated_at'];
 
     public function company()
     {
