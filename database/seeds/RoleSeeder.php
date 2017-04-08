@@ -16,10 +16,7 @@ class RoleSeeder extends Seeder
         Role::create(['name' => 'admin', 'description' => 'The administrator of the site']);
         Role::create(['name' => 'debtor', 'description' => 'The one who own money']);
         Role::create(['name' => 'client', 'description' => 'The one who gets the money']);
-
-        User::find(1)->roles()->withTimestamps()->attach(1);
-        User::find(1)->roles()->withTimestamps()->attach(2);
-        User::find(1)->roles()->withTimestamps()->attach(3);
-
+        Role::create(['name' => 'prospect', 'description' => 'A new client that has to be checked out first']);
+        Role::create(['name' => 'employee', 'description' => 'Employee who has access to dossiers of clients']);
     }
 }

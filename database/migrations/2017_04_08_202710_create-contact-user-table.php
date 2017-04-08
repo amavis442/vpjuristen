@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableCompanyUserTable extends Migration
+class CreateContactUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateTableCompanyUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_user', function (Blueprint $table) {
+        Schema::create('contact_user', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('company_id')->unsigned();
+            $table->integer('contact_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('cascade');
         });
     }
 
@@ -31,11 +31,12 @@ class CreateTableCompanyUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('company_user', function (Blueprint $table) {
-            $table->dropForeign('company_user_user_id_foreign');
-            $table->dropForeign('company_user_company_id_foreign');
+        Schema::table('contact_user', function (Blueprint $table) {
+            $table->dropForeign('contact_user_user_id_foreign');
+            $table->dropForeign('contact_user_company_id_foreign');
         });
 
-        Schema::dropIfExists('company_user');
+
+        Schema::dropIfExists('contact_user');
     }
 }

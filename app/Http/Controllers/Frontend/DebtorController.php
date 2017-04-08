@@ -32,23 +32,26 @@ class DebtorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         if (!session()->has('client_id')) {
             return \Redirect::route('frontend.register.client.create');
         }
+        $currentTimestamp = date('Y-m-d H:i:s');;
 
         $data = $request->get('company');
+        /** @var Company $company */
         $company = Company::create($data);
-        $debtor = $company->debtor()->create();
 
         $data = $request->get('contact');
-        $contact = $company->contacts()->create($data);
+        $data['created_at'] = $currentTimestamp;
+        $data['created_at'] = $currentTimestamp;
+        $company->contacts()->create($data);
 
-        session('debtor_id', $debtor->id);
+        session('debtor_id', $company->id);
 
         return \Redirect::route('frontend.register.dossier.create');
 

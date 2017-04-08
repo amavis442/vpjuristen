@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Role whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Role whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
  */
 class Role extends Model
 {

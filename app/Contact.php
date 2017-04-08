@@ -49,10 +49,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Contact extends Model
 {
-    protected $fillable = ['company_id', 'sexe','firstname','middlename','name','email', 'phone','zipcode','street','housenr','fax','created_at','updated_at'];
+    protected $fillable = ['company_id', 'sexe','firstname','middlename','name',
+                           'email', 'phone','zipcode','street','housenr','city',
+                           'fax','country',
+                           'created_at','updated_at'];
 
     public function company()
     {
         return $this->belongsTo('App\Company');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User'); // To use the pivot table even if there is a 1-1 relationship
     }
 }

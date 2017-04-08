@@ -45,6 +45,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Company whereWebsite($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Dossier[] $dossiers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
  */
 class Company extends Model
 {

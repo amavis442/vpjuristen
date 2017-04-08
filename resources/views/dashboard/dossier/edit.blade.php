@@ -11,9 +11,12 @@
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
-        {!! Form::open(['route' => 'frontend.register.dossier.store', 'class' => 'form-horizontal', 'files' => true ]) !!}
+        {!! Form::open(['route' => 'dashboard.dossier.store', 'class' => 'form-horizontal', 'files' => true ]) !!}
 
-        @include('dossier.form')
+        @include('common.dossier.form')
+
+        @include('common.invoice.edit')
+
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 {!! Form::submit('Apply!',
@@ -22,7 +25,7 @@
         </div>
 
         {!! Form::close() !!}
-
-
     </div>
+
 @endsection
+

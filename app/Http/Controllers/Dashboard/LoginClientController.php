@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class LoginClientController extends Controller
@@ -33,7 +34,10 @@ class LoginClientController extends Controller
         $isOk = $this->attemptLogin($request);
 
         if ($isOk) {
-            //Auth::user()->
+            if (!Auth::user()->hasRole('client') && !Auth::user()->hasRole('admin')) {
+                return \Redirect::route('dashboard.login.client');
+            }
+
         }
 
         return $result;

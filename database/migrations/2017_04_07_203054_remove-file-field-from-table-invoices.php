@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDossiersTable extends Migration
+class RemoveFileFieldFromTableInvoices extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateDossiersTable extends Migration
      */
     public function up()
     {
-        Schema::create('dossiers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
-            $table->string('dossierstatus_id');
-            $table->timestamps();
+        Schema::table('invoices', function (Blueprint $table){
+            $table->dropColumn('file');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateDossiersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dossiers');
+        Schema::table('invoices', function (Blueprint $table){
+            $table->string('file',255)->after('due_date');
+        });
     }
 }

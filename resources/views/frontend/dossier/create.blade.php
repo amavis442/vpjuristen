@@ -24,7 +24,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Invoices</div>
             <div class="panel-body">
-                @include('common.invoice.form')
+                @include('common.invoice.edit')
             </div>
         </div>
 

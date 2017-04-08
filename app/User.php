@@ -25,6 +25,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property bool $active
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Company[] $companies
+ * @method static \Illuminate\Database\Query\Builder|\App\User whereActive($value)
  */
 class User extends Authenticatable
 {
@@ -37,7 +40,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','active',
     ];
 
     /**
@@ -68,5 +71,10 @@ class User extends Authenticatable
     public function companies()
     {
         return $this->belongsToMany('App\Company')->withTimestamps();
+    }
+
+    public function contacts()
+    {
+        return $this->belongsToMany('App\Contact');// To use the pivot table even if there is a 1-1 relationship
     }
 }

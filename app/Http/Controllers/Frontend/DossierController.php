@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Dossier;
 use App\Invoice;
+use Doctrine\Common\Collections\ArrayCollection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,9 +19,9 @@ class DossierController extends Controller
     public function create()
     {
         $dossier = new Dossier;
-        $invoice = new Invoice();
-
-        return view('frontend.dossier.create', ['dossier' => $dossier, 'invoice' => $invoice, 'index' => 1]);
+        $invoices = new ArrayCollection([new Invoice()]);
+        session(['numInvoices' => 0]);
+        return view('frontend.dossier.create', ['dossier' => $dossier, 'invoices' => $invoices, 'prefix'=>'frontend']);
     }
 
     /**
@@ -32,17 +33,20 @@ class DossierController extends Controller
     public function store(Request $request)
     {
         /* if (!session()->has('client_id') || !session()->has('debtor_id')) {
-            \Redirect::route('dossier-create');
+            \Redirect::route('frontend.dossier-create');
         } */
 
         $dossier = $request->get('dossier');
+        $currentTimestamp = date('Y-m-d H:i:s');
 
         $data['client_id'] = session('client_id', 1);
         $data['debtor_id'] = session('debtor_id', 1);
         $data['title'] = $dossier['name'];
+        $data['dossierstatus_id'] = 1;
+        $data['created_at'] = $currentTimestamp;
+        $data['updated_at'] = $currentTimestamp;
         /** @var Dossier $dossier */
         $dossier = Dossier::create($data);
-
 
         $this->validate($request, [
             'doc' => 'file|mimes:pdf,doc,docx,jpeg,png,jpg,gif,svg|max:2048'
@@ -50,17 +54,22 @@ class DossierController extends Controller
 
         $invoices = $request->get('invoice');
         $numInvoices = count($invoices);
-        for ($i = 1; $i <= $numInvoices; $i++) {
-            $doc = $request->file('invoice_' . $i . '_file');
-            $filename = $doc->store('invoices');
-
+        for ($i = 0; $i < $numInvoices; $i++) {
             $invoice['title'] = $invoices[$i]['title'];
             $invoice['dossier_id'] = $dossier->id;
             $invoice['amount'] = $invoices[$i]['amount'];
             $invoice['due_date'] = $invoices[$i]['due_date'];
-            $invoice['file'] = $filename;
+
             $invoice['remarks'] = $invoices[$i]['remarks'];
-            Invoice::create($invoice);
+            /** @var Invoice $invoice */
+            $invoice = Invoice::create($invoice);
+
+            $doc = $request->file('invoice_' . $i . '_file');
+            if (!is_null($doc)) {
+                $filename = $doc->store('invoices');
+                $filename_org = $doc->getClientOriginalName();
+                $invoice->files()->withTimestamps()->create(['filename' => $filename, 'filename_org' => $filename_org]);
+            }
         }
 
         return \Redirect::route('frontend.register.thankyou');

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Http\Controllers\InvoiceAjaxTrait;
 use App\Invoice;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class InvoiceController extends Controller
 {
+    use InvoiceAjaxTrait;
+
     /**
      * Display a listing of the resource.
      *

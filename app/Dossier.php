@@ -24,10 +24,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $status
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Company[] $companies
+ * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereStatus($value)
  */
 class Dossier extends Model
 {
-    protected $fillable = ['title','status', 'created_at', 'updated_at'];
+    protected $fillable = ['title', 'dossierstatus_id', 'created_at', 'updated_at'];
 
     public function comments()
     {
@@ -42,5 +45,10 @@ class Dossier extends Model
     public function companies()
     {
         return $this->belongsToMany('App\Company')->withTimestamps();
+    }
+
+    public function dossierstatus()
+    {
+        return $this->hasOne('App\Dossierstatus');
     }
 }

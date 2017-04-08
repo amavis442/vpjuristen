@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDossiersTable extends Migration
+class CreateFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateDossiersTable extends Migration
      */
     public function up()
     {
-        Schema::create('dossiers', function (Blueprint $table) {
+        Schema::create('files', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('dossierstatus_id');
+            $table->string('filename');
+            $table->string('filename_org');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateDossiersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dossiers');
+        Schema::dropIfExists('files');
     }
 }

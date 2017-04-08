@@ -1,16 +1,18 @@
+<input type="hidden" name="contact[id]" value="{{ $contact->id }}"/>
+
 <div class="form-group">
     {!! Form::label('Sexe','Sexe', ['class' => 'col-sm-2 control-label']) !!}
 
     <div class="col-sm-10">
         <label class="radio-inline">
-            {!! Form::radio('contact[sexe]', 'M', $contact->sexe, [
+            {!! Form::radio('contact[sexe]', 'M', ($contact->sexe == 'M'?true:false), [
             'required',
             'id' => 'contact_sexe_m'
             ]) !!} Dhr.
         </label>
 
         <label class="radio-inline">
-            {!! Form::radio('contact[sexe]', 'V',$contact->sexe, [
+            {!! Form::radio('contact[sexe]', 'V',($contact->sexe == 'V'?true:false), [
             'required',
             'id' => 'contact_sexe_v'
             ]) !!} Mevr.
