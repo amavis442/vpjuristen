@@ -49,7 +49,7 @@ class AdminUserSeeder extends Seeder
             'website' => '',
         ]);
 
-        $company->contacts()->create([
+        $contact = $company->contacts()->create([
             'name' => 'admin',
             'firstname' => 'admin',
             'middlename' => '',
@@ -65,5 +65,7 @@ class AdminUserSeeder extends Seeder
             'fax' => '',
             'remarks' => 'Admin'
         ]);
+
+        $user->contacts()->withTimestamps()->attach($contact->id);
     }
 }

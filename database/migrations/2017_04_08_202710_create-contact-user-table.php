@@ -33,7 +33,7 @@ class CreateContactUserTable extends Migration
     {
         Schema::table('contact_user', function (Blueprint $table) {
             $table->dropForeign('contact_user_user_id_foreign');
-            $table->dropForeign('contact_user_company_id_foreign');
+            $table->dropForeign('contact_user_contact_id_foreign');
         });
 
 
