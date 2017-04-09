@@ -52,17 +52,18 @@ class EmployeeController extends Controller
         }
         $dataUser['active'] = 1;
 
-
+        $user_id = 0;
         if (isset($dataUser['id']) && $dataUser['id'] > 0) {
             if (empty($dataUser['password'])) {
                 unset($dataUser['password']); // Keep the old password
             }
             $isNew = false;
+            $user_id = $dataUser['id'];
         }
 
         /** @var User $user */
         /** @var Company $company */
-        $user = User::updateOrCreate($dataUser);
+        $user = User::updateOrCreate(['id'=>$user_id],$dataUser);
         $company = Company::where(['name' => 'admin-prime', 'company' => 'admin-prime'])->get()->first();
 
         $dataRole = $request->get('role');
