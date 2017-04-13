@@ -11,13 +11,13 @@
   flex: 1 0 auto;
 }
 
-.panel {
+.mainpage .panel {
   display: flex;
   flex-direction: column;
   align-content: stretch;
 }
 
-.panel-body {
+.mainpage .panel-body {
   display: flex;
   flex-grow: 1;
 }

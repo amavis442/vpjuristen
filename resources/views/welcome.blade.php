@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row flex">
             <div class="col-md-4">
-                <div class="panel panel-primary">
+                <div class="mainpage panel panel-primary">
                     <div class="panel-heading">Heading 1</div>
                     <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Nemo igitur esse beatus potest. Quem Tiberina descensio festo illo die tanto gaudio affecit,
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="panel panel-primary">
+                <div class="mainpage panel panel-primary">
                     <div class="panel-heading">Heading 2</div>
                     <div class="panel-body">De vacuitate doloris eadem sententia erit. Quid dubitas igitur mutare
                         principia naturae? Quis enim potest ea,
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="panel panel-primary">
+                <div class="mainpage panel panel-primary">
                     <div class="panel-heading">Heading 3</div>
                     <div class="panel-body">Bona autem corporis huic sunt, quod posterius posui, similiora. Mene ergo et
                         Triarium dignos existimas, apud quos turpiter loquare? Nemo igitur esse beatus potest. Sed id ne
