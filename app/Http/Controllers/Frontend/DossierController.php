@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Company;
 use App\Dossier;
 use App\Invoice;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,14 +40,17 @@ class DossierController extends Controller
         $dossier = $request->get('dossier');
         $currentTimestamp = date('Y-m-d H:i:s');
 
-        $data['client_id'] = session('client_id', 1);
-        $data['debtor_id'] = session('debtor_id', 1);
+        $client_id = session('client_id', 5);
+        /** @var Company $company */
+        $company = Company::findOrFail($client_id);
+
+        $data['debtor_id'] = session('debtor_id', 6);
         $data['title'] = $dossier['name'];
         $data['dossierstatus_id'] = 1;
         $data['created_at'] = $currentTimestamp;
         $data['updated_at'] = $currentTimestamp;
         /** @var Dossier $dossier */
-        $dossier = Dossier::create($data);
+        $dossier = $company->dossiers()->withTimestamps()->create($data);
 
         $this->validate($request, [
             'doc' => 'file|mimes:pdf,doc,docx,jpeg,png,jpg,gif,svg|max:2048'
