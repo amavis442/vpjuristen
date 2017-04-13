@@ -50,6 +50,7 @@ class ClientController extends Controller
         $userData['email'] = $contact->email;
         $userData['password'] = bcrypt('secret');
         $userData['active'] = 1;
+        $userData['status'] = 'pending';
         $userData['created_at'] = $currentTimestamp;
         $userData['updated_at'] = $currentTimestamp;
         /** @var User $user */

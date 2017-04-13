@@ -65,20 +65,20 @@ Route::group(['namespace' => 'Frontend', 'prefix' => 'registratie', 'middleware'
 /**
  * Routes for the dashboard
  */
-Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard','middleware' => ['web', 'guest'] ], function () {
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard','middleware' => ['web'] ], function () {
     Route::get('/', function(){
         return \Redirect::route('dashboard.login');
     });
 
-    Route::get('/login', 'LoginController@login')->name('dashboard.login')->middleware(['web', 'guest']);
-    Route::get('/login/client', 'LoginClientController@showLoginForm')->name('dashboard.login.client')->middleware(['web', 'guest']);
-    Route::get('/login/debtor', 'LoginDebtorController@showLoginForm')->name('dashboard.login.debtor')->middleware(['web', 'guest']);
-    Route::post('/login/client', 'LoginClientController@login')->middleware(['web', 'guest']);
-    Route::post('/login/debtor', 'LoginDebtorController@login')->middleware(['web', 'guest']);
-    Route::post('/logout', 'LoginController@logout')->name('dashboard.logout')->middleware(['web']);
+    Route::get('login', 'LoginController@login')->name('dashboard.login')->middleware(['web', 'guest']);
+    Route::get('login/client', 'LoginClientController@showLoginForm')->name('dashboard.login.client')->middleware(['web', 'guest']);
+    Route::get('login/debtor', 'LoginDebtorController@showLoginForm')->name('dashboard.login.debtor')->middleware(['web', 'guest']);
+    Route::post('login/client', 'LoginClientController@login')->middleware(['web', 'guest']);
+    Route::post('login/debtor', 'LoginDebtorController@login')->middleware(['web', 'guest']);
+    Route::post('logout', 'LoginController@logout')->name('dashboard.logout')->middleware(['web']);
 
 
-    Route::get('/home', 'DashboardController@index')->name('dashboard');
+    Route::get('home', 'DashboardController@index')->name('dashboard');
     Route::get('dossier/index', 'DossierController@index')->name('dashboard.dossier.index');
     Route::get('dossier/create', 'DossierController@create')->name('dashboard.dossier.create');
     Route::get('dossier/edit', 'DossierController@edit')->name('dashboard.dossier.edit');

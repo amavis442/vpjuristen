@@ -52,6 +52,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function isActive()
+    {
+        return $this->status == 'active';
+    }
+
     public function roles()
     {
         return $this->belongsToMany('App\Role');

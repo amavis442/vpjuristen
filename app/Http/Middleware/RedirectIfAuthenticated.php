@@ -18,13 +18,17 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('employee')) {
-                return redirect('/admin/home');
+            if (Auth::user()->isActive()){
+                if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('employee')) {
+                    return redirect('/admin/home');
+                }
+                if (Auth::user()->hasRole('client') || Auth::user()->hasRole('debtor')) {
+                    return redirect('/dashboard/home');
+                }
+            } else {
+                Auth::logout();
+                return redirect()->back()->withErrors(['msg' => 'No access']);
             }
-            if (Auth::user()->hasRole('client') || Auth::user()->hasRole('debtor')) {
-                return redirect('/dashboard/home');
-            }
-
             return redirect('/home');
         }
 
