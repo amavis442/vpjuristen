@@ -48,9 +48,12 @@ class Admin extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * @return bool
+     */
     public function isActive()
     {
-        return $this->status == 'active';
+        return $this->active;
     }
 
     public function roles()

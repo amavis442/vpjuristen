@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\User;
+use App\Admin;
 
 class RedirectIfAuthenticated
 {
@@ -17,22 +19,18 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $user = Auth::guard($guard)->user();
+        /** @var User $user */
+        /** @var Admin $admin */
+        $admin = $user = Auth::guard($guard)->user();
         if (Auth::guard($guard)->check()) {
-            if ($user->isActive()){
+            if ($user->isActive() && !$user->hasRole('prospect')){
                 if ($user->hasRole('client') || $user->hasRole('debtor')) {
                     return redirect(route('dashboard.home'));
                 }
             }
 
-            if ($user->isActive()){
-                if ($user->hasRole('employee')) {
-                    return redirect(route('employee.home'));
-                }
-            }
-
-            if ($user->isActive()){
-                if ($user->hasRole('admin')) {
+            if ($admin->isActive()){
+                if ($admin->hasRole('admin')) {
                     return redirect(route('admin.home'));
                 }
             }
