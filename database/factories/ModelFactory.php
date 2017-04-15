@@ -26,7 +26,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Dossier::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->title,
-        'status' => $faker->locale
+        'dossierstatus_id' => 1
     ];
 });
 
