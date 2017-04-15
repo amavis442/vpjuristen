@@ -10,6 +10,11 @@ use App\Contact;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:dashboard');
+    }
+
     public function index()
     {
         $company = Auth::user()->companies()->first();

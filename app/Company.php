@@ -47,6 +47,7 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Dossier[] $dossiers
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Admin[] $admins
  */
 class Company extends Model
 {
@@ -62,6 +63,12 @@ class Company extends Model
     {
         return $this->belongsToMany('App\User');
     }
+
+    public function admins()
+    {
+        return $this->belongsToMany('App\Admin');
+    }
+
 
     public function dossiers()
     {

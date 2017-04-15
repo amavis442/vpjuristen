@@ -12,7 +12,7 @@
                         <div class="alert alert-warning" role="alert">{{$errors->first()}}</div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('dashboard.login.debtor') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('dashboard.login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">

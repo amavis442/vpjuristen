@@ -22,16 +22,21 @@ Route::get('/home', 'HomeController@index');
 /*
  * Routes for maintenance and employees
  */
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
-    Route::get('/', function(){
+Route::group(['namespace' => 'Admin\Auth', 'prefix' => 'admin'], function () {
+    Route::get('/', function () {
         return \Redirect::route('admin.login');
     });
     Route::get('/login', 'LoginController@showLoginForm')->name('admin.login')->middleware(['web', 'guest']);
     Route::post('/login', 'LoginController@login')->middleware(['web', 'guest']);
     Route::post('/logout', 'LoginController@logout')->name('admin.logout')->middleware(['web']);
 
-    Route::get('/password/reset', 'LoginController@showLoginForm')->name('admin.password.request')->middleware(['web', 'guest']);
+    Route::get('/password/reset', 'LoginController@showLoginForm')->name('admin.password.request')->middleware([
+        'web',
+        'guest'
+    ]);
+});
 
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('/home', 'HomeController@index')->name('admin.home');
     Route::get('/employee', 'EmployeeController@index')->name('admin.employee.index');
 
@@ -65,20 +70,24 @@ Route::group(['namespace' => 'Frontend', 'prefix' => 'registratie', 'middleware'
 /**
  * Routes for the dashboard
  */
-Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard','middleware' => ['web'] ], function () {
-    Route::get('/', function(){
+Route::group(['namespace' => 'Dashboard\Auth', 'prefix' => 'dashboard'], function () {
+    Route::get('/', function () {
         return \Redirect::route('dashboard.login');
     });
 
-    Route::get('login', 'LoginController@login')->name('dashboard.login')->middleware(['web', 'guest']);
-    Route::get('login/client', 'LoginClientController@showLoginForm')->name('dashboard.login.client')->middleware(['web', 'guest']);
-    Route::get('login/debtor', 'LoginDebtorController@showLoginForm')->name('dashboard.login.debtor')->middleware(['web', 'guest']);
-    Route::post('login/client', 'LoginClientController@login')->middleware(['web', 'guest']);
-    Route::post('login/debtor', 'LoginDebtorController@login')->middleware(['web', 'guest']);
+    Route::get('login', 'LoginController@showLoginForm')->name('dashboard.login')->middleware(['web', 'guest']);
+    Route::get('login/client', 'LoginController@showLoginFormClient')->name('dashboard.login.client')->middleware(['web', 'guest']);
+    Route::get('login/debtor', 'LoginController@showLoginFormDebtor')->name('dashboard.login.debtor')->middleware(['web', 'guest']);
+
+    Route::post('login', 'LoginController@login')->middleware(['web', 'guest']);
+
     Route::post('logout', 'LoginController@logout')->name('dashboard.logout')->middleware(['web']);
 
 
-    Route::get('home', 'DashboardController@index')->name('dashboard');
+});
+
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function () {
+    Route::get('home', 'DashboardController@index')->name('dashboard.home');
     Route::get('dossier/index', 'DossierController@index')->name('dashboard.dossier.index');
     Route::get('dossier/create', 'DossierController@create')->name('dashboard.dossier.create');
     Route::get('dossier/edit', 'DossierController@edit')->name('dashboard.dossier.edit');
@@ -86,13 +95,10 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard','middleware' =
 
     Route::post('invoice/add', 'InvoiceController@ajaxAdd')->name('dashboard.invoice.ajax.add');
     Route::post('invoice/del', 'InvoiceController@ajaxDelete')->name('dashboard.invoice.ajax.delete');
-    Route::get('invoice/downloadfile/{invoice_id}', 'InvoiceController@downloadFile')->name('dashboard.invoice.download.file');
-
-
+    Route::get('invoice/downloadfile/{invoice_id}',
+        'InvoiceController@downloadFile')->name('dashboard.invoice.download.file');
 
     Route::get('user', 'UserController@index')->name('dashboard.user');
     Route::get('user/edit', 'UserController@edit')->name('dashboard.user.edit');
     Route::post('user/store', 'UserController@store')->name('dashboard.user.store');
-
 });
-

@@ -46,6 +46,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Contact whereZipcode($value)
  * @mixin \Eloquent
  * @property-read \App\Company $company
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
  */
 class Contact extends Model
 {
@@ -63,4 +64,5 @@ class Contact extends Model
     {
         return $this->belongsToMany('App\User'); // To use the pivot table even if there is a 1-1 relationship
     }
+
 }

@@ -27,6 +27,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $status
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Company[] $companies
  * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereStatus($value)
+ * @property string $dossierstatus_id
+ * @property-read \App\Dossierstatus $dossierstatus
+ * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereDossierstatusId($value)
  */
 class Dossier extends Model
 {

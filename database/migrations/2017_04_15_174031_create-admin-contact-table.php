@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateContactUserTable extends Migration
+class CreateAdminContactTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateContactUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('contact_user', function (Blueprint $table) {
+        Schema::create('admin_contact', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('admin_id')->unsigned();
             $table->integer('contact_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('cascade');
         });
     }
@@ -31,13 +31,11 @@ class CreateContactUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('contact_user', function (Blueprint $table) {
-            $table->dropForeign('contact_user_user_id_foreign');
-            $table->dropForeign('contact_user_contact_id_foreign');
+        Schema::table('admin_contact', function (Blueprint $table) {
+            $table->dropForeign('admin_contact_admin_id_foreign');
+            $table->dropForeign('admin_contact_contact_id_foreign');
         });
 
-
-
-        Schema::dropIfExists('contact_user');
+        Schema::dropIfExists('admin_contact');
     }
 }

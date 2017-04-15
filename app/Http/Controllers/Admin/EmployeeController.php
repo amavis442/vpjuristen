@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Admin;
 use App\Role;
 use App\Contact;
 use App\Company;
@@ -13,14 +13,14 @@ class EmployeeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth']);
+        $this->middleware(['auth:admin']);
     }
 
     public function index()
     {
         /** @var Roles $roles */
         //$roles = Role::with('users')->where('name', 'admin')->get();
-        $users = User::whereHas('roles', function ($q) {
+        $users = Admin::whereHas('roles', function ($q) {
             $q->whereIn('name', ['admin','employee']);
         })->get()->all();
 
@@ -29,15 +29,15 @@ class EmployeeController extends Controller
 
     public function create(Request $request)
     {
-        $user = new User();
+        $user = new Admin();
         $contact = new Contact();
         return view('admin.employee.create', ['user' => $user, 'contact' => $contact, 'contactShort' => false]);
     }
 
     public function edit($id, Request $request)
     {
-        /** @var User $user */
-        $user = User::find($id);
+        /** @var Admin $user */
+        $user = Admin::find($id);
         $contact = $user->contacts()->first();
 
         return view('admin.employee.edit', ['user' => $user, 'contact' => $contact, 'contactShort' => false]);
@@ -61,9 +61,9 @@ class EmployeeController extends Controller
             $user_id = $dataUser['id'];
         }
 
-        /** @var User $user */
+        /** @var Admin $user */
         /** @var Company $company */
-        $user = User::updateOrCreate(['id'=>$user_id],$dataUser);
+        $user = Admin::updateOrCreate(['id'=>$user_id],$dataUser);
         $company = Company::where(['name' => 'admin-prime', 'company' => 'admin-prime'])->get()->first();
 
         $dataRole = $request->get('role');
