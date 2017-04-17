@@ -28,6 +28,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\Admin whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Admin whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contact[] $contacts
  */
 class Admin extends Authenticatable
 {
