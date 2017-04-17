@@ -23,18 +23,22 @@ class DossierSeeder extends Seeder
             $role = Role::where(['name' => 'prospect'])->get()->first();
             $user->roles()->withTimestamps()->attach($role->id);
             /** @var Company $company */
-            $company = factory(App\Company::class)->create();
+            $clientCompany = factory(App\Company::class)->create();
 
             /** @var Contact $contact */
-            $contact = factory(App\Contact::class)->create(['company_id' => $company->id]);
-            $contact->users()->withTimestamps()->attach($user->id);
+            $clientContact = factory(App\Contact::class)->create(['company_id' => $clientCompany->id]);
+            $clientContact->users()->withTimestamps()->attach($user->id);
+
+            $debtorCompany = factory(App\Company::class)->create();
+
+            /** @var Contact $contact */
+            $debtorContact = factory(App\Contact::class)->create(['company_id' => $debtorCompany->id]);
 
             /** @var Dossier $dossier */
-            $dossier = factory(App\Dossier::class)->create();
+            $dossier = factory(App\Dossier::class)->create(['client_id'=> $clientCompany->id, 'debtor_id' => $debtorCompany->id]);
 
-            $user->companies()->attach($company->id);
-            $dossier->companies()->attach($company->id);
-
+            $user->companies()->attach($clientCompany->id);
+            $dossier->companies()->attach($clientCompany->id);
         }
     }
 }
