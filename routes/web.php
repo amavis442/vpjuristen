@@ -36,15 +36,22 @@ Route::group(['namespace' => 'Admin\Auth', 'prefix' => 'admin'], function () {
     ]);
 });
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin','middleware' => ['auth:admin']], function () {
 
     Route::get('/home', 'HomeController@index')->name('admin.home');
-    Route::get('/employee', 'EmployeeController@index')->name('admin.employee.index');
 
-
+    /* Employee */
     Route::get('/employee/create', 'EmployeeController@create')->name('admin.employee.create');
     Route::get('/employee/edit/{id}', 'EmployeeController@edit')->name('admin.employee.edit');
     Route::post('/employee/store', 'EmployeeController@store')->name('admin.employee.store');
+    Route::get('/employee', 'EmployeeController@index')->name('admin.employee.index');
+
+    /* Dossier */
+    Route::get('/dossier/view/{id}', 'DossierController@show')->name('admin.dossier.show');
+    Route::get('/dossier/edit/{id}', 'DossierController@edit')->name('admin.dossier.edit');
+    Route::get('/dossier/store', 'DossierController@store')->name('admin.dossier.store');
+
+    Route::get('/dossier', 'DossierController@index')->name('admin.dossier.index');
 
 });
 

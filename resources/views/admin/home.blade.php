@@ -12,7 +12,7 @@
                             <a href="{{ route('admin.employee.index') }} " class="btn btn-default">Employees</a>
                         @endif
                         <a href="" class="btn btn-default">Clients</a>
-                        <a href="" class="btn btn-default">Dossiers</a>
+                        <a href="{{ route ('admin.dossier.index') }}" class="btn btn-default">Dossiers</a>
                         <a href="" class="btn btn-default">Actions</a>
                     </div>
                 </div>

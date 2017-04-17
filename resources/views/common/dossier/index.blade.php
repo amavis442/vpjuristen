@@ -14,15 +14,19 @@
                 <th>Created</th>
                 <th>Invoices</th>
                 </thead>
+
+                <tbody>
                 @foreach($dossiers as $item)
-                    <tbody>
-                    <li>#{{ $item->id }} {{ $item->client_id }} {{ $item->debtor_id }}<br/>
-                        Client: {{ $item->title }} , {{ $item->client()->first()->id }}
-                        , {{ $item->client()->first()->company()->first()->name }}<br/>
-                        Debtor: {{ $item->debtor()->first()->company()->first()->contacts()->first()->name }}
-                    </li>
-                    </tbody>
+                    <tr>
+                        <td>#{{ $item->id }}</td>
+                        <td><a href="{{ route('admin.dossier.show',['id' => $item->id]) }}">{{ $item->title }}</a></td>
+                        <td>{{ $item->debtor()->first()->name  }}</td>
+                        <td> {{ $item->created_at }}</td>
+                        <td> {{ $item->updated_at }}</td>
+                    </tr>
                 @endforeach
+                </tbody>
+
             </table>
         </div>
     </div>
