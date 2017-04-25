@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Domain\Services\Client\Client;
+use App\Domain\Services\Client\ClientService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -54,7 +54,7 @@ class ClientServiceTest extends TestCase
     {
         $postData = $this->postData;
 
-        $client = new Client();
+        $client = new ClientService();
         $data = $client->create($postData);
         $this->assertInstanceOf('App\Company', $data);
 
@@ -77,7 +77,7 @@ class ClientServiceTest extends TestCase
     {
         $user = User::findOrFail(1);
 
-        $client = new Client($user);
+        $client = new ClientService($user);
         $client->setUser($user);
 
         $company = $client->getClient();
@@ -86,7 +86,7 @@ class ClientServiceTest extends TestCase
 
     public function testGetClientById()
     {
-        $client = new Client();
+        $client = new ClientService();
 
         $company = $client->getClient(1);
         $this->assertInstanceOf('App\Company', $company);
@@ -98,7 +98,7 @@ class ClientServiceTest extends TestCase
         $postData = $this->postData;
         $postData['client']['id'] = 1;
 
-        $client = new Client();
+        $client = new ClientService();
         $company = $client->update($postData['client']);
 
         $this->assertEquals($postData['client']['name'], $company->name);

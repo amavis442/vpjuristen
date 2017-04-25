@@ -45,7 +45,7 @@ class DossierController extends Controller
         $company = Company::findOrFail($client_id);
 
         $data['debtor_id'] = session('debtor_id', 6);
-        $data['title'] = $dossier['name'];
+        $data['title'] = $dossier['title'];
         $data['dossierstatus_id'] = 1;
         $data['created_at'] = $currentTimestamp;
         $data['updated_at'] = $currentTimestamp;

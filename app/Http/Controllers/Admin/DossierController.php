@@ -37,7 +37,7 @@ class DossierController extends Controller
      */
     public function store(Request $request)
     {
-        $dossierService = new \App\Domain\Services\Dossier\Dossier();
+        $dossierService = new \App\Domain\Services\Dossier\DossierService();
         //
     }
 

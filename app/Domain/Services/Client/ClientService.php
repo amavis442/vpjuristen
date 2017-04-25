@@ -17,7 +17,7 @@ use App\User;
 use Psy\Exception\RuntimeException;
 
 
-class Client
+class ClientService
 {
     use ValidatesRequests;
 

@@ -6,6 +6,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Company;
 use App\Invoice;
 use App\User;
+use App\Dossier;
+use App\File as InvoiceFile;
 
 /**
  * Created by PhpStorm.
@@ -13,13 +15,14 @@ use App\User;
  * Date: 4/16/17
  * Time: 10:57 PM
  */
-class Dossier
+class DossierService
 {
     use ValidatesRequests;
 
     protected $client_id;
     protected $debtor_id;
     protected $dossier_id;
+    protected $dossier_status_id;
 
     /**
      * @return mixed
@@ -70,6 +73,23 @@ class Dossier
     }
 
     /**
+     * @return mixed
+     */
+    public function getDossierStatusId()
+    {
+        return $this->dossier_status_id;
+    }
+
+    /**
+     * @param mixed $dossier_status_id
+     */
+    public function setDossierStatusId($dossier_status_id)
+    {
+        $this->dossier_status_id = $dossier_status_id;
+    }
+
+
+    /**
      * Create a new dossier and invoices. Create relationship between dossier and company of
      * client and company of debtor
      *
@@ -77,14 +97,15 @@ class Dossier
      */
     public function create(Request $request)
     {
-        $dossier = $request->get('dossier');
         $currentTimestamp = date('Y-m-d H:i:s');
+        $dossier = $request->get('dossier');
 
         /** @var Company $company */
         $company = Company::findOrFail($this->client_id);
 
+        $data['client_id'] = $this->client_id;
         $data['debtor_id'] = $this->debtor_id;
-        $data['title'] = $dossier['name'];
+        $data['title'] = $dossier['title'];
         $data['dossierstatus_id'] = 1;
         $data['created_at'] = $currentTimestamp;
         $data['updated_at'] = $currentTimestamp;
@@ -114,10 +135,33 @@ class Dossier
                 $invoice->files()->withTimestamps()->create(['filename' => $filename, 'filename_org' => $filename_org]);
             }
         }
+
+        return $dossier;
     }
 
     public function update(Request $request)
     {
+        $dossierData = $request->get('dossier');
+        $dossier = Dossier::findOrFail($dossierData['id']);
+        unset($dossierData['id']);
+        $dossier->update($dossierData);
 
+        $invoices = $request->get('invoice');
+        foreach ($invoices as $index => $invoiceData) {
+            $invoiceData['dossier_id'] = $dossier->id;
+            $invoice = Invoice::updateOrCreate($invoiceData);
+
+            $doc = $request->file('invoice_' . $index . '_file');
+            if (!is_null($doc)) {
+
+                $filename = $doc->store('invoices');
+                $filename_org = $doc->getClientOriginalName();
+
+                /** @var InvoiceFile $invoiceFile */
+                $invoiceFile = InvoiceFile::updateOrCreate(['filename' => $filename, 'filename_org' => $filename_org]);
+                $invoiceFile->invoices()->attach($invoice->id)->withTimestamps();
+            }
+
+        }
     }
 }
