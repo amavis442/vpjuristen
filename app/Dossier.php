@@ -55,8 +55,6 @@ class Dossier extends Model
         return $this->hasOne('App\Dossierstatus');
     }
 
-
-
     public function client()
     {
         return $this->hasOne('App\Company','id','client_id');

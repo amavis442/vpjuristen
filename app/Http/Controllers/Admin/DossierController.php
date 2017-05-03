@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Domain\Services\Dossier\DossierService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Dossier;
 
 class DossierController extends Controller
 {
+    protected $dossierService;
+
+    public function __construct()
+    {
+        $this->dossierService = new DossierService();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -49,7 +57,15 @@ class DossierController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->dossierService->setDossierId($id);
+        /** @var Dossier $dossier */
+        $dossier = $this->dossierService->getDossier($id);
+        $invoices = $dossier->invoices();
+        $client = $dossier->client();
+        $debtor = $dossier->debtor();
+        $comments = $dossier->comments();
+
+        return view('admin.dossier.view', ['dossier' => $dossier, 'invoices' => $invoices]);
     }
 
     /**

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
  * App\Action
  *
  * @property int $id
+ * @property string $listactions_id
+ * @property string $status
+ * @property string $title
  * @property string $description
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -15,6 +18,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Action whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Action whereDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Action whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Action whereListactionsId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Action whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Action whereTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Action whereUpdatedAt($value)
  * @mixin \Eloquent
  */

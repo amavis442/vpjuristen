@@ -88,6 +88,14 @@ class DossierService
         $this->dossier_status_id = $dossier_status_id;
     }
 
+    public function getDossier($id)
+    {
+        /** @var Dossier $dossier */
+        $dossier = Dossier::findOrFail($id)->first();
+        $invoices = $dossier->invoices();
+
+        return $dossier;
+    }
 
     /**
      * Create a new dossier and invoices. Create relationship between dossier and company of
