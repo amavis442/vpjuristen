@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Dossier extends Model
 {
-    protected $fillable = ['title', 'client_id','debtor_id','dossierstatus_id', 'created_at', 'updated_at'];
+    protected $fillable = ['title', 'client_id', 'debtor_id', 'dossierstatus_id', 'created_at', 'updated_at'];
 
     public function comments()
     {
@@ -57,11 +57,21 @@ class Dossier extends Model
 
     public function client()
     {
-        return $this->hasOne('App\Company','id','client_id');
+        return $this->hasOne('App\Company', 'id', 'client_id');
     }
 
     public function debtor()
     {
-        return $this->hasOne('App\Company', 'id','debtor_id');
+        return $this->hasOne('App\Company', 'id', 'debtor_id');
+    }
+
+    public function payments()
+    {
+        $this->hasMany('App\Payment');
+    }
+
+    public function collections()
+    {
+        $this->hasMany('App\Collection');
     }
 }
