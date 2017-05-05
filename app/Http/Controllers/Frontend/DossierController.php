@@ -34,7 +34,12 @@ class DossierController extends Controller
     public function store(Request $request)
     {
         if (!session()->has('client_id') || !session()->has('debtor_id')) {
-            \Redirect::route('frontend.dossier-create');
+            if (!session()->has('client_id')) {
+                \Redirect::route('frontend.register.client.create');
+            }
+            if (!session()->has('debtor_id')) {
+                \Redirect::route('frontend.register.debtor.create');
+            }
         }
 
         $dossier = $request->get('dossier');
