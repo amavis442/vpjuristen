@@ -51,7 +51,7 @@ class DebtorController extends Controller
         $data['created_at'] = $currentTimestamp;
         $company->contacts()->create($data);
 
-        session('debtor_id', $company->id);
+        session(['debtor_id' => $company->id]);
 
         return \Redirect::route('frontend.register.dossier.create');
 
