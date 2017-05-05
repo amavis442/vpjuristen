@@ -33,24 +33,29 @@ class DossierController extends Controller
      */
     public function store(Request $request)
     {
-        /* if (!session()->has('client_id') || !session()->has('debtor_id')) {
+        if (!session()->has('client_id') || !session()->has('debtor_id')) {
             \Redirect::route('frontend.dossier-create');
-        } */
+        }
 
         $dossier = $request->get('dossier');
         $currentTimestamp = date('Y-m-d H:i:s');
 
-        $client_id = session('client_id', 5);
+        $client_id = session('client_id', null);
         /** @var Company $company */
-        $company = Company::findOrFail($client_id);
+        $clientCompany = Company::findOrFail($client_id);
+        $data['client_id'] = $clientCompany->id;
 
-        $data['debtor_id'] = session('debtor_id', 6);
+        $debtor_id = session('debtor_id', null);
+        $debtorCompany = Company::findOrFail($debtor_id);
+        $data['debtor_id'] = $debtorCompany->id;
+
         $data['title'] = $dossier['title'];
         $data['dossierstatus_id'] = 1;
         $data['created_at'] = $currentTimestamp;
         $data['updated_at'] = $currentTimestamp;
         /** @var Dossier $dossier */
-        $dossier = $company->dossiers()->withTimestamps()->create($data);
+        $dossier = Dossier::create($data);
+        //$dossier = $clientCompany->dossiers()->withTimestamps()->create($data);
 
         $this->validate($request, [
             'doc' => 'file|mimes:pdf,doc,docx,jpeg,png,jpg,gif,svg|max:2048'
