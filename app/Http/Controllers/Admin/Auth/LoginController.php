@@ -13,7 +13,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->redirectTo = route('admin.home');
-        $this->middleware('guest:admin', ['except' => 'logout']);
+        $this->middleware('guest', ['except' => 'logout']);
     }
 
 
@@ -28,9 +28,13 @@ class LoginController extends Controller
         $credentials['password'] = $request->get('password');
         $remember = $request->get('remember');
         if (Auth::guard('admin')->attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-
-            return redirect()->intended(route('admin.home'));
+            $user = Auth::guard('admin')->user();
+            if ($user->hasRole('admin') || $user->hasRole('employee')) {
+                $request->session()->regenerate();
+                return redirect()->intended(route('admin.home'));
+            } else {
+               redirect()->route('admin.logout');
+            }
         }
 
         return redirect()->back()->withInput($request->only('email', 'remember'));
@@ -41,4 +45,24 @@ class LoginController extends Controller
         return view('admin.auth.login');
     }
 
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+
+        return redirect(route('admin.login'));
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard('admin');
+    }
 }
