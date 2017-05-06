@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Admin;
 use App\Role;
 use App\Contact;
 use App\Company;
+use Illuminate\View\View;
 
 class EmployeeController extends Controller
 {
@@ -16,9 +19,14 @@ class EmployeeController extends Controller
         $this->middleware(['auth:admin']);
     }
 
+
     public function index()
     {
-        /** @var Roles $roles */
+        if (!Auth::guard('admin')->user()->can('manage-employees')) {
+            return redirect()->route('admin.home');
+        }
+
+        /** @var \App\Role $roles */
         //$roles = Role::with('users')->where('name', 'admin')->get();
         $users = Admin::whereHas('roles', function ($q) {
             $q->whereIn('name', ['admin','employee']);
@@ -29,13 +37,26 @@ class EmployeeController extends Controller
 
     public function create(Request $request)
     {
+        if (!Auth::guard('admin')->user()->can('manage-employees')) {
+            return redirect()->route('admin.home');
+        }
+
         $user = new Admin();
         $contact = new Contact();
         return view('admin.employee.create', ['user' => $user, 'contact' => $contact, 'contactShort' => false]);
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|RedirectResponse|View
+     */
     public function edit($id, Request $request)
     {
+        if (!Auth::guard('admin')->user()->can('manage-employees')) {
+            return redirect()->route('admin.home');
+        }
+
         /** @var Admin $user */
         $user = Admin::find($id);
         $contact = $user->contacts()->first();
@@ -45,6 +66,10 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
+        if (!Auth::guard('admin')->user()->can('manage-employees')) {
+            return redirect()->route('admin.home');
+        }
+
         $isNew = true;
         $dataUser = $request->get('user');
         if (isset($dataUser['password'])) {
