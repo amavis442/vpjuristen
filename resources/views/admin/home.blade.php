@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
 @section('content')
     <div class="container">
@@ -8,7 +8,7 @@
                     <div class="panel-heading">Dashboard</div>
 
                     <div class="panel-body">
-                        @if (Auth::user()->hasRole('admin'))
+                        @if (Auth::guard('admin')->user()->can('manage-employees'))
                             <a href="{{ route('admin.employee.index') }} " class="btn btn-default">Employees</a>
                         @endif
                         <a href="" class="btn btn-default">Clients</a>
