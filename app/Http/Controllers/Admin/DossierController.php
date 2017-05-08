@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contact;
+use App\Domain\Repository\EloquentDossiersRepository;
 use App\Domain\Services\Dossier\DossierService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,7 +25,7 @@ class DossierController extends Controller
      */
     public function index()
     {
-        $dossiers = Dossier::where('dossierstatus_id','=',1)->get()->all();
+        $dossiers = Dossier::where('dossierstatus_id', '=', 1)->get()->all();
         return view('admin.dossier.index', ['dossiers' => $dossiers]);
     }
 
@@ -40,7 +42,7 @@ class DossierController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -52,7 +54,7 @@ class DossierController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -60,18 +62,41 @@ class DossierController extends Controller
         $this->dossierService->setDossierId($id);
         /** @var Dossier $dossier */
         $dossier = $this->dossierService->getDossier($id);
-        $invoices = $dossier->invoices();
-        $client = $dossier->client();
-        $debtor = $dossier->debtor();
-        $comments = $dossier->comments();
+        /** @var \App\Dossierstatus $dossierStatus */
+        $dossierStatus = $dossier->dossierstatus()->first();
 
-        return view('admin.dossier.view', ['dossier' => $dossier, 'invoices' => $invoices]);
+        /** @var \App\Invoice[] $invoices */
+        $invoices = $dossier->invoices()->get();
+        /** @var \App\Company $client */
+        $client = $dossier->client()->first();
+        /** @var \App|Contact $clientContact */
+        $clientContact = $client->contacts()->first();
+        /** @var \App\Company $debtor */
+        $debtor = $dossier->debtor()->first();
+        /** @var \App|Contact $debtorContact */
+        $debtorContact = $debtor->contacts()->first();
+        /** @var \App\Comment[] $comments */
+        $comments = $dossier->comments()->get();
+        /** @var \App\Action[] $actions */
+        $actions = $dossier->actions()->get();
+
+        return view('admin.dossier.view', [
+            'dossier' => $dossier,
+            'dossierStatus' => $dossierStatus,
+            'invoices' => $invoices,
+            'client' => $client,
+            'clientContact' => $clientContact,
+            'debtor' => $debtor,
+            'debtorContact' => $debtorContact,
+            'actions' => $actions,
+            'comments' => $comments
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -82,8 +107,8 @@ class DossierController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -94,11 +119,17 @@ class DossierController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+    }
+
+    public function search(EloquentDossiersRepository $repository)
+    {
+        $dossiers = $repository->search(request('q'));
+        return view('admin.dossier.index', ['dossiers' => $dossiers]);
     }
 }

@@ -49,9 +49,17 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin','middleware' => ['auth
     /* Dossier */
     Route::get('/dossier/view/{id}', 'DossierController@show')->name('admin.dossier.show');
     Route::get('/dossier/edit/{id}', 'DossierController@edit')->name('admin.dossier.edit');
-    Route::get('/dossier/store', 'DossierController@store')->name('admin.dossier.store');
+    Route::post('/dossier/store', 'DossierController@store')->name('admin.dossier.store');
+
+    Route::get('/action/add/{id}', 'ActionController@create')->name('admin.dossier.action.create');
+    Route::get('/action/edit/{id}', 'ActionController@edit')->name('admin.dossier.action.edit');
+    Route::post('/action/store', 'ActionController@store')->name('admin.dossier.action.store');
+
+
+    Route::get('/dossier/search', 'DossierController@search');
 
     Route::get('/dossier', 'DossierController@index')->name('admin.dossier.index');
+
 
 });
 

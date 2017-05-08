@@ -91,9 +91,7 @@ class DossierService
     public function getDossier($id)
     {
         /** @var Dossier $dossier */
-        $dossier = Dossier::findOrFail($id)->first();
-        $invoices = $dossier->invoices();
-
+        $dossier = Dossier::findOrFail($id);
         return $dossier;
     }
 

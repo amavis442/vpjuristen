@@ -30,14 +30,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $dossierstatus_id
  * @property-read \App\Dossierstatus $dossierstatus
  * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereDossierstatusId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Action[] $actions
  */
 class Dossier extends Model
 {
     protected $fillable = ['title', 'client_id', 'debtor_id', 'dossierstatus_id', 'created_at', 'updated_at'];
 
+    public function actions()
+    {
+        return $this->belongsToMany('App\Action');
+    }
+
     public function comments()
     {
-        return $this->hasMany('App\Comment');
+        return $this->belongsToMany('App\Comment');
     }
 
     public function invoices()
@@ -52,7 +58,7 @@ class Dossier extends Model
 
     public function dossierstatus()
     {
-        return $this->hasOne('App\Dossierstatus');
+        return $this->belongsTo('App\Dossierstatus');
     }
 
     public function client()

@@ -23,11 +23,22 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Action whereTitle($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Action whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Dossier $dossier
+ * @property-read \App\Listaction $listaction
  */
 class Action extends Model
 {
+    public function dossier()
+    {
+        return $this->belongsTo('App\Dossier');
+    }
+
     public function comments()
     {
         return $this->belongsToMany('App\Comment');
+    }
+
+    public function listaction() {
+        return $this->belongsTo('App\Listaction');
     }
 }
