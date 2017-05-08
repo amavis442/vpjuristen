@@ -115,8 +115,8 @@ return [
             'can'  => 'manage-employees',
         ],
         [
-            'text'        => 'Pages',
-            'url'         => 'admin/pages',
+            'text'        => 'Dossiers',
+            'url'         => 'admin/dossier',
             'icon'        => 'file',
             'label'       => 4,
             'label_color' => 'success',
