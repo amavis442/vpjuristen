@@ -41,9 +41,11 @@ class EmployeeController extends Controller
             return redirect()->route('admin.home');
         }
 
+        $company = Company::find(1);
+
         $user = new Admin();
         $contact = new Contact();
-        return view('admin.employee.create', ['user' => $user, 'contact' => $contact, 'contactShort' => false]);
+        return view('admin.employee.create', ['user' => $user, 'company'=>$company,'contact' => $contact, 'contactShort' => false]);
     }
 
     /**
