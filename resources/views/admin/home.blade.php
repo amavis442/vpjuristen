@@ -11,9 +11,9 @@
                         @if (Auth::guard('admin')->user()->can('manage-employees'))
                             <a href="{{ route('admin.employee.index') }} " class="btn btn-default">Employees</a>
                         @endif
-                        <a href="" class="btn btn-default">Clients</a>
-                        <a href="{{ route ('admin.dossier.index') }}" class="btn btn-default">Dossiers</a>
-                        <a href="" class="btn btn-default">Actions</a>
+                        <a href="{{ route('admin.dossier.index') }}" class="btn btn-default">Dossiers</a>
+                        <a href="{{ route('admin.client.index') }}" class="btn btn-default">Clients</a>
+                        <a href="{{ route('admin.debtor.index') }}" class="btn btn-default">Debtors</a>
                     </div>
                 </div>
             </div>

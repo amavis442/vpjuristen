@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \App\Dossier $dossier
  * @property-read \App\Listaction $listaction
+ * @property string $listaction_id
+ * @method static \Illuminate\Database\Query\Builder|\App\Action whereListactionId($value)
  */
 class Action extends Model
 {
