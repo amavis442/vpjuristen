@@ -62,8 +62,8 @@ class EmployeeController extends Controller
         /** @var Admin $user */
         $user = Admin::find($id);
         $contact = $user->contacts()->first();
-
-        return view('admin.employee.edit', ['user' => $user, 'contact' => $contact, 'contactShort' => false]);
+        $company = Company::find(1);
+        return view('admin.employee.edit', ['user' => $user,'company'=>$company, 'contact' => $contact, 'contactShort' => false]);
     }
 
     public function store(Request $request)
