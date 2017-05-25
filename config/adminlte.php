@@ -121,6 +121,17 @@ return [
             'label'       => 4,
             'label_color' => 'success',
         ],
+        [
+            'text' => 'Clients',
+            'url'  => 'admin/client',
+            'can'  => 'manage-employees',
+        ],
+        [
+            'text' => 'Debtors',
+            'url'  => 'admin/debtor',
+            'can'  => 'manage-employees',
+        ],
+
         'ACCOUNT SETTINGS',
         [
             'text' => 'Profile',

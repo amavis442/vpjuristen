@@ -2,6 +2,15 @@
 
 @section('content')
     <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="{{ back()->getTargetUrl() }}">Home</a></li>
+            <li><a href="{{ 'jj'  }}">company</a></li>
+            <li class="active">Data</li>
+        </ol>
+    </div>
+
+
+    <div class="container">
         <div class="header">
             <h2>Dossier
                 <small>

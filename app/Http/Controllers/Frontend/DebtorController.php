@@ -42,15 +42,18 @@ class DebtorController extends Controller
         }
         $currentTimestamp = date('Y-m-d H:i:s');;
 
+        // Create the debtor company
         $data = $request->get('company');
         /** @var Company $company */
         $company = Company::create($data);
 
+        // Create the contact for the debtor company
         $data = $request->get('contact');
         $data['created_at'] = $currentTimestamp;
         $data['created_at'] = $currentTimestamp;
         $company->contacts()->create($data);
 
+        // Todo: Maybe there should also be a user created for the debtor for collection purposes
         session(['debtor_id' => $company->id]);
 
         return \Redirect::route('frontend.register.dossier.create');

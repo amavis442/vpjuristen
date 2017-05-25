@@ -45,23 +45,29 @@ class DossierController extends Controller
         $dossier = $request->get('dossier');
         $currentTimestamp = date('Y-m-d H:i:s');
 
+        // Get the client ID and verify that the company exists
         $client_id = session('client_id', null);
         /** @var Company $company */
         $clientCompany = Company::findOrFail($client_id);
         $data['client_id'] = $clientCompany->id;
 
+        // Get the debtor ID and verify that the company exists
         $debtor_id = session('debtor_id', null);
         $debtorCompany = Company::findOrFail($debtor_id);
         $data['debtor_id'] = $debtorCompany->id;
 
+        // Create the dossier
         $data['title'] = $dossier['title'];
         $data['dossierstatus_id'] = 1;
         $data['created_at'] = $currentTimestamp;
         $data['updated_at'] = $currentTimestamp;
         /** @var Dossier $dossier */
         $dossier = Dossier::create($data);
-        //$dossier = $clientCompany->dossiers()->withTimestamps()->create($data);
 
+        $dossier->companies()->attach($clientCompany->id);
+        $dossier->companies()->attach($debtorCompany->id);
+
+        // Create the invoices and attach it to the dossier
         $this->validate($request, [
             'doc' => 'file|mimes:pdf,doc,docx,jpeg,png,jpg,gif,svg|max:2048'
         ]);

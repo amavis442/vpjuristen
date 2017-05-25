@@ -116,7 +116,12 @@ class DossierService
         $data['created_at'] = $currentTimestamp;
         $data['updated_at'] = $currentTimestamp;
         /** @var Dossier $dossier */
-        $dossier = $company->dossiers()->withTimestamps()->create($data);
+        //$dossier = $company->dossiers()->withTimestamps()->create($data);
+        $dossier = Dossier::create($data);
+
+        $dossier->companies()->attach($this->client_id);
+        $dossier->companies()->attach($this->debtor_id);
+
 
         $this->validate($request, [
             'doc' => 'file|mimes:pdf,doc,docx,jpeg,png,jpg,gif,svg|max:2048'

@@ -14,6 +14,7 @@
                                 <th>Company name</th>
                                 <th>Phone</th>
                                 <th>Contact</th>
+                                <th>Dossiers</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -32,6 +33,7 @@
                                     <td>
                                         {{ $contact->firstname. ' '.$contact->name }}
                                     </td>
+                                    <td><a href="{{ route('admin.dossier.list', $company->id) }}">Dossiers #{{ $company->dossiers()->count() }}</a></td>
                                 </tr>
                             @endforeach
                             </tbody>

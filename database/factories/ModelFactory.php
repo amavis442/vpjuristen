@@ -14,21 +14,17 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
+
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'active' => true,
+        'status' => 'pending',
         'remember_token' => str_random(10),
     ];
 });
 
-$factory->define(App\Dossier::class, function (Faker\Generator $faker) {
-    return [
-        'title' => $faker->title,
-        'dossierstatus_id' => 1
-    ];
-});
 
 $factory->define(App\Company::class, function (Faker\Generator $faker) {
     return [
@@ -62,5 +58,23 @@ $factory->define(App\Contact::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'fax' => $faker->url,
         'remarks' => $faker->paragraph
+    ];
+});
+
+$factory->define(App\Dossier::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->title,
+        'dossierstatus_id' => 1
+    ];
+});
+
+
+$factory->define(App\Invoice::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->title,
+        'amount' => $faker->numberBetween(10, 4000),
+        'due_date' => $faker->dateTimeBetween('-1 years')->format('Y-m-d'),
+        'remarks' => $faker->paragraph(2),
+
     ];
 });

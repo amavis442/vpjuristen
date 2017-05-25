@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="{{ back()->getTargetUrl() }}">Home</a></li>
+
+        </ol>
+    </div>
+
+    <div class="container">
         {!! Form::open(['route' => 'admin.dossier.action.store', 'class' => 'form-horizontal']) !!}
         <input type="hidden" name="did" value="{{ $dossier_id }}" id="did"/>
         <div class="panel panel-default">

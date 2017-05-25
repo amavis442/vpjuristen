@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Company;
 use App\Contact;
 use App\Domain\Repository\EloquentDossiersRepository;
 use App\Domain\Services\Dossier\DossierService;
@@ -91,6 +92,16 @@ class DossierController extends Controller
             'actions' => $actions,
             'comments' => $comments
         ]);
+    }
+
+    public function list($id, Request $request)
+    {
+        $company = Company::find($id);
+        $dossiers = $company->dossiers()->get();
+
+        $returnUrl = back()->getTargetUrl();
+
+        return view('admin.dossier.list', ['returnUrl' => $returnUrl, 'company' => $company, 'dossiers' => $dossiers]);
     }
 
     /**

@@ -50,6 +50,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin','middleware' => ['auth
 
     /* Dossier admin: update dossier, add action and comments */
     Route::get('/dossier/search', 'DossierController@search');
+    Route::get('/dossier/list/{id}', 'DossierController@list')->name('admin.dossier.list');
     Route::get('/dossier/view/{id}', 'DossierController@show')->name('admin.dossier.show');
     Route::get('/dossier/edit/{id}', 'DossierController@edit')->name('admin.dossier.edit');
     Route::post('/dossier/store', 'DossierController@store')->name('admin.dossier.store');
