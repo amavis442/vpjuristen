@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Domain\Contract\UserInterface;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -30,7 +31,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contact[] $contacts
  */
-class Admin extends Authenticatable
+class Admin extends Authenticatable implements UserInterface
 {
     use Notifiable;
 

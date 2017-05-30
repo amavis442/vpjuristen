@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Domain\Contract\UserInterface;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -32,7 +33,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contact[] $contacts
  * @method static \Illuminate\Database\Query\Builder|\App\User whereStatus($value)
  */
-class User extends Authenticatable
+class User extends Authenticatable implements UserInterface
 {
 
     use Notifiable;

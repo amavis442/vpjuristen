@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * App\Action
@@ -32,7 +33,13 @@ class Action extends Model
 {
     public function dossier()
     {
-        return $this->belongsTo('App\Dossier');
+        return $this->belongsToMany('App\Dossier');
+    }
+
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role');
     }
 
     public function comments()
@@ -40,7 +47,13 @@ class Action extends Model
         return $this->belongsToMany('App\Comment');
     }
 
-    public function listaction() {
+    public function listaction()
+    {
         return $this->belongsTo('App\Listaction');
+    }
+
+    public function collection()
+    {
+        return $this->hasOne('App\Collection');
     }
 }
