@@ -141,17 +141,30 @@
                                 <th>comment</th>
                                 <th>created</th>
                                 <th>modified</th>
+                                <th>Visible for client</th>
+                                <th>Visible for debtor</th>
+                                <th>Amount</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach ($actions as $action)
-
-                                <td>{{ $action->id }}</td>
-                                <td>{{ $action->title }}</td>
-                                <td>{{ $action->listaction()->first()->description }}</td>
-                                <td>{{ $action->comments()->first()->comment }}</td>
-                                <td>{{ $action->created_at }}</td>
-                                <td>{{ $action->modified_at }}</td>
+                                @if(Auth::user()->can('view',$action))
+                                <tr>
+                                    <td>{{ $action->id }}</td>
+                                    <td>{{ $action->title }}</td>
+                                    <td>{{ $action->listaction()->first()->description }}</td>
+                                    <td>@if ($action->comments()->first()){{ $action->comments()->first()->comment }}@endif</td>
+                                    <td>{{ $action->created_at }}</td>
+                                    <td>{{ $action->updated_at }}</td>
+                                    <td>{{ $action->clientCanSee }}</td>
+                                    <td>{{ $action->debtorCanSee }}</td>
+                                    <td>{{ $action->amount }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.dossier.action.edit', $action->id) }}">Bijwerken</a>
+                                    </td>
+                                </tr>
+                                @endif
                             @endforeach
                             </tbody>
                         </table>

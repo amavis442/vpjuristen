@@ -6,6 +6,7 @@ use App\Company;
 use App\Contact;
 use App\Domain\Repository\EloquentDossiersRepository;
 use App\Domain\Services\Dossier\DossierService;
+use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Dossier;
@@ -76,10 +77,36 @@ class DossierController extends Controller
         $debtor = $dossier->debtor()->first();
         /** @var \App|Contact $debtorContact */
         $debtorContact = $debtor->contacts()->first();
+
+        $clientRoleId = Role::where('name','=','client')->first()->id;
+        $debtorRoleId = Role::where('name','=','debtor')->first()->id;
+
         /** @var \App\Comment[] $comments */
         $comments = $dossier->comments()->get();
         /** @var \App\Action[] $actions */
         $actions = $dossier->actions()->get();
+        foreach ($actions as $action) {
+            $actionRoles = $action->roles();
+
+            $clientCanSee = !is_null($actionRoles->get(['role_id'])
+                ->where('role_id','=', $clientRoleId)->first()) ? true: false;
+
+            $debtorCanSee = !is_null($actionRoles->get(['role_id'])
+                ->where('role_id','=', $debtorRoleId)->first()) ? true: false;
+
+           $collect =  $action->collection()->get()->first();
+            if ($collect) {
+                $action->amount = $collect->amount;
+            } else{
+                $action->amount = 'NaN';
+            }
+
+            $action->clientCanSee = $clientCanSee;
+
+            $action->debtorCanSee = $debtorCanSee;
+
+        }
+
 
         return view('admin.dossier.view', [
             'dossier' => $dossier,

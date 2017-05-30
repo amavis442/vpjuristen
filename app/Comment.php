@@ -30,4 +30,9 @@ class Comment extends Model
     {
         return $this->belongsTo('App\Action');
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role');
+    }
 }

@@ -16,6 +16,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Action' => 'App\Policies\ActionPolicy',
+        'App\Comment' => 'App\Policies\CommentPolicy',
+
         //User::class => EmployeePolicy::class,
     ];
 
@@ -31,5 +34,17 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-employees', function ($user) {
             return $user->hasRole('admin');
         });
+
+        /*Gate::define('see-comment', function ($user, $comment) {
+            if ($user->id == $comment->user_id) {
+                return true;
+            }
+        });
+
+        Gate::define('see-action', function ($user, $action) {
+            if ($user->id == $action->user_id) {
+                return true;
+            }
+        });*/
     }
 }
