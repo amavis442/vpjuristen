@@ -98,7 +98,7 @@ class DossierController extends Controller
             if ($collect) {
                 $action->amount = $collect->amount;
             } else{
-                $action->amount = 'NaN';
+                $action->amount = '-';
             }
 
             $action->clientCanSee = $clientCanSee;
