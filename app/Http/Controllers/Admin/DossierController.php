@@ -6,6 +6,7 @@ use App\Company;
 use App\Contact;
 use App\Domain\Repository\EloquentDossiersRepository;
 use App\Domain\Services\Dossier\DossierService;
+use App\Listaction;
 use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -61,6 +62,12 @@ class DossierController extends Controller
      */
     public function show($id)
     {
+        $totalSom = 0;
+        $receivedSom = 0;
+        $paidSom = 0;
+        $remaining = 0;
+        $interest = 0;
+
         $this->dossierService->setDossierId($id);
         /** @var Dossier $dossier */
         $dossier = $this->dossierService->getDossier($id);
@@ -69,6 +76,11 @@ class DossierController extends Controller
 
         /** @var \App\Invoice[] $invoices */
         $invoices = $dossier->invoices()->get();
+        foreach ($invoices as $invoice) {
+            $totalSom += $invoice->amount;
+        }
+        $remaining = $totalSom;
+
         /** @var \App\Company $client */
         $client = $dossier->client()->first();
         /** @var \App|Contact $clientContact */
@@ -105,8 +117,19 @@ class DossierController extends Controller
 
             $action->debtorCanSee = $debtorCanSee;
 
+            /** @var Listaction $listactionItem */
+            $listactionItem = $action->listaction()->get()->first();
+            if ($listactionItem->description == 'betaling ontvangen' || $listactionItem->description == 'deelbetaling ontvangen') {
+                $receivedSom += $action->collection()->get()->first()->amount;
+
+            }
+
+            if ($listactionItem->description == 'betaling uitgekeerd' || $listactionItem->description == 'deelbetaling uitgekeerd') {
+                $paidSom += $action->collection()->get()->first()->amount;
+            }
         }
 
+        $remaining -= $receivedSom;
 
         return view('admin.dossier.view', [
             'dossier' => $dossier,
@@ -117,7 +140,12 @@ class DossierController extends Controller
             'debtor' => $debtor,
             'debtorContact' => $debtorContact,
             'actions' => $actions,
-            'comments' => $comments
+            'comments' => $comments,
+            'totalSom' => $totalSom,
+            'receivedSom' => $receivedSom,
+            'paidSom' => $paidSom,
+            'remainingSom' => $remaining,
+            'interestSom' => $interest
         ]);
     }
 

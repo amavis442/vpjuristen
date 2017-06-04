@@ -5,6 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+                cp .env_example .env
             }
         }
         stage('Test') {
