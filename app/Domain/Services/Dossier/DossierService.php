@@ -1,8 +1,10 @@
 <?php
 namespace App\Domain\Services\Dossier;
 
+use App\File;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Auth;
 use App\Company;
 use App\Invoice;
 use App\User;
@@ -174,5 +176,21 @@ class DossierService
             }
 
         }
+    }
+
+    public function downloadInvoice($id, $fileid, Request $request)
+    {
+        /** @var Invoice $invoice */
+        $invoice = Invoice::findOrFail($id);
+        if ($invoice) {
+            $user = $invoice->dossier()->first()->companies()->first()->users()->first();
+            if ($user->id == Auth::user()->id || Auth::user()->hasRole('admin') || Auth::user()->hasRole('employee')) {
+                // Start the download procedure
+                /** @var File $file */
+                $file = $invoice->files()->get()->first();
+                return response()->download(storage_path('app/' . $file->filename));
+            }
+        }
+        return response('The computer says no',404);
     }
 }

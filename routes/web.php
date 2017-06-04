@@ -55,6 +55,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin','middleware' => ['auth
     Route::get('/dossier/edit/{id}', 'DossierController@edit')->name('admin.dossier.edit');
     Route::post('/dossier/store', 'DossierController@store')->name('admin.dossier.store');
     Route::get('/dossier', 'DossierController@index')->name('admin.dossier.index');
+    Route::get('/dossier/invoice/view/{id}/{fileid}', 'DossierController@downloadInvoice')->name('admin.dossier.invoice.view');
 
     /* Client admin: see client data and update them */
     Route::get('/client/search', 'ClientController@search');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Domain\Services\Dossier\DossierService;
 use App\Http\Controllers\InvoiceAjaxTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -47,18 +48,9 @@ class InvoiceController extends Controller
         return view('common.invoice.form', ['add' => true, 'index' => 1, 'invoice' => $invoice]);
     }
 
-    public function downloadFile($invoice_id, Request $request) {
-       // $invoice_id = $request->get('invoice_id');
-
-        $invoice = Invoice::findOrFail($invoice_id);
-        if ($invoice) {
-            $user = $invoice->dossier()->first()->companies()->first()->users()->first();
-            if ($user->id == Auth::user()->id) {
-                // Start the download procedure
-                return response()->download(storage_path('app/' . $invoice->file));
-            }
-        }
-        return response('The computer says no',404);
-
+    public function downloadFile($invoice_id, Request $request)
+    {
+        $dossierService = new DossierService();
+        return $dossierService->downloadInvoice($invoice_id);
     }
 }

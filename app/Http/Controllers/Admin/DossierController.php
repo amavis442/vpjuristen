@@ -6,6 +6,7 @@ use App\Company;
 use App\Contact;
 use App\Domain\Repository\EloquentDossiersRepository;
 use App\Domain\Services\Dossier\DossierService;
+use App\File;
 use App\Listaction;
 use App\Role;
 use Illuminate\Http\Request;
@@ -76,8 +77,19 @@ class DossierController extends Controller
 
         /** @var \App\Invoice[] $invoices */
         $invoices = $dossier->invoices()->get();
+        $invoiceFiles = [];
         foreach ($invoices as $invoice) {
+
             $totalSom += $invoice->amount;
+            /** @var File[] $files */
+            $files = $invoice->files()->get()->all();
+
+            if ($files) {
+                foreach ($files as $file) {
+                    $url = route('admin.dossier.invoice.view',['id'=>$invoice->id, 'fileid'=>$file->id] );
+                    $invoiceFiles[$invoice->id][] = ['url' => $url,'name' => $file->filename_org];
+                }
+            }
         }
         $remaining = $totalSom;
 
@@ -145,7 +157,8 @@ class DossierController extends Controller
             'receivedSom' => $receivedSom,
             'paidSom' => $paidSom,
             'remainingSom' => $remaining,
-            'interestSom' => $interest
+            'interestSom' => $interest,
+            'invoiceFiles' => $invoiceFiles
         ]);
     }
 
@@ -197,5 +210,13 @@ class DossierController extends Controller
     {
         $dossiers = $repository->search(request('q'));
         return view('admin.dossier.index', ['dossiers' => $dossiers]);
+    }
+
+    public function downloadInvoice($id, $fileid, Request $request)
+    {
+
+        $dossierService = new DossierService();
+        return $dossierService->downloadInvoice($id,$fileid,$request);
+
     }
 }

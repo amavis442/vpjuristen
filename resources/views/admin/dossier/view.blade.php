@@ -117,6 +117,7 @@
                                 <th>amount</th>
                                 <th>due_date</th>
                                 <th>remarks</th>
+                                <th>files</th>
                                 <th>created</th>
                                 <th>modified</th>
                             </tr>
@@ -128,6 +129,13 @@
                                 <td>{{ $invoice->amount }}</td>
                                 <td>{{ $invoice->due_date }}</td>
                                 <td>{{ $invoice->remarks }}</td>
+                                <td>
+                                    @if($invoiceFiles[$invoice->id])
+                                        @foreach($invoiceFiles[$invoice->id] as $file)
+                                            <a href="{{ $file['url']}}" target="_blank">{{ $file['name'] }}</a><br/>
+                                        @endforeach
+                                    @endif
+                                </td>
                                 <td>{{ $invoice->created_at }}</td>
                                 <td>{{ $invoice->modified_at }}</td>
                             @endforeach
@@ -166,20 +174,20 @@
                             <tbody>
                             @foreach ($actions as $action)
                                 @if(Auth::user()->can('view',$action))
-                                <tr>
-                                    <td>{{ $action->id }}</td>
-                                    <td>{{ $action->title }}</td>
-                                    <td>{{ $action->listaction()->first()->description }}</td>
-                                    <td>@if ($action->comments()->first()){{ $action->comments()->first()->comment }}@endif</td>
-                                    <td>{{ $action->created_at }}</td>
-                                    <td>{{ $action->updated_at }}</td>
-                                    <td>{{ $action->clientCanSee }}</td>
-                                    <td>{{ $action->debtorCanSee }}</td>
-                                    <td>{{ $action->amount }}</td>
-                                    <td>
-                                        <a href="{{ route('admin.dossier.action.edit', $action->id) }}">Bijwerken</a>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>{{ $action->id }}</td>
+                                        <td>{{ $action->title }}</td>
+                                        <td>{{ $action->listaction()->first()->description }}</td>
+                                        <td>@if ($action->comments()->first()){{ $action->comments()->first()->comment }}@endif</td>
+                                        <td>{{ $action->created_at }}</td>
+                                        <td>{{ $action->updated_at }}</td>
+                                        <td>{{ $action->clientCanSee }}</td>
+                                        <td>{{ $action->debtorCanSee }}</td>
+                                        <td>{{ $action->amount }}</td>
+                                        <td>
+                                            <a href="{{ route('admin.dossier.action.edit', $action->id) }}">Bijwerken</a>
+                                        </td>
+                                    </tr>
                                 @endif
                             @endforeach
                             </tbody>
