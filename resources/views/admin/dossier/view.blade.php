@@ -1,6 +1,30 @@
 @extends('adminlte::page')
 
 @section('content')
+    <?php
+    /** Illuminate\Support\Collection  $summary */
+    /** \App\Dossier $dossier */
+    $dossier = $summary->get('dossier');
+    $dossierStatus = $summary->get('dossierStatus');
+    $client = $summary->get('client');
+    $clientContact =  $summary->get('clientContact');
+
+    $debtor = $summary->get('debtor');
+    $debtorContact =  $summary->get('debtorContact');
+    $totalSom = $summary->get('totalSom');
+    $receivedSom = $summary->get('receivedSom');
+    $paidSom = $summary->get('paidSom');
+    $remainingSom = $summary->get('remainingSom');
+
+    $invoiceCollection =  $summary->get('invoiceCollection');
+    $invoices = $invoiceCollection->get('invoices');
+    $invoiceFiles = $invoiceCollection->get('invoiceFiles');
+
+    $actionCollection = $summary->get('actionCollection');
+    $actions = $actionCollection->get('actions');
+    $actionMeta = $actionCollection->get('meta');
+
+    ?>
     <div class="container">
         <ol class="breadcrumb">
             <li><a href="{{ back()->getTargetUrl() }}">Home</a></li>
@@ -63,11 +87,11 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <address>
-                                    <strong>{{ $client->company }}</strong><br>
-                                    {{ $client->street }} {{ $client->housenr }}<br>
-                                    {{ $client->city }}, {{ $client->postcode }}<br>
-                                    <abbr title="Phone">P:</abbr> {{ $client->phone }}<br/>
-                                    <abbr title="Email">E:</abbr> {{ $client->email }}
+                                    <strong>{{ $debtor->company }}</strong><br>
+                                    {{ $debtor->street }} {{ $debtor->housenr }}<br>
+                                    {{ $debtor->city }}, {{ $debtor->postcode }}<br>
+                                    <abbr title="Phone">P:</abbr> {{ $debtor->phone }}<br/>
+                                    <abbr title="Email">E:</abbr> {{ $debtor->email }}
                                 </address>
                             </div>
 
@@ -174,16 +198,19 @@
                             <tbody>
                             @foreach ($actions as $action)
                                 @if(Auth::user()->can('view',$action))
+                                    <?php
+                                    $meta = $actionMeta->get($action->id);
+                                    ?>
                                     <tr>
                                         <td>{{ $action->id }}</td>
                                         <td>{{ $action->title }}</td>
-                                        <td>{{ $action->listaction()->first()->description }}</td>
-                                        <td>@if ($action->comments()->first()){{ $action->comments()->first()->comment }}@endif</td>
+                                        <td>{{ $meta->get('actionStatus') }}</td>
+                                        <td>{{ $meta->get('comment','') }}</td>
                                         <td>{{ $action->created_at }}</td>
                                         <td>{{ $action->updated_at }}</td>
-                                        <td>{{ $action->clientCanSee }}</td>
-                                        <td>{{ $action->debtorCanSee }}</td>
-                                        <td>{{ $action->amount }}</td>
+                                        <td>{{ $meta->get('clientCanSee') }}</td>
+                                        <td>{{ $meta->get('debtorCanSee') }}</td>
+                                        <td>{{ $meta->get('amount') }}</td>
                                         <td>
                                             <a href="{{ route('admin.dossier.action.edit', $action->id) }}">Bijwerken</a>
                                         </td>

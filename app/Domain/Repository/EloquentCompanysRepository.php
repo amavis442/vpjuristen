@@ -31,38 +31,30 @@ class EloquentCompanysRepository implements CompanyRepositoryInterface
         if ($type == 'client') {
             $dossiers = Dossier::with('client')->get();
             foreach ($dossiers as $dossier) {
-                $companies->add($dossier->client()->get()->first());
+                $companyCollection = new Collection();
+
+                $company = $dossier->client()->get()->first();
+                $user = $company->users()->get()->first();
+
+                $companyCollection->put('company', $company);
+                $companyCollection->put('user', $user);
+
+                $companies->add($companyCollection);
             }
         }
 
         if ($type == 'debtor') {
             $dossiers = Dossier::with('debtor')->get();
             foreach ($dossiers as $dossier) {
-                $companies->add($dossier->debtor()->get()->first());
+                $companyCollection = new Collection();
+                $company = $dossier->debtor()->get()->first();
+                $user = new User();
+
+                $companyCollection->put('company', $company);
+                $companyCollection->put('user', $user);
+                $companies->add($companyCollection);
             }
         }
-
-        /* if ($type == 'debtor') {
-            $roles = Role::with(['users'])->whereIn('name', ['debtor'])->get();
-            foreach ($roles as $role) {
-                $user = $role->users()->get()->first();
-                if ($user) {
-                    $company = $user->companies()->first();
-                    $companies->add($company);
-                }
-            }
-        }
-
-        if ($type == 'client' || $type == 'prospect') {
-            $roles = Role::with(['users'])->whereIn('name', ['client', 'prospect'])->get();
-            foreach ($roles as $role) {
-                $user = $role->users()->get()->first();
-                if ($user) {
-                    $company = $user->companies()->first();
-                    $companies->add($company);
-                }
-            }
-        } */
 
         return $companies;
     }

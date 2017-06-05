@@ -14,12 +14,21 @@
                                 <th>Company name</th>
                                 <th>Phone</th>
                                 <th>Contact</th>
+                                @if ($type == 'client')
+                                    <th>Active</th>
+                                    <th>Status</th>
+                                @endif
                                 <th>Dossiers</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($companies as $company)
-                                <?php $contact = $company->contacts()->first(); ?>
+                            @foreach($companies as $companyCollection)
+                                <?php
+                                $company = $companyCollection->get('company');
+                                if ($type == 'client') {
+                                    $companyUser = $companyCollection->get('user');
+                                }
+                                $contact = $company->contacts()->first(); ?>
                                 <tr>
                                     <td>
                                         <a href="{{ route($routeEdit, ['id' => $company->id])  }}">{{ $company->id }}</a>
@@ -33,7 +42,16 @@
                                     <td>
                                         {{ $contact->firstname. ' '.$contact->name }}
                                     </td>
-                                    <td><a href="{{ route('admin.dossier.list', $company->id) }}">Dossiers #{{ $company->dossiers()->count() }}</a></td>
+                                    @if($type == 'client')
+                                        <td>
+                                            @if($companyUser->active) On @endif
+                                        </td>
+                                        <td>
+                                            {{ $companyUser->status }}
+                                        </td>
+                                    @endif
+                                    <td><a href="{{ route('admin.dossier.list', $company->id) }}">Dossiers
+                                            #{{ $company->dossiers()->count() }}</a></td>
                                 </tr>
                             @endforeach
                             </tbody>

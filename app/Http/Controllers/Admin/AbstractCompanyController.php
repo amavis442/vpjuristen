@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Domain\Repository\EloquentCompanysRepository;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,7 @@ abstract class AbstractCompanyController extends Controller
         $repo = new EloquentCompanysRepository();
         $companies = $repo->getCompany($type);
 
-        return view('admin.company.index', ['routeEdit' => $this->routeEdit, 'companies' => $companies]);
+        return view('admin.company.index', ['type'=> $type,'routeEdit' => $this->routeEdit, 'companies' => $companies]);
     }
 
     public function createCompany(Request $request)
@@ -67,9 +68,16 @@ abstract class AbstractCompanyController extends Controller
         /** @var \App\Company $company */
         $company = Company::find($id);
         $contact = $company->contacts()->first();
+        $user = $company->users()->get()->first();
 
         return view('admin.company.edit',
-            ['routeName' => $this->routeStore, 'company' => $company, 'contact' => $contact, 'contactShort' => false]);
+            [
+                'routeName' => $this->routeStore,
+                'company' => $company,
+                'contact' => $contact,
+                'user' => $user,
+                'contactShort' => false
+            ]);
     }
 
     public function storeCompany(Request $request)
@@ -82,12 +90,19 @@ abstract class AbstractCompanyController extends Controller
         $id = $companyData['id'];
         unset($companyData['id']);
         /** @var Company $company */
-        $company = Company::updateOrCreate(['id'=>$id], $companyData);
+        $company = Company::updateOrCreate(['id' => $id], $companyData);
 
         $contactData = $request->get('contact');
         $id = $contactData['id'];
         unset($contactData['id']);
-        $contact = Contact::updateOrCreate(['id'=>$id], $contactData);
+        $contact = Contact::updateOrCreate(['id' => $id], $contactData);
+
+        if ($request->has('user')) {
+            $userData = $request->get('user');
+            $id = $userData['id'];
+            unset($userData['id']);
+            $user = User::updateOrCreate(['id' => $id], $userData);
+        }
 
         return \Redirect::route($this->routeIndex);
     }

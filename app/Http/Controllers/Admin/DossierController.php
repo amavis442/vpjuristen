@@ -63,6 +63,13 @@ class DossierController extends Controller
      */
     public function show($id)
     {
+        $summary = $this->dossierService->getSummary($id);
+
+        return view('admin.dossier.view', [
+            'summary' => $summary
+        ]);
+
+
         $totalSom = 0;
         $receivedSom = 0;
         $paidSom = 0;
@@ -212,11 +219,22 @@ class DossierController extends Controller
         return view('admin.dossier.index', ['dossiers' => $dossiers]);
     }
 
+    /**
+     * @param $id
+     * @param $fileid
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function downloadInvoice($id, $fileid, Request $request)
     {
 
         $dossierService = new DossierService();
-        return $dossierService->downloadInvoice($id,$fileid,$request);
 
+        $collection = $dossierService->downloadInvoice($id,$fileid,$request);
+        if ($collection->get('result') == 200) {
+            return response()->download($collection->get('msg'));
+        } else {
+            return response($collection->get('msg'), $collection->get('result'));
+        }
     }
 }

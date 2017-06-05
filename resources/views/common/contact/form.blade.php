@@ -51,7 +51,7 @@
 </div>
 
 
-@if (!$contactShort):
+@if (!$contactShort)
 <div class="form-group">
     {!! Form::label('Street',null, ['class' => 'col-sm-2 control-label']) !!}
     <div class="col-sm-10">{!! Form::text('contact[street]', $contact->street, [
