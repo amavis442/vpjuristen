@@ -1,14 +1,19 @@
 <?php
+
 namespace App\Domain\Services\Dossier;
 
 use App\File;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Company;
 use App\Invoice;
 use App\User;
 use App\Dossier;
+use App\Listaction;
+use App\Role;
 use App\File as InvoiceFile;
 
 /**
@@ -178,7 +183,171 @@ class DossierService
         }
     }
 
-    public function downloadInvoice($id, $fileid, Request $request)
+
+    /**
+     * @param Dossier $dossier
+     * @return Collection
+     */
+    public function getInvoiceSummary(Dossier $dossier): Collection
+    {
+        $totalSomInvoices = 0;
+        /** @var \App\Invoice[] $invoices */
+        $invoices = $dossier->invoices()->get();
+        $invoiceFiles = [];
+        foreach ($invoices as $invoice) {
+
+            $totalSomInvoices += $invoice->amount;
+            /** @var File[] $files */
+            $files = $invoice->files()->get()->all();
+
+            if ($files) {
+                foreach ($files as $file) {
+                    $url = route('admin.dossier.invoice.view', ['id' => $invoice->id, 'fileid' => $file->id]);
+                    $invoiceFiles[$invoice->id][] = ['url' => $url, 'name' => $file->filename_org];
+                }
+            }
+        }
+
+        return new Collection([
+            'invoices' => $invoices,
+            'invoiceFiles' => $invoiceFiles,
+            'totalSomInvoices' => $totalSomInvoices
+        ]);
+    }
+
+    /**
+     * @param Dossier $dossier
+     * @param int $clientRoleId
+     * @param int $debtorRoleId
+     * @return Collection
+     */
+    public function getActionSummary(Dossier $dossier, int $clientRoleId, int $debtorRoleId): Collection
+    {
+        $receivedSom = 0;
+        $paidSom = 0;
+        $amount = [];
+
+        $actionMetaCollection = new Collection();
+        /** @var \App\Action[] $actions */
+        $actions = $dossier->actions()->get();
+        foreach ($actions as $action) {
+            $actionItemMetaCollection = new Collection();
+            $actionStatus = $action->listaction()->first()->description;
+            $actionItemMetaCollection->put('actionStatus', $actionStatus);
+
+            $commentObj = $action->comments()->first();
+            if ($commentObj) {
+                $comment = $action->comments()->first()->comment;
+                $actionItemMetaCollection->put('comment', $comment);
+            }
+
+            $actionRoles = $action->roles();
+
+            $clientCanSee = !is_null($actionRoles->get(['role_id'])
+                ->where('role_id', '=', $clientRoleId)->first()) ? true : false;
+
+            $debtorCanSee = !is_null($actionRoles->get(['role_id'])
+                ->where('role_id', '=', $debtorRoleId)->first()) ? true : false;
+
+            $collect = $action->collection()->get()->first();
+            if ($collect) {
+                $actionItemMetaCollection->put('amount', $collect->amount);
+                //$action->amount = $collect->amount;
+            } else {
+                $actionItemMetaCollection->put('amount', '-');
+                $amount[$action->id] = '-';
+            }
+            $actionItemMetaCollection->put('clientCanSee', $clientCanSee);
+            $action->clientCanSee = $clientCanSee;
+            $actionItemMetaCollection->put('debtorCanSee', $debtorCanSee);
+            $action->debtorCanSee = $debtorCanSee;
+
+            /** @var Listaction $listactionItem */
+            $listactionItem = $action->listaction()->get()->first();
+            if ($listactionItem->description == 'betaling ontvangen' || $listactionItem->description == 'deelbetaling ontvangen') {
+                $receivedSom += $action->collection()->get()->first()->amount;
+            }
+
+            if ($listactionItem->description == 'betaling uitgekeerd' || $listactionItem->description == 'deelbetaling uitgekeerd') {
+                $paidSom += $action->collection()->get()->first()->amount;
+            }
+
+            $actionMetaCollection->put($action->id, $actionItemMetaCollection);
+            unset($actionItemMetaCollection);
+        }
+
+        return new Collection([
+            'actions' => $actions,
+            'meta' => $actionMetaCollection,
+            'receivedSom' => $receivedSom,
+            'paidSom' => $paidSom
+        ]);
+    }
+
+    /**
+     * @param int $id
+     * @return Collection
+     */
+    public function getSummary(int $id): Collection
+    {
+        $receivedSom = 0;
+        $paidSom = 0;
+
+        $this->setDossierId($id);
+        /** @var Dossier $dossier */
+        $dossier = $this->getDossier($id);
+        /** @var \App\Dossierstatus $dossierStatus */
+        $dossierStatus = $dossier->dossierstatus()->first();
+
+        /** @var Collection $invoiceSummary */
+        $invoiceSummaryCollection = $this->getInvoiceSummary($dossier);
+        $remaining = $totalSomInvoices = $invoiceSummaryCollection->get('totalSomInvoices');
+
+        /** @var \App\Company $client */
+        $client = $dossier->client()->first();
+        /** @var \App|Contact $clientContact */
+        $clientContact = $client->contacts()->first();
+
+        /** @var \App\Company $debtor */
+        $debtor = $dossier->debtor()->first();
+        /** @var \App|Contact $debtorContact */
+        $debtorContact = $debtor->contacts()->first();
+
+        $clientRoleId = Role::where('name', '=', 'client')->first()->id;
+        $debtorRoleId = Role::where('name', '=', 'debtor')->first()->id;
+
+        /** @var \App\Comment[] $comments */
+        $comments = $dossier->comments()->get();
+        /** @var Collection $actionCollection */
+        $actionCollection = $this->getActionSummary($dossier, $clientRoleId, $debtorRoleId);
+        $receivedSom = $actionCollection->get('receivedSom', 0);
+
+        $remaining -= $receivedSom;
+
+        return new Collection([
+            'dossier' => $dossier,
+            'dossierStatus' => $dossierStatus,
+            'invoiceCollection' => $invoiceSummaryCollection,
+            'client' => $client,
+            'clientContact' => $clientContact,
+            'debtor' => $debtor,
+            'debtorContact' => $debtorContact,
+            'comments' => $comments,
+            'actionCollection' => $actionCollection,
+            'totalSom' => $totalSomInvoices,
+            'receivedSom' => $receivedSom,
+            'remainingSom' => $remaining
+        ]);
+    }
+
+
+    /**
+     * @param $id
+     * @param $fileid
+     * @param Request $request
+     * @return Collection
+     */
+    public function downloadInvoice($id, $fileid, Request $request): Collection
     {
         /** @var Invoice $invoice */
         $invoice = Invoice::findOrFail($id);
@@ -188,9 +357,9 @@ class DossierService
                 // Start the download procedure
                 /** @var File $file */
                 $file = $invoice->files()->get()->first();
-                return response()->download(storage_path('app/' . $file->filename));
+                return new Collection(['result' => 200, 'msg' => storage_path('app/' . $file->filename)]);
             }
         }
-        return response('The computer says no',404);
+        return new Collection(['result' => 404, 'msg' => 'The computer says no']);
     }
 }
