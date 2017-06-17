@@ -40,7 +40,8 @@ class ActionController extends Controller
         $commentCollection->add($comment);
         $listActions = Listaction::all();
 
-        return view('admin.dossier.action.create', [
+        return view('common.action.create', [
+            'route' => 'admin.dossier.action.store',
             'dossier_id' => $id,
             'listActions' => $listActions,
             'action' => $action,
@@ -83,7 +84,9 @@ class ActionController extends Controller
         $listActions = Listaction::all();
         $collection = $action->collection()->get()->first();
 
-        return view('admin.dossier.action.edit', [
+        //'admin.dossier.action.edit'
+        return view('common.action.edit', [
+            'route' => 'admin.dossier.action.store',
             'dossier_id' => $dossier_id,
             'listActions' => $listActions,
             'action' => $action,
