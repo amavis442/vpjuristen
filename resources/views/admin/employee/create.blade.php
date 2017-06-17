@@ -9,7 +9,7 @@
                 User data
             </div>
             <div class="panel-body">
-                @include('admin.employee.form')
+                @include('employee._form')
             </div>
         </div>
 
@@ -19,7 +19,7 @@
                 Contact data
             </div>
             <div class="panel-body">
-                @include('common.contact.form')
+                @include('contact._form')
             </div>
         </div>
 

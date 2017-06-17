@@ -3,14 +3,14 @@
 @section('content')
     <div class="container">
 
-        @include('common.form.error')
+        @include('form.error')
 
-        {!! Form::open(['route' => $routeName, 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['route' => $route, 'class' => 'form-horizontal']) !!}
 
         <div class="panel panel-default">
             <div class="panel-heading">Company</div>
             <div class="panel-body">
-                @include('common.company.form')
+                @include('company._form')
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
@@ -25,7 +25,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">User</div>
             <div class="panel-body">
-                @include('common.user.form')
+                @include('user._form')
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
@@ -40,7 +40,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Contact</div>
             <div class="panel-body">
-                @include('common.contact.form')
+                @include('contact._form')
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         {!! Form::submit('Apply!',

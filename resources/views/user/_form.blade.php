@@ -4,7 +4,6 @@
     {!! Form::label('Username',null, ['class' => 'col-sm-2 control-label']) !!}
     <div class="col-sm-4">
         {!! Form::text('user[name]', $user->name, [
-        'required',
         'class' => 'form-control',
         'placeholder' => 'Username'])
         !!}
@@ -25,14 +24,12 @@
     <div class="col-sm-4">
         <label class="radio-inline">
             {!! Form::radio('user[active]', true, ($user->active ? true:false), [
-            'required',
             'id' => 'user_active_yes'
             ]) !!} Yes
         </label>
 
         <label class="radio-inline">
             {!! Form::radio('user[active]', false,($user->active == false ? true:false), [
-            'required',
             'id' => 'user_active_false'
             ]) !!} No
         </label>

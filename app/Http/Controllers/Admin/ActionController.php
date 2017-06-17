@@ -85,7 +85,7 @@ class ActionController extends Controller
         $collection = $action->collection()->get()->first();
 
         //'admin.dossier.action.edit'
-        return view('common.action.edit', [
+        return view('action.edit', [
             'route' => 'admin.dossier.action.store',
             'dossier_id' => $dossier_id,
             'listActions' => $listActions,

@@ -1,4 +1,3 @@
-{!! Form::open(['route' => $route, 'class' => 'form-horizontal']) !!}
 <input type="hidden" name="dossier[id]" value="{{ $dossier_id }}" id="dossier_id"/>
 <input type="hidden" name="action[id]" value="{{ $action->id }}" id="action_id"/>
 
@@ -58,11 +57,3 @@
         </label>
     </div>
 </div>
-
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-        {!! Form::submit('Save!',
-      array('class'=>'btn btn-primary')) !!}
-    </div>
-</div>
-{!! Form::close() !!}

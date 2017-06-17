@@ -16,7 +16,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Dossier</div>
             <div class="panel-body">
-                @include('common.dossier.form')
+                @include('dossier._form')
             </div>
         </div>
 
@@ -24,7 +24,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Invoices</div>
             <div class="panel-body">
-                @include('common.invoice.edit')
+                @include('invoice._edit')
             </div>
         </div>
 

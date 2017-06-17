@@ -33,19 +33,20 @@ abstract class AbstractCompanyController extends Controller
     {
         /** @var \App\User $user */
         $user = Auth::guard('admin')->user();
-        if (!$user->can('manage-employees')) {
+        if (!$user->can('view', Company::class)) {
             return redirect()->route('admin.home');
         }
 
         $repo = new EloquentCompanysRepository();
         $companies = $repo->getCompany($type);
 
-        return view('admin.company.index', ['type'=> $type,'routeEdit' => $this->routeEdit, 'companies' => $companies]);
+        return view('admin.company.index',
+            ['type' => $type, 'route' => $this->routeEdit, 'companies' => $companies]);
     }
 
     public function createCompany(Request $request)
     {
-        if (!Auth::guard('admin')->user()->can('manage-employees')) {
+        if (!Auth::guard('admin')->user()->can('create', Company::class)) {
             return redirect()->route('admin.home');
         }
 
@@ -61,18 +62,20 @@ abstract class AbstractCompanyController extends Controller
      */
     public function editCompany($id, Request $request)
     {
-        if (!Auth::guard('admin')->user()->can('manage-employees')) {
+        /** @var \App\Company $company */
+        $company = Company::findOrFail($id);
+        if (!$this->authorize('edit', $company) ) {
             return redirect()->route('admin.home');
         }
-
-        /** @var \App\Company $company */
-        $company = Company::find($id);
         $contact = $company->contacts()->first();
         $user = $company->users()->get()->first();
+        if (is_null($user) || $this->name == 'debtor') {
+            $user = new User();
+        }
 
         return view('admin.company.edit',
             [
-                'routeName' => $this->routeStore,
+                'route' => $this->routeStore,
                 'company' => $company,
                 'contact' => $contact,
                 'user' => $user,
@@ -82,13 +85,15 @@ abstract class AbstractCompanyController extends Controller
 
     public function storeCompany(Request $request)
     {
-        if (!Auth::guard('admin')->user()->can('manage-employees')) {
+        $companyData = $request->get('company');
+        $id = $companyData['id'];
+        $company = Company::findOrFail($id);
+        unset($companyData['id']);
+
+        if (!$this->authorize('update', $company)) {
             return redirect()->route('admin.home');
         }
 
-        $companyData = $request->get('company');
-        $id = $companyData['id'];
-        unset($companyData['id']);
         /** @var Company $company */
         $company = Company::updateOrCreate(['id' => $id], $companyData);
 
@@ -99,9 +104,11 @@ abstract class AbstractCompanyController extends Controller
 
         if ($request->has('user')) {
             $userData = $request->get('user');
-            $id = $userData['id'];
-            unset($userData['id']);
-            $user = User::updateOrCreate(['id' => $id], $userData);
+            if (isset($userDate['name']) && !empty($userDate['name'])) {
+                $id = $userData['id'];
+                unset($userData['id']);
+                $user = User::updateOrCreate(['id' => $id], $userData);
+            }
         }
 
         return \Redirect::route($this->routeIndex);

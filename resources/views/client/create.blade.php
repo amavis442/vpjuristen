@@ -11,11 +11,11 @@
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-            <h1>Company</h1>
+
+            <h1>Client</h1>
+
             {!! Form::open(['route' => 'client-store', 'class' => 'form-horizontal']) !!}
-
-        @include('company.form')
-
+            @include('client._form')
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     {!! Form::submit('Next!',
@@ -23,7 +23,6 @@
                 </div>
             </div>
             {!! Form::close() !!}
+
     </div>
 @endsection
-
-

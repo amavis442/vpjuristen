@@ -11,18 +11,19 @@
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
-        {!! Form::open(['route' => 'frontend.register.dossier.store', 'class' => 'form-horizontal', 'files' => true ]) !!}
+        <h1>Company</h1>
 
-        @include('dossier.form')
+        {!! Form::open(['route' => 'client-store', 'class' => 'form-horizontal']) !!}
+        @include('contact._form')
+
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                {!! Form::submit('Apply!',
+                {!! Form::submit('Next!',
               array('class'=>'btn btn-primary')) !!}
             </div>
         </div>
-
         {!! Form::close() !!}
-
-
     </div>
 @endsection
+
+

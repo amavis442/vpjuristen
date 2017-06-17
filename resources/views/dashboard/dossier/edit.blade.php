@@ -13,9 +13,9 @@
         </ul>
         {!! Form::open(['route' => 'dashboard.dossier.store', 'class' => 'form-horizontal', 'files' => true ]) !!}
 
-        @include('common.dossier.form')
+        @include('dossier._form')
 
-        @include('common.invoice.edit')
+        @include('invoice.edit')
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

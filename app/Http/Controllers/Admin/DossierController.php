@@ -3,12 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Company;
-use App\Contact;
 use App\Domain\Repository\EloquentDossiersRepository;
 use App\Domain\Services\Dossier\DossierService;
-use App\File;
-use App\Listaction;
-use App\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Dossier;
@@ -116,7 +112,12 @@ class DossierController extends Controller
 
     public function search(EloquentDossiersRepository $repository)
     {
-        $dossiers = $repository->search(request('q'));
+        $searchTerm = request('q');
+        if (!is_null($searchTerm)) {
+            $dossiers = $repository->search($searchTerm);
+        } else {
+            $dossiers = Dossier::where('dossierstatus_id', '=', 1)->get()->all();
+        }
         return view('admin.dossier.index', ['dossiers' => $dossiers]);
     }
 

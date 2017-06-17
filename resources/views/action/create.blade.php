@@ -17,7 +17,7 @@
                 Action
             </div>
             <div class="panel-body">
-                @include('common.action._form')
+                @include('action._form')
             </div>
         </div>
 
@@ -27,7 +27,15 @@
                     Comments
                 </div>
                 <div class="panel-body">
-                    @include('common.comment.index')
+                    {!! Form::open(['route' => $route, 'class' => 'form-horizontal']) !!}
+                    @include('comment.index')
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            {!! Form::submit('Save!',
+                          array('class'=>'btn btn-primary')) !!}
+                        </div>
+                    </div>
+                    {!! Form::close() !!}
                 </div>
             </div>
         @endif

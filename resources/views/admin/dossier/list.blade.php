@@ -14,6 +14,6 @@
     </div>
 
     <div class="container">
-        @include('common.dossier.list')
+        @include('dossier.list')
     </div>
 @endsection

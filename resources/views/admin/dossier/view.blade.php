@@ -193,11 +193,11 @@
                                 <th>title</th>
                                 <th>status</th>
                                 <th>comment</th>
-                                <th>created</th>
-                                <th>modified</th>
                                 <th>Visible for client</th>
                                 <th>Visible for debtor</th>
                                 <th>Amount</th>
+                                <th>created</th>
+                                <th>modified</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -212,11 +212,12 @@
                                         <td>{{ $action->title }}</td>
                                         <td>{{ $meta->get('actionStatus') }}</td>
                                         <td>{{ $meta->get('comment','') }}</td>
-                                        <td>{{ $action->created_at }}</td>
-                                        <td>{{ $action->updated_at }}</td>
+
                                         <td>{{ $meta->get('clientCanSee') }}</td>
                                         <td>{{ $meta->get('debtorCanSee') }}</td>
                                         <td>{{ $meta->get('amount') }}</td>
+                                        <td>{{ $action->created_at->format('d-m-Y') }}</td>
+                                        <td>{{ $action->updated_at->format('d-m-Y') }}</td>
                                         <td>
                                             <a href="{{ route('admin.dossier.action.edit', $action->id) }}">Bijwerken</a>
                                         </td>

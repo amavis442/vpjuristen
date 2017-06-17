@@ -31,7 +31,7 @@
                                 $contact = $company->contacts()->first(); ?>
                                 <tr>
                                     <td>
-                                        <a href="{{ route($routeEdit, ['id' => $company->id])  }}">{{ $company->id }}</a>
+                                        <a href="{{ route($route, ['id' => $company->id])  }}">{{ $company->id }}</a>
                                     </td>
                                     <td>
                                         {{ $company->name }}
