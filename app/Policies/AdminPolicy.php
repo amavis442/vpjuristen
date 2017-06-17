@@ -4,35 +4,35 @@ namespace App\Policies;
 
 use App\Domain\Contract\UserInterface;
 use App\User;
-use App\Comment;
+use App\Admin;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CommentPolicy
+class AdminPolicy
 {
     use HandlesAuthorization;
 
     public function before(UserInterface $user, $ability)
     {
         // Admin and employee may see always
-        if ($user->hasRole('admin') || $user->hasRole('employee')) {
+        if ($user->hasRole('admin')) {
             return true;
         }
     }
 
     /**
-     * Determine whether the user can view the comment.
+     * Determine whether the user can view the admin.
      *
      * @param  \App\User  $user
-     * @param  \App\Comment  $comment
+     * @param  \App\Admin  $admin
      * @return mixed
      */
-    public function view(UserInterface $user, Comment $comment)
+    public function view(UserInterface $user, Admin $admin)
     {
         //
     }
 
     /**
-     * Determine whether the user can create comments.
+     * Determine whether the user can create admins.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -43,25 +43,25 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can update the comment.
+     * Determine whether the user can update the admin.
      *
      * @param  \App\User  $user
-     * @param  \App\Comment  $comment
+     * @param  \App\Admin  $admin
      * @return mixed
      */
-    public function update(UserInterface $user, Comment $comment)
+    public function update(UserInterface $user, Admin $admin)
     {
         //
     }
 
     /**
-     * Determine whether the user can delete the comment.
+     * Determine whether the user can delete the admin.
      *
      * @param  \App\User  $user
-     * @param  \App\Comment  $comment
+     * @param  \App\Admin  $admin
      * @return mixed
      */
-    public function delete(UserInterface $user, Comment $comment)
+    public function delete(UserInterface $user, Admin $admin)
     {
         //
     }

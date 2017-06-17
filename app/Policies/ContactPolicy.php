@@ -4,10 +4,10 @@ namespace App\Policies;
 
 use App\Domain\Contract\UserInterface;
 use App\User;
-use App\Comment;
+use App\Contact;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CommentPolicy
+class ContactPolicy
 {
     use HandlesAuthorization;
 
@@ -20,19 +20,19 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can view the comment.
+     * Determine whether the user can view the contact.
      *
      * @param  \App\User  $user
-     * @param  \App\Comment  $comment
+     * @param  \App\Contact  $contact
      * @return mixed
      */
-    public function view(UserInterface $user, Comment $comment)
+    public function view(UserInterface $user, Contact $contact)
     {
         //
     }
 
     /**
-     * Determine whether the user can create comments.
+     * Determine whether the user can create contacts.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -43,25 +43,25 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can update the comment.
+     * Determine whether the user can update the contact.
      *
      * @param  \App\User  $user
-     * @param  \App\Comment  $comment
+     * @param  \App\Contact  $contact
      * @return mixed
      */
-    public function update(UserInterface $user, Comment $comment)
+    public function update(UserInterface $user, Contact $contact)
     {
         //
     }
 
     /**
-     * Determine whether the user can delete the comment.
+     * Determine whether the user can delete the contact.
      *
      * @param  \App\User  $user
-     * @param  \App\Comment  $comment
+     * @param  \App\Contact  $contact
      * @return mixed
      */
-    public function delete(UserInterface $user, Comment $comment)
+    public function delete(UserInterface $user, Contact $contact)
     {
         //
     }

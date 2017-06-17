@@ -4,10 +4,10 @@ namespace App\Policies;
 
 use App\Domain\Contract\UserInterface;
 use App\User;
-use App\Comment;
+use App\Invoice;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CommentPolicy
+class InvoicePolicy
 {
     use HandlesAuthorization;
 
@@ -20,19 +20,19 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can view the comment.
+     * Determine whether the user can view the invoice.
      *
      * @param  \App\User  $user
-     * @param  \App\Comment  $comment
+     * @param  \App\Invoice  $invoice
      * @return mixed
      */
-    public function view(UserInterface $user, Comment $comment)
+    public function view(UserInterface $user, Invoice $invoice)
     {
         //
     }
 
     /**
-     * Determine whether the user can create comments.
+     * Determine whether the user can create invoices.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -43,25 +43,25 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can update the comment.
+     * Determine whether the user can update the invoice.
      *
      * @param  \App\User  $user
-     * @param  \App\Comment  $comment
+     * @param  \App\Invoice  $invoice
      * @return mixed
      */
-    public function update(UserInterface $user, Comment $comment)
+    public function update(UserInterface $user, Invoice $invoice)
     {
         //
     }
 
     /**
-     * Determine whether the user can delete the comment.
+     * Determine whether the user can delete the invoice.
      *
      * @param  \App\User  $user
-     * @param  \App\Comment  $comment
+     * @param  \App\Invoice  $invoice
      * @return mixed
      */
-    public function delete(UserInterface $user, Comment $comment)
+    public function delete(UserInterface $user, Invoice $invoice)
     {
         //
     }
