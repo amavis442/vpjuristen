@@ -230,6 +230,7 @@ class DossierService
         $actionMetaCollection = new Collection();
         /** @var \App\Action[] $actions */
         $actions = $dossier->actions()->get();
+
         foreach ($actions as $action) {
             $actionItemMetaCollection = new Collection();
             $actionStatus = $action->listaction()->first()->description;
@@ -266,6 +267,8 @@ class DossierService
             $listactionItem = $action->listaction()->get()->first();
             if ($listactionItem->description == 'betaling ontvangen' || $listactionItem->description == 'deelbetaling ontvangen') {
                 $receivedSom += $action->collection()->get()->first()->amount;
+                //$date = $action->collection()->get()->max('created_at');
+
             }
 
             if ($listactionItem->description == 'betaling uitgekeerd' || $listactionItem->description == 'deelbetaling uitgekeerd') {
@@ -276,11 +279,26 @@ class DossierService
             unset($actionItemMetaCollection);
         }
 
+        $t1 = Listaction::whereIn('description', ['betaling ontvangen','deelbetaling ontvangen'])->get();
+        foreach ($t1 as $listItem){
+            $ids[] = $listItem->id;
+        }
+        $recentCollectionDate = $actions->whereIn('listaction_id',  $ids)->max('created_at');
+
+        unset($ids);
+        $t1 = Listaction::whereIn('description', ['betaling uitgekeerd'])->get();
+        foreach ($t1 as $listItem){
+            $ids[] = $listItem->id;
+        }
+        $recentPaymentDate = $actions->whereIn('listaction_id',  $ids)->max('created_at');
+
         return new Collection([
             'actions' => $actions,
             'meta' => $actionMetaCollection,
             'receivedSom' => $receivedSom,
-            'paidSom' => $paidSom
+            'paidSom' => $paidSom,
+            'recentCollectionDate' => $recentCollectionDate,
+            'recentPaymentDate' => $recentPaymentDate,
         ]);
     }
 

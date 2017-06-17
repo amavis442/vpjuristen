@@ -7,24 +7,26 @@
     $dossier = $summary->get('dossier');
     $dossierStatus = $summary->get('dossierStatus');
     $client = $summary->get('client');
-    $clientContact =  $summary->get('clientContact');
+    $clientContact = $summary->get('clientContact');
 
     $debtor = $summary->get('debtor');
-    $debtorContact =  $summary->get('debtorContact');
+    $debtorContact = $summary->get('debtorContact');
     $totalSom = $summary->get('totalSom');
     $receivedSom = $summary->get('receivedSom');
     $paidSom = $summary->get('paidSom');
     $remainingSom = $summary->get('remainingSom');
 
-    $invoiceCollection =  $summary->get('invoiceCollection');
+    $invoiceCollection = $summary->get('invoiceCollection');
     $invoices = $invoiceCollection->get('invoices');
     $invoiceFiles = $invoiceCollection->get('invoiceFiles');
 
     $actionCollection = $summary->get('actionCollection');
     $actions = $actionCollection->get('actions');
     $actionMeta = $actionCollection->get('meta');
-
+    $recentCollectionDate = $actionCollection->get('recentCollectionDate');
+    $recentPaymentDate = $actionCollection->get('recentPaymentDate');
     ?>
+
     <div class="container">
         <ol class="breadcrumb">
             <li><a href="{{ back()->getTargetUrl() }}">Home</a></li>
@@ -119,8 +121,10 @@
                     <div class="panel-body">
                         <ul>
                             <li>Total Som: &euro;{{ $totalSom }}</li>
-                            <li>Received: &euro;{{ $receivedSom }}</li>
-                            <li>Paid: &euro;{{ $paidSom }}</li>
+                            <li>Received:
+                                &euro;{{ $receivedSom }} @if(isset($recentCollectionDate)) {{ $recentCollectionDate->format('d-m-Y') }} @endif</li>
+                            <li>Paid:
+                                &euro;{{ $paidSom }} @if(isset($recentPaymentDate)) {{ $recentPaymentDate->format('d-m-Y') }} @endif</li>
                             <li>Remaining: &euro;{{ $remainingSom }}</li>
                         </ul>
                     </div>
@@ -148,20 +152,22 @@
                             </thead>
                             <tbody>
                             @foreach ($invoices as $invoice)
-                                <td>{{ $invoice->id }}</td>
-                                <td>{{ $invoice->title }}</td>
-                                <td>{{ $invoice->amount }}</td>
-                                <td>{{ $invoice->due_date }}</td>
-                                <td>{{ $invoice->remarks }}</td>
-                                <td>
-                                    @if($invoiceFiles[$invoice->id])
-                                        @foreach($invoiceFiles[$invoice->id] as $file)
-                                            <a href="{{ $file['url']}}" target="_blank">{{ $file['name'] }}</a><br/>
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td>{{ $invoice->created_at }}</td>
-                                <td>{{ $invoice->modified_at }}</td>
+                                @can('view', $invoice)
+                                    <td>{{ $invoice->id }}</td>
+                                    <td>{{ $invoice->title }}</td>
+                                    <td>{{ $invoice->amount }}</td>
+                                    <td>{{ $invoice->due_date }}</td>
+                                    <td>{{ $invoice->remarks }}</td>
+                                    <td>
+                                        @if($invoiceFiles[$invoice->id])
+                                            @foreach($invoiceFiles[$invoice->id] as $file)
+                                                <a href="{{ $file['url']}}" target="_blank">{{ $file['name'] }}</a><br/>
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>{{ $invoice->created_at }}</td>
+                                    <td>{{ $invoice->modified_at }}</td>
+                                @endcan
                             @endforeach
                             </tbody>
                         </table>
