@@ -36,6 +36,8 @@ Route::group(['namespace' => 'Admin\Auth', 'prefix' => 'admin'], function () {
     ]);
 });
 
+
+
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin','middleware' => ['auth:admin']], function () {
 
     Route::get('/home', 'HomeController@index')->name('admin.home');
@@ -137,14 +139,23 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function () 
     /* Dossier: See dossier with actions, approved comments and payments*/
     Route::get('dossier/index', 'DossierController@index')->name('dashboard.dossier.index');
     Route::get('dossier/create', 'DossierController@create')->name('dashboard.dossier.create');
-    Route::get('dossier/edit', 'DossierController@edit')->name('dashboard.dossier.edit');
+    Route::get('dossier/edit/{id}', 'DossierController@edit')->name('dashboard.dossier.edit');
     Route::post('dossier/store', 'DossierController@store')->name('dashboard.dossier.store');
+    Route::get('dossier/view/{id}', 'DossierController@view')->name('dashboard.dossier.show');
+    //Route::get('dossier/search', 'DossierController@search');
+
 
     /* Invoice:  */
     Route::post('invoice/add', 'InvoiceController@ajaxAdd')->name('dashboard.invoice.ajax.add');
     Route::post('invoice/del', 'InvoiceController@ajaxDelete')->name('dashboard.invoice.ajax.delete');
     Route::get('invoice/downloadfile/{invoice_id}',
         'InvoiceController@downloadFile')->name('dashboard.invoice.download.file');
+
+    Route::get('/file/download/{file}', 'FileController@download')->name('dashboard.file.download');
+
+
+    Route::get('/debtor/view/{id}', 'UserController@show')->name('dashboard.debtor.show');
+
 
     /* User admin to edit their data and login credentials */
     Route::get('user', 'UserController@index')->name('dashboard.user');
