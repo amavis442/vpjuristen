@@ -48,6 +48,6 @@ class UserController extends Controller
         $contact->update($data);
 
         //Todo: Also add this one to a job for notification
-        return \Redirect::route('dashboard.user.edit');
+        return \Redirect::route('dashboard.home');
     }
 }
