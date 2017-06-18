@@ -62,6 +62,7 @@ class DossierController extends Controller
         $summary = $this->dossierService->getSummary($id);
 
         return view('admin.dossier.view', [
+            $fileRoute = 'admin.dossier.invoice.view',
             'summary' => $summary
         ]);
     }
