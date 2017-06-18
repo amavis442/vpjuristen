@@ -1,25 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+    <?php
+            $route = 'dashboard.dossier.show';
+            $searchUrl = 'dashboard/dossier/search'
+            ?>
     <div class="container">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($dossiers as $dossier)
-                <tr>
-                    <td><a href="{{ route('dashboard.dossier.edit', ['id' => $dossier->id]) }}">{{ $dossier->id }}</td>
-                    </td>
-                    <td>{{ $dossier->title }}</td>
-                    <td>{{ $dossier->total }}</td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Dossiers</div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                @include('dossier.index')
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
