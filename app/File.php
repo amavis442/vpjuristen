@@ -25,8 +25,8 @@ class File extends Model
 {
     protected $fillable = ['filename','filename_org','created_at','updated_at'];
 
-    public function invoices()
+    public function invoice()
     {
-        return $this->belongsToMany('App\Invoice');
+        return $this->belongsTo('App\Invoice');
     }
 }
