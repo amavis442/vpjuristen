@@ -203,7 +203,13 @@ class DossierService
             if ($files) {
                 foreach ($files as $file) {
                     $url = route('admin.dossier.invoice.view', ['id' => $invoice->id, 'fileid' => $file->id]);
-                    $invoiceFiles[$invoice->id][] = ['url' => $url, 'name' => $file->filename_org];
+                    $invoiceFiles[$invoice->id][] = [
+                        'file' => $file,
+                        'invoiceid' => $invoice->id,
+                        'fileid' => $file->id,
+                        'url' => $url,
+                        'name' => $file->filename_org
+                    ];
                 }
             }
         }
@@ -279,18 +285,18 @@ class DossierService
             unset($actionItemMetaCollection);
         }
 
-        $t1 = Listaction::whereIn('description', ['betaling ontvangen','deelbetaling ontvangen'])->get();
-        foreach ($t1 as $listItem){
+        $t1 = Listaction::whereIn('description', ['betaling ontvangen', 'deelbetaling ontvangen'])->get();
+        foreach ($t1 as $listItem) {
             $ids[] = $listItem->id;
         }
-        $recentCollectionDate = $actions->whereIn('listaction_id',  $ids)->max('created_at');
+        $recentCollectionDate = $actions->whereIn('listaction_id', $ids)->max('created_at');
 
         unset($ids);
         $t1 = Listaction::whereIn('description', ['betaling uitgekeerd'])->get();
-        foreach ($t1 as $listItem){
+        foreach ($t1 as $listItem) {
             $ids[] = $listItem->id;
         }
-        $recentPaymentDate = $actions->whereIn('listaction_id',  $ids)->max('created_at');
+        $recentPaymentDate = $actions->whereIn('listaction_id', $ids)->max('created_at');
 
         return new Collection([
             'actions' => $actions,
@@ -379,5 +385,16 @@ class DossierService
             }
         }
         return new Collection(['result' => 404, 'msg' => 'The computer says no']);
+    }
+
+    /**
+     * @param $id
+     * @param $fileid
+     * @param Request $request
+     * @return Collection
+     */
+    public function downloadFile(File $file, Request $request): Collection
+    {
+        return new Collection(['result' => 200, 'msg' => storage_path('app/' . $file->filename)]);
     }
 }
