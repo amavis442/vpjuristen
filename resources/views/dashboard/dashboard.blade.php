@@ -1,7 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+
+
     <div class="container">
+        @if(Session::has('message'))
+            <p class="alert alert-info">{{ Session::get('message') }}</p>
+        @endif
+
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+
 
         @if (Auth::user()->hasRole('client'))
             Zoeken naar dossier
