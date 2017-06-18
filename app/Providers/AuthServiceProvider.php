@@ -23,7 +23,8 @@ class AuthServiceProvider extends ServiceProvider
         'App\Contact' => 'App\Policies\ContactPolicy',
         'App\Dossier' => 'App\Policies\DossierPolicy',
         'App\User' => 'App\Policies\UserPolicy',
-        //User::class => EmployeePolicy::class,
+        'App\File' => 'App\Policies\FilePolicy',
+
     ];
 
     /**
@@ -37,6 +38,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('manage-employees', function ($user) {
             return $user->hasRole('admin');
+        });
+
+        Gate::define('search', function ($user) {
+            return $user->hasRole('admin') || $user->hasRole('employee');
         });
 
         /*Gate::define('see-comment', function ($user, $comment) {
