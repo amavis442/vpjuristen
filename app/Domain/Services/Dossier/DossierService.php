@@ -393,7 +393,7 @@ class DossierService
      * @param Request $request
      * @return Collection
      */
-    public function downloadFile(File $file, Request $request): Collection
+    public function downloadFile(File $file): Collection
     {
         return new Collection(['result' => 200, 'msg' => storage_path('app/' . $file->filename)]);
     }

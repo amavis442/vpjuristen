@@ -9,6 +9,7 @@ use App\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Dossier;
+use Illuminate\Support\Facades\Auth;
 
 class FileController extends Controller
 {
@@ -16,6 +17,7 @@ class FileController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth:dashboard');
         $this->dossierService = new DossierService();
     }
 
@@ -28,7 +30,8 @@ class FileController extends Controller
      */
     public function download(Request $request, File $file)
     {
-        if (!$this->authorize('download', $file)){
+        $user = Auth::user();
+        if (!$user->can('download', $file)){
             return response('File not found',404);
         }
 

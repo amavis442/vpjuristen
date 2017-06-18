@@ -69,7 +69,7 @@ class FilePolicy
     public function download(UserInterface $user, \App\File $file)
     {
         /** @var Invoice $invoice */
-        $invoice = $file->invoice();
+        $invoice = $file->invoices()->get()->first();
         $dossier = $invoice->dossier()->get()->first();
         $clientId = $dossier->client_id;
         /** @var Company $company */

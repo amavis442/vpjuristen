@@ -16,6 +16,7 @@ class FileController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth:admin');
         $this->dossierService = new DossierService();
     }
 
@@ -28,7 +29,8 @@ class FileController extends Controller
      */
     public function download(File $file, Request $request)
     {
-        if (!$this->authorize('download', $file)){
+        $user = Auth::user();
+        if (!$user->can('download', $file)){
             return response('File not found',404);
         }
 
