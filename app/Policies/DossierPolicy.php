@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Company;
 use App\Domain\Contract\UserInterface;
 use App\User;
 use App\Dossier;
@@ -28,7 +29,16 @@ class DossierPolicy
      */
     public function view(UserInterface $user, Dossier $dossier)
     {
-        //
+        $clientId = $dossier->client_id;
+        /** @var Company $company */
+        $company = Company::findOrFail($clientId);
+        $companyUser = $company->users()->get()->first();
+
+        if ($companyUser->id == $user->id) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
