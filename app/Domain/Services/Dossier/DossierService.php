@@ -202,12 +202,12 @@ class DossierService
 
             if ($files) {
                 foreach ($files as $file) {
-                    $url = route('admin.dossier.invoice.view', ['id' => $invoice->id, 'fileid' => $file->id]);
+                    //$url = route('admin.dossier.invoice.view', ['id' => $invoice->id, 'fileid' => $file->id]);
                     $invoiceFiles[$invoice->id][] = [
                         'file' => $file,
                         'invoiceid' => $invoice->id,
                         'fileid' => $file->id,
-                        'url' => $url,
+                        //'url' => $url,
                         'name' => $file->filename_org
                     ];
                 }
@@ -314,9 +314,6 @@ class DossierService
      */
     public function getSummary(int $id): Collection
     {
-        $receivedSom = 0;
-        $paidSom = 0;
-
         $this->setDossierId($id);
         /** @var Dossier $dossier */
         $dossier = $this->getDossier($id);
