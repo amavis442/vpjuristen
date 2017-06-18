@@ -9,12 +9,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Dossier;
 use App\Invoice;
 use App\File as InvoiceFile;
+use App\Domain\Repository\EloquentDossiersRepository;
+use App\Domain\Services\Dossier\DossierService;
 
 class DossierController extends Controller
 {
+    protected $dossierService;
+
     public function __construct()
     {
         $this->middleware('auth:dashboard');
+        $this->dossierService = new DossierService();
     }
 
 
@@ -30,6 +35,23 @@ class DossierController extends Controller
 
         return view('dashboard.dossier.index', ['dossiers' => $dossiers]);
     }
+
+    public function view($id)
+    {
+        $dossier = Dossier::findOrFail($id);
+        if (!$this->authorize('view', $dossier)) {
+            session('msg', 'Forbidden access attempt. A report has been filed.');
+            return \Redirect::route('dashboard.home');
+        }
+
+        $summary = $this->dossierService->getSummary($id);
+
+        return view('dashboard.dossier.view', [
+            'fileRoute' => 'dashboard.file.download',
+            'summary' => $summary
+        ]);
+    }
+
 
     public function edit(Request $request)
     {
@@ -77,5 +99,18 @@ class DossierController extends Controller
         }
 
         return \Redirect::route('dashboard.dossier.index');
+    }
+
+
+    public function search(EloquentDossiersRepository $repository)
+    {
+        $user = Auth::user();
+        $searchTerm = request('q');
+        if (!is_null($searchTerm)) {
+            $dossiers = $repository->search($searchTerm);
+        } else {
+            $dossiers = $user->companies()->first()->dossiers()->get();
+        }
+        return view('dashboard.dossier.index', ['dossiers' => $dossiers]);
     }
 }
