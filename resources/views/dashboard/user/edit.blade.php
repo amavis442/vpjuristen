@@ -26,14 +26,14 @@
             <div class="panel-heading">Contact</div>
             <div class="panel-body">
                 @include('contact._form')
-            </div>
-        </div>
 
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                {!! Form::submit('Save!',
-              array('class'=>'btn btn-primary')) !!}
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        {!! Form::submit('Save!',
+                      array('class'=>'btn btn-primary')) !!}
+                    </div>
+                </div>
             </div>
         </div>
         {!! Form::close() !!}
