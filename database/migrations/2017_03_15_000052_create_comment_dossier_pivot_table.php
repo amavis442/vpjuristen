@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActionDossierTable extends Migration
+class CreateCommentDossierPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateActionDossierTable extends Migration
      */
     public function up()
     {
-        Schema::create('action_dossier', function (Blueprint $table) {
+        Schema::create('comment_dossier', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('action_id')->unsigned();
+            $table->integer('comment_id')->unsigned();
+            $table->foreign('comment_id')->references('id')->on('comments');
             $table->integer('dossier_id')->unsigned();
+            $table->foreign('dossier_id')->references('id')->on('dossiers');
             $table->timestamps();
 
-            $table->foreign('action_id')->references('id')->on('actions')->onDelete('cascade');
-            $table->foreign('dossier_id')->references('id')->on('dossiers')->onDelete('cascade');
+
+
 
         });
     }
@@ -32,6 +34,6 @@ class CreateActionDossierTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('action_dossier');
+        Schema::dropIfExists('comment_dossier');
     }
 }

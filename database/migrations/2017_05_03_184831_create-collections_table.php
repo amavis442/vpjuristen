@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommentDossierTable extends Migration
+class CreateCollectionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateCommentDossierTable extends Migration
      */
     public function up()
     {
-        Schema::create('comment_dossier', function (Blueprint $table) {
+        Schema::create('collections', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('comment_id')->unsigned();
             $table->integer('dossier_id')->unsigned();
+            $table->foreign('dossier_id')->references('id')->on('dossiers');
+            $table->double('amount');
+            $table->boolean('public')->default(true);
             $table->timestamps();
 
-            $table->foreign('dossier_id')->references('id')->on('dossiers')->onDelete('cascade');
-            $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
 
         });
     }
@@ -32,6 +32,6 @@ class CreateCommentDossierTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comment_dossier');
+        Schema::dropIfExists('collections');
     }
 }

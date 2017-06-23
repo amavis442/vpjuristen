@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDossiersTable extends Migration
+class CreateActionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateDossiersTable extends Migration
      */
     public function up()
     {
-        Schema::create('dossiers', function (Blueprint $table) {
+        Schema::create('actions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('dossierstatus_id');
+            $table->string('description');
+            $table->integer('listaction_id')->unsigned();
+            $table->foreign('listaction_id')->references('id')->on('listactions');
+            $table->string('status')->default('pending');
+            $table->boolean('public')->default(true);
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ class CreateDossiersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dossiers');
+        Schema::dropIfExists('actions');
     }
 }

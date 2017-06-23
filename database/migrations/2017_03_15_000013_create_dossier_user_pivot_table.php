@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCollectionsTable extends Migration
+class CreateDossierUserPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,18 @@ class CreateCollectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('collections', function (Blueprint $table) {
+        Schema::create('dossier_user', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('dossier_id')->unsigned();
-            $table->double('amount');
+            $table->foreign('dossier_id')->references('id')->on('dossiers');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->enum('type',['client','debtor'])->default('client');
             $table->timestamps();
+
+
+
+
         });
     }
 
@@ -28,6 +35,6 @@ class CreateCollectionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('collections');
+        Schema::dropIfExists('dossier_user');
     }
 }

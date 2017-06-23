@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignKeyToContacts extends Migration
+class CreateDossierStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class AddForeignKeyToContacts extends Migration
      */
     public function up()
     {
-        Schema::table('contacts', function (Blueprint $table) {
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+        Schema::create('dossierstatuses', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('description');
+            $table->timestamps();
+
         });
+
     }
 
     /**
@@ -25,8 +29,6 @@ class AddForeignKeyToContacts extends Migration
      */
     public function down()
     {
-        Schema::table('contacts', function (Blueprint $table) {
-            $table->dropForeign('contacts_company_id_foreign');
-        });
+        Schema::dropIfExists('dossierstatuses');
     }
 }

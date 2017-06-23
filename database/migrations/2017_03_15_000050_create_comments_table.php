@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterForeignkeyActionListactions extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AlterForeignkeyActionListactions extends Migration
      */
     public function up()
     {
-        Schema::table('actions', function (Blueprint $table){
-           $table->renameColumn('listactions_id','listaction_id');
+        Schema::create('comments', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('comment');
+            $table->boolean('public')->default(true);
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AlterForeignkeyActionListactions extends Migration
      */
     public function down()
     {
-        Schema::table('actions', function (Blueprint $table){
-            $table->renameColumn('listaction_id','listactions_id');
-        });
+        Schema::dropIfExists('comments');
     }
 }

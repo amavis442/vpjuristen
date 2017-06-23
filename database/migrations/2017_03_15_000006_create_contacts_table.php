@@ -15,7 +15,6 @@ class CreateContactsTable extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('company_id')->unsigned()->index();
             $table->string('name');
             $table->string('firstname');
             $table->string('middlename')->nullable();
@@ -31,6 +30,7 @@ class CreateContactsTable extends Migration
             $table->string('fax')->nullable();
             $table->text('remarks')->nullable();
             $table->timestamps();
+
         });
     }
 

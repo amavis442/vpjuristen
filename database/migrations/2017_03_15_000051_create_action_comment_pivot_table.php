@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFilesTable extends Migration
+class CreateActionCommentPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,17 @@ class CreateFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('files', function (Blueprint $table) {
+        Schema::create('action_comment', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('filename');
-            $table->string('filename_org');
+            $table->integer('action_id')->unsigned();
+            $table->foreign('action_id')->references('id')->on('actions');
+            $table->integer('comment_id')->unsigned();
+            $table->foreign('comment_id')->references('id')->on('comments');
             $table->timestamps();
+
+
+
+
         });
     }
 
@@ -28,6 +34,6 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files');
+        Schema::dropIfExists('action_comment');
     }
 }
