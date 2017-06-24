@@ -17,6 +17,8 @@ class CreateCollectionsTable extends Migration
             $table->increments('id');
             $table->integer('dossier_id')->unsigned();
             $table->foreign('dossier_id')->references('id')->on('dossiers');
+            $table->integer('action_id')->unsigned();
+            $table->foreign('action_id')->references('id')->on('actions');
             $table->double('amount');
             $table->boolean('public')->default(true);
             $table->timestamps();
