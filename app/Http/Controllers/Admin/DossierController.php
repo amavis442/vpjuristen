@@ -8,6 +8,7 @@ use App\Domain\Services\Dossier\DossierService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Dossier;
+use Illuminate\Support\Collection;
 
 class DossierController extends Controller
 {
@@ -18,6 +19,27 @@ class DossierController extends Controller
         $this->dossierService = new DossierService();
     }
 
+    private function getDossier(Collection $dossiers): Collection
+    {
+        $data = new Collection();
+        /** @var \App\Dossier $dossier */
+        foreach ($dossiers as $dossier) {
+            $item = new Collection();
+            $item->put('dossier',$dossier);
+            $item->put('dossierstatus', $dossier->dossierstatus);
+            $companies = $dossier->companies;//->withPivot('type')->get()->all();
+            $actions = $dossier->actions;
+            $item->put('actions',$actions);
+            foreach ($companies as $company) {
+                $item->put($company->pivot->type, $company);
+            }
+            unset($company);
+            $data->push($item);
+        }
+
+        return $data;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,8 +47,11 @@ class DossierController extends Controller
      */
     public function index()
     {
-        $dossiers = Dossier::where('dossierstatus_id', '=', 1)->get()->all();
-        return view('admin.dossier.index', ['dossiers' => $dossiers]);
+        $dossiers = Dossier::with('companies','actions','dossierstatus')->get();
+
+        $data = $this->getDossier($dossiers);
+
+        return view('admin.dossier.index', ['data' => $data]);
     }
 
     /**
@@ -117,9 +142,12 @@ class DossierController extends Controller
         if (!is_null($searchTerm)) {
             $dossiers = $repository->search($searchTerm);
         } else {
-            $dossiers = Dossier::where('dossierstatus_id', '=', 1)->get()->all();
+            $dossiers = Dossier::with('companies','actions','dossierstatus')->get();
         }
-        return view('admin.dossier.index', ['dossiers' => $dossiers]);
+
+        $data = $this->getDossier($dossiers);
+
+        return view('admin.dossier.index', ['data' => $data]);
     }
 
     /**
@@ -133,7 +161,7 @@ class DossierController extends Controller
 
         $dossierService = new DossierService();
 
-        $collection = $dossierService->downloadInvoice($id,$fileid,$request);
+        $collection = $dossierService->downloadInvoice($id, $fileid, $request);
         if ($collection->get('result') == 200) {
             return response()->download($collection->get('msg'));
         } else {
