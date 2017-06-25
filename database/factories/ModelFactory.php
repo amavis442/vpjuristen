@@ -18,9 +18,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'password' => $password ?: $password = \Hash::make('secret'),
         'active' => true,
-        'status' => 'pending',
         'remember_token' => str_random(10),
     ];
 });
@@ -75,6 +74,5 @@ $factory->define(App\Invoice::class, function (Faker\Generator $faker) {
         'amount' => $faker->numberBetween(10, 4000),
         'due_date' => $faker->dateTimeBetween('-1 years')->format('Y-m-d'),
         'remarks' => $faker->paragraph(2),
-
     ];
 });

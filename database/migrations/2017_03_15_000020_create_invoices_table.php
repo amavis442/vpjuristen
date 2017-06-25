@@ -15,14 +15,15 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('dossier_id')->unsigned()->index();
+            $table->integer('dossier_id')->unsigned();
+            $table->foreign('dossier_id')->references('id')->on('dossiers');
             $table->string('title',255)->nullable();
             $table->float('amount');
             $table->date('due_date');
             $table->text('remarks')->nullable();
             $table->timestamps();
 
-            $table->foreign('dossier_id')->references('id')->on('dossiers');
+
         });
     }
 

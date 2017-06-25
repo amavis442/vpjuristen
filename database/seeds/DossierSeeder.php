@@ -16,58 +16,74 @@ class DossierSeeder extends Seeder
      */
     public function run()
     {
-        $clientUserRoleId = Role::where(['name' => 'prospect'])->get()->first()->id;
+        $faker = Faker\Factory::create();
+
+        $clientUserRole = Role::where(['name' => 'prospect'])->get()->first();
         for ($i = 0; $i < 50; $i++) {
-            $currentTimestamp = date('Y-m-d H:i:s');
+            $currentTimestamp = \Carbon\Carbon::now();
 
-            /**
-             * This part simulates what happens in \App\Frontend\ClientController::store()
-             */
-
+            // Client
             /** @var Company $company */
-            $clientCompany = factory(App\Company::class)->create();
-            /** @var Contact $contact */
-            $clientContact = factory(App\Contact::class)->create(['company_id' => $clientCompany->id]);
+            $user = factory(App\User::class)->create();
+            $user->save();
+            $user->roles()->save($clientUserRole);
 
-            $userData = [];
-            $userData['name'] = $clientContact->name;
-            $userData['email'] = $clientContact->email;
-            $userData['password'] = bcrypt('secret');
-            $userData['active'] = 1;
-            $userData['status'] = 'pending';
-            $userData['created_at'] = $currentTimestamp;
-            $userData['updated_at'] = $currentTimestamp;
+            $company = factory(App\Company::class)->create();
+            $user->companies()->save($company);
+            $contact = factory(App\Contact::class)->create();
+            $company->contacts()->save($contact);
+            $user->contacts()->save($contact);
+            $company->contacts()->withTimestamps()->attach($contact->id);
 
-            /** @var User $user */
-            $user = $clientCompany->users()->withTimestamps()->create($userData);
-            $user->roles()->withTimestamps()->attach($clientUserRoleId);
+            // Debtor
+            $userDeb = factory(App\User::class)->create();
+            $userDeb->save();
+            $userDeb->roles()->save($clientUserRole);
 
-            $clientContact->users()->withTimestamps()->attach($user->id);
+            $companyDeb = factory(App\Company::class)->create();
+            $userDeb->companies()->save($companyDeb);
+            $contactDeb = factory(App\Contact::class)->create();
+            $companyDeb->contacts()->save($contactDeb);
+            $userDeb->contacts()->save($contactDeb);
+            $companyDeb->contacts()->withTimestamps()->attach($contactDeb->id);
 
-            /**
-             * This part simulates what happens in \App\Frontend\DebtorController::store()
-             */
-            $debtorCompany = factory(App\Company::class)->create();
-
-            /** @var Contact $contact */
-            $debtorContact = factory(App\Contact::class)->create(['company_id' => $debtorCompany->id]);
+            // Dossier
+            $dossier = factory(App\Dossier::class)->create();
+            $user->dossiers()->save($dossier,['type'=>'client']);
+            $userDeb->dossiers()->withTimeStamps()->attach($dossier->id,['type'=>'debtor']);
 
 
-            /**
-             * This part simulates \App\Frontend\DossierController::store()
-             */
-            /** @var Dossier $dossier */
-            $dossier = factory(App\Dossier::class)->create(['client_id'=> $clientCompany->id, 'debtor_id' => $debtorCompany->id]);
+            // Action
+            $action = new \App\Action();
+            $action->title = 'First action';
+            $action->listaction_id = 1;
+            $action->description = '';
+            $dossier->actions()->save($action);
 
-            $invoice = factory(App\Invoice::class)->create(['dossier_id' => $dossier->id]);
+            // Comment
+            $comment = new App\Comment();
+            $comment->comment = 'Start';
+            $action->comments()->save($comment);
 
+            // Invoice
+            $invoice = new App\Invoice();
+            $invoice->title = $faker->title;
+            $invoice->amount = $faker->numberBetween(10, 4000);
+            $invoice->due_date = $faker->dateTimeBetween('-1 years')->format('Y-m-d');
+            $invoice->remarks = $faker->paragraph(2);
+            $dossier->invoices()->save($invoice);
+
+
+            // File
             $doc = Illuminate\Http\UploadedFile::fake()->create('test',500);
             $filename = $doc->store('invoices');
             $filename_org = $doc->getClientOriginalName();
-            $invoice->files()->withTimestamps()->create(['filename' => $filename, 'filename_org' => $filename_org]);
 
-            $dossier->companies()->attach($clientCompany->id);
-            $dossier->companies()->attach($debtorCompany->id);
+            $file = new \App\File();
+            $file->filename = $filename;
+            $file->filename_org = $filename_org;
+
+            $invoice->files()->save($file);
         }
     }
 }

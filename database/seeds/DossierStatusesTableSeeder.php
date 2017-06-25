@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Dossierstatus;
 
-class DossierStatusSeeder extends Seeder
+class DossierStatusesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
