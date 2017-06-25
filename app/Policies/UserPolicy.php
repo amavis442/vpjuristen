@@ -17,9 +17,8 @@ class UserPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function view(UserInterface $currentUser, UserInterface $user)
+    public function view(User $currentUser, User $user)
     {
-        //
     }
 
     /**
@@ -28,7 +27,7 @@ class UserPolicy
      * @param  \App\Domain\Contract\UserInterface  $currentUser
      * @return mixed
      */
-    public function create(UserInterface $currentUser)
+    public function create(User $currentUser)
     {
         //
     }
@@ -40,7 +39,7 @@ class UserPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function update(UserInterface $currentUser, UserInterface $user)
+    public function update(User $currentUser, UserInterface $user)
     {
         //
     }
@@ -52,7 +51,7 @@ class UserPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function delete(UserInterface $currentUser, UserInterface $user)
+    public function delete(User $currentUser, UserInterface $user)
     {
         //
     }

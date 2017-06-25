@@ -11,7 +11,7 @@ class CompanyPolicy
 {
     use HandlesAuthorization;
 
-    public function before(UserInterface $user, $ability)
+    public function before(User $user, $ability)
     {
         // Admin and employee may see always
         if ($user->hasRole('admin') || $user->hasRole('employee')) {
@@ -26,7 +26,7 @@ class CompanyPolicy
      * @param  \App\Company  $company
      * @return mixed
      */
-    public function view(UserInterface $user, Company $company)
+    public function view(User $user, Company $company)
     {
         /** @var User $companyUser */
         $companyUser = $company->users()->get()->first();
@@ -44,7 +44,7 @@ class CompanyPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(UserInterface $user)
+    public function create(User $user)
     {
         return false;
     }
@@ -56,7 +56,19 @@ class CompanyPolicy
      * @param  \App\Company  $company
      * @return mixed
      */
-    public function update(UserInterface $user, Company $company)
+    public function update(User $user, Company $company)
+    {
+        /** @var User $companyUser */
+        $companyUser = $company->users()->get()->first();
+
+        if ($user->id == $companyUser->id) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function edit(User $user, Company $company)
     {
         /** @var User $companyUser */
         $companyUser = $company->users()->get()->first();
