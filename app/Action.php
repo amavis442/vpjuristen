@@ -31,29 +31,41 @@ use Illuminate\Support\Facades\Auth;
  */
 class Action extends Model
 {
-    public function dossier()
-    {
-        return $this->belongsToMany('App\Dossier');
-    }
-
-
-    public function roles()
-    {
-        return $this->belongsToMany('App\Role');
-    }
 
     public function comments()
     {
-        return $this->belongsToMany('App\Comment');
+        return $this->belongsToMany(Comment::class)->withTimestamps();
     }
+
+    public function dossiers()
+    {
+        return $this->belongsToMany(Dossier::class)->withTimestamps();
+    }
+
+
 
     public function listaction()
     {
-        return $this->belongsTo('App\Listaction');
+        return $this->belongsTo(Listaction::class);
     }
 
+    /**
+     * Received from debtor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function collection()
     {
-        return $this->hasOne('App\Collection');
+        return $this->hasOne(Collection::class);
+    }
+
+    /**
+     * Paid to client
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
 }

@@ -57,6 +57,27 @@ class User extends Authenticatable implements UserInterface
         'password', 'remember_token',
     ];
 
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class)->withTimestamps();
+    }
+
+    public function contacts()
+    {
+        return $this->belongsToMany(Contact::class)->withTimestamps();// To use the pivot table even if there is a 1-1 relationship
+    }
+
+    public function dossiers()
+    {
+        return $this->belongsToMany(Dossier::class)->withPivot('type')->withTimestamps();
+    }
+
     /**
      * @return bool
      */
@@ -65,10 +86,6 @@ class User extends Authenticatable implements UserInterface
         return $this->status == 'active';
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany('App\Role');
-    }
 
 
     public function hasRole($name)
@@ -81,13 +98,5 @@ class User extends Authenticatable implements UserInterface
         return false;
     }
 
-    public function companies()
-    {
-        return $this->belongsToMany('App\Company')->withTimestamps();
-    }
 
-    public function contacts()
-    {
-        return $this->belongsToMany('App\Contact');// To use the pivot table even if there is a 1-1 relationship
-    }
 }

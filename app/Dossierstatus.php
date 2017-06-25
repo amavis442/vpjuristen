@@ -20,10 +20,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Dossierstatus extends Model
 {
-    protected $fillable = ['description', 'updated_at','created_at'];
+    protected $fillable = ['description'];
 
     public function dossiers()
     {
-        return $this->hasMany('App\Dossier');
+        return $this->hasMany(Dossier::class);
     }
 }

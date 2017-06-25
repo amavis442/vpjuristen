@@ -23,11 +23,11 @@ class Collection extends Model
 {
     public function dossier()
     {
-        return $this->belongsTo('App\Dossier');
+        return $this->belongsTo(Dossier::class);
     }
 
     public function action()
     {
-        return $this->belongsTo('App\Action');
+        return $this->belongsTo(Action::class);
     }
 }

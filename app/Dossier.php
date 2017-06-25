@@ -38,46 +38,57 @@ class Dossier extends Model
 
     public function actions()
     {
-        return $this->belongsToMany('App\Action');
+        return $this->belongsToMany(Action::class)->withTimestamps();
     }
 
     public function comments()
     {
-        return $this->belongsToMany('App\Comment');
-    }
-
-    public function invoices()
-    {
-        return $this->hasMany('App\Invoice');
+        return $this->belongsToMany(Comment::class)->withTimestamps();
     }
 
     public function companies()
     {
-        return $this->belongsToMany('App\Company')->withTimestamps();
-    }
-
-    public function dossierstatus()
-    {
-        return $this->belongsTo('App\Dossierstatus');
-    }
-
-    public function client()
-    {
-        return $this->hasOne('App\Company', 'id', 'client_id');
-    }
-
-    public function debtor()
-    {
-        return $this->hasOne('App\Company', 'id', 'debtor_id');
-    }
-
-    public function payments()
-    {
-        $this->hasMany('App\Payment');
+        return $this->belongsToMany(Company::class)->withPivot('type')->withTimestamps();
     }
 
     public function collections()
     {
-        $this->hasMany('App\Collection');
+        $this->hasMany(Collection::class);
+    }
+
+    public function dossierstatus()
+    {
+        return $this->belongsTo(Dossierstatus::class);
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function payments()
+    {
+        $this->hasMany(Payment::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class)
+                    ->withPivot('type')
+                    ->withTimestamps();
+    }
+
+    public function getClient()
+    {
+        return $this->with('companies')
+                    ->companies()
+                    ->wherePivot('type', '=', 'client');
+    }
+
+    public function getDebtor()
+    {
+        return $this->with('companies')
+                    ->companies()
+                    ->wherePivot('type', '=', 'debtor');
     }
 }

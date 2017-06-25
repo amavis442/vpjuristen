@@ -28,6 +28,6 @@ class Listaction extends Model
 {
     public function actions()
     {
-        return $this->hasMany('App\Action');
+        return $this->hasMany(Action::class);
     }
 }

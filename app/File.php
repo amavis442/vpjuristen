@@ -23,10 +23,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class File extends Model
 {
-    protected $fillable = ['filename','filename_org','created_at','updated_at'];
+    protected $fillable = ['filename','filename_org'];
 
-    public function invoices()
+    public function invoice()
     {
-        return $this->belongsToMany('App\Invoice');
+        return $this->belongsTo(Invoice::class);
     }
 }

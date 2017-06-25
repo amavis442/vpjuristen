@@ -32,15 +32,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Invoice extends Model
 {
-    protected $fillable = ['dossier_id', 'title', 'remarks', 'amount', 'due_date', 'created_at', 'updated_at'];
+    protected $fillable = ['title', 'remarks', 'amount', 'due_date'];
 
     public function dossier()
     {
-        return $this->belongsTo('App\Dossier');
+        return $this->belongsTo(Dossier::class);
     }
 
     public function files()
     {
-        return $this->belongsToMany('App\File');
+        return $this->hasMany(File::class);
     }
 }

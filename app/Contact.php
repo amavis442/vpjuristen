@@ -52,17 +52,16 @@ class Contact extends Model
 {
     protected $fillable = ['company_id', 'sexe','firstname','middlename','name',
                            'email', 'phone','zipcode','street','housenr','city',
-                           'fax','country',
-                           'created_at','updated_at'];
+                           'fax','country'];
 
-    public function company()
+    public function companies()
     {
-        return $this->belongsTo('App\Company');
+        return $this->belongsToMany(Company::class)->withTimestamps();
     }
 
     public function users()
     {
-        return $this->belongsToMany('App\User'); // To use the pivot table even if there is a 1-1 relationship
+        return $this->belongsToMany(User::class)->withTimestamps(); // To use the pivot table even if there is a 1-1 relationship
     }
 
 }

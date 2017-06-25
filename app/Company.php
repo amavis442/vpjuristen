@@ -51,27 +51,32 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Company extends Model
 {
-    protected $fillable = ['name', 'company', 'street', 'housenr', 'postcode', 'city', 'country', 'phone', 'email', 'website', 'updated_at', 'created_at'];
+    protected $fillable = ['name', 'company', 'street', 'housenr', 'postcode', 'city', 'country', 'phone', 'email', 'website'];
 
 
     public function contacts()
     {
-        return $this->hasMany('App\Contact');
+        return $this->belongsToMany(Contact::class)->withTimestamps();
+    }
+
+    public function dossiers()
+    {
+        return $this->belongsToMany(Dossier::class)->withPivot('type')->withTimestamps();
     }
 
     public function users()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 
-    public function admins()
+    public function getClients()
     {
-        return $this->belongsToMany('App\Admin');
+        return $this->with(Dossier::class)->dossiers()->wherePivot('type','=','client');
     }
 
-
-    public function dossiers()
+    public function getDebtors()
     {
-        return $this->belongsToMany('App\Dossier');
+        return $this->with(Dossier::class)->dossiers()->wherePivot('type','=','debtor');
     }
+
 }

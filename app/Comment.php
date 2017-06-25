@@ -21,18 +21,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Comment extends Model
 {
-    public function dossier()
+    public function actions()
     {
-        return $this->belongsTo('App\Dossier');
-    }
-    
-    public function action()
-    {
-        return $this->belongsTo('App\Action');
+        return $this->belongsToMany(Action::class)->withTimestamps();
     }
 
-    public function roles()
+    public function dossiers()
     {
-        return $this->belongsToMany('App\Role');
+        return $this->belongsToMany(Dossier::class)->withTimestamps();
     }
+
 }

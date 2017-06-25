@@ -23,6 +23,11 @@ class Payment extends Model
 {
     public function dossier()
     {
-        $this->belongsTo('App\Dossier');
+        return $this->belongsTo(Dossier::class);
+    }
+
+    public function action()
+    {
+        return $this->belongsTo(Action::class);
     }
 }
