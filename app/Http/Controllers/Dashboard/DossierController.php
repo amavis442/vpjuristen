@@ -48,6 +48,7 @@ class DossierController extends Controller
 
         return view('dashboard.dossier.view', [
             'fileRoute' => 'dashboard.file.download',
+            'routeEditClient' => 'dashboard.client.edit',
             'summary' => $summary
         ]);
     }
