@@ -27,8 +27,8 @@ class LoginController extends Controller
         $credentials['email'] = $request->get('email');
         $credentials['password'] = $request->get('password');
         $remember = $request->get('remember');
-        if (Auth::guard('admin')->attempt($credentials, $remember)) {
-            $user = Auth::guard('admin')->user();
+        if (Auth::guard()->attempt($credentials, $remember)) {
+            $user = Auth::guard()->user();
             if ($user->hasRole('admin') || $user->hasRole('employee')) {
                 $request->session()->regenerate();
                 return redirect()->intended(route('admin.home'));
@@ -63,6 +63,6 @@ class LoginController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard('admin');
+        return Auth::guard();
     }
 }
