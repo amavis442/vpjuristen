@@ -52,6 +52,9 @@ class DossierSeeder extends Seeder
             $user->dossiers()->save($dossier,['type'=>'client']);
             $userDeb->dossiers()->withTimeStamps()->attach($dossier->id,['type'=>'debtor']);
 
+            $company->dossiers()->withTimestamps()->attach($dossier->id,['type'=>'client']);
+            $companyDeb->dossiers()->withTimestamps()->attach($dossier->id,['type'=>'debtor']);
+
 
             // Action
             $action = new \App\Action();
