@@ -16,22 +16,17 @@ class EloquentDossiersRepository implements DossierRepositoryInterface
 {
     public function search(string $term = ""): Collection
     {
-        return Dossier::whereHas('client', function ($query) use ($term) {
-            $query->where('company', 'like', "%{$term}%");
-        })
-            ->orWhereHas('debtor', function ($query) use ($term) {
-                $query->where('company', 'like', "%{$term}%");
-            })
-            ->orWhereHas('debtor', function ($query) use ($term) {
-                $query->where('company', 'like', "%{$term}%");
-            })
-            ->orWhereHas('actions', function ($query) use ($term) {
-                $query->where('title', 'like', "%{$term}%");
-            })
-            ->orWhereHas('dossierstatus', function ($query) use ($term) {
-                $query->where('description', 'like', "%{$term}%");
-            })
-            ->orWhere('title', 'like', "%{$term}%")
-            ->get();
+        return Dossier::with('companies', 'actions', 'dossierstatus')
+                      ->whereHas('companies', function ($query) use ($term) {
+                          $query->where('company', 'like', "%{$term}%")->orWhere('name','like', "%{$term}%");
+                      })
+                      ->orWhereHas('actions', function ($query) use ($term) {
+                          $query->where('title', 'like', "%{$term}%");
+                      })
+                      ->orWhereHas('dossierstatus', function ($query) use ($term) {
+                          $query->where('description', 'like', "%{$term}%");
+                      })
+                      ->orWhere('title', 'like', "%{$term}%")
+                      ->get();
     }
 }
