@@ -13,7 +13,7 @@
         </ul>
 
         {!! Form::open(['route' => 'frontend.register.dossier.store', 'class' => 'form-horizontal', 'files' => true ]) !!}
-        @include('dossier._form')
+        @include('dossier.partials.form')
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 {!! Form::submit('Apply!',

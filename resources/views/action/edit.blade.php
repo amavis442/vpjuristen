@@ -18,7 +18,7 @@
             </div>
             <div class="panel-body">
                 {!! Form::open(['route' => $route, 'class' => 'form-horizontal']) !!}
-                @include('action._form')
+                @include('action.partials.form')
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         {!! Form::submit('Save!',

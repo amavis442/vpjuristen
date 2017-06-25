@@ -8,7 +8,7 @@
                     <div class="panel-heading">Dashboard</div>
 
                     <div class="panel-body">
-                        @if (Auth::guard('admin')->user()->can('manage-employees'))
+                        @if (Auth::guard()->user()->can('manage-employees'))
                             <a href="{{ route('admin.employee.index') }} " class="btn btn-default">Employees</a>
                         @endif
                         <a href="{{ route('admin.dossier.index') }}" class="btn btn-default">Dossiers</a>

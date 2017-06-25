@@ -11,7 +11,7 @@
                 User data
             </div>
             <div class="panel-body">
-                @include('employee._form')
+                @include('employee.partials.form')
             </div>
         </div>
 
@@ -21,7 +21,7 @@
                 Contact data
             </div>
             <div class="panel-body">
-                @include('contact._form')
+                @include('contact.partials.form')
 
 
                 <div class="form-group">

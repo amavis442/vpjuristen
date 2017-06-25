@@ -2,6 +2,12 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <strong>Client info</strong>
+            @can('edit', $client)
+                <div class="pull-right">
+                    <a href="{{ route($routeEditClient, ['company' => $client]) }}">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                </div>
+            @endcan
         </div>
         <div class="panel-body">
             <div class="row">

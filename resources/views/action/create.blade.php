@@ -17,7 +17,7 @@
                 Action
             </div>
             <div class="panel-body">
-                @include('action._form')
+                @include('action.partials.form')
             </div>
         </div>
 

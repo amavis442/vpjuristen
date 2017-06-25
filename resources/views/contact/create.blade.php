@@ -14,7 +14,7 @@
         <h1>Company</h1>
 
         {!! Form::open(['route' => 'client-store', 'class' => 'form-horizontal']) !!}
-        @include('contact._form')
+        @include('contact.partials.form')
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

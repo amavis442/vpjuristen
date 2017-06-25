@@ -13,7 +13,7 @@
         </ul>
         {!! Form::open(['route' => 'dashboard.dossier.store', 'class' => 'form-horizontal', 'files' => true ]) !!}
 
-        @include('dossier._form')
+        @include('dossier.partials.form')
 
         @include('invoice.edit')
 

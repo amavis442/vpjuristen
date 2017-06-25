@@ -48,20 +48,20 @@
 
         <div class="row">
 
-        @include('company._client-info')
+        @include('company.partials.client-info')
 
-        @include('company._debtor-info')
+        @include('company.partials.debtor-info')
         <!--// Overzicht client met potlood te bewerken. // -->
         </div>
 
-        @include('dossier._summary')
+        @include('dossier.partials.summary')
 
         <div class="row">
-            @include('invoice._list')
+            @include('invoice.partials.list')
         </div>
 
         <div class="row">
-            @include('action._list')
+            @include('action.partials._list')
         </div>
 
     </div>

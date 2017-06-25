@@ -16,7 +16,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Dossier</div>
             <div class="panel-body">
-                @include('dossier._form')
+                @include('dossier.partials.form')
             </div>
         </div>
 

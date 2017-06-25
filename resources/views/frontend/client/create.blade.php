@@ -18,14 +18,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">Client</div>
             <div class="panel-body">
-                @include('company._form')
+                @include('company.partials.form')
             </div>
         </div>
 
         <div class="panel panel-default">
             <div class="panel-heading">Contact</div>
             <div class="panel-body">
-                @include('contact._form')
+                @include('contact.partials.form')
             </div>
         </div>
 

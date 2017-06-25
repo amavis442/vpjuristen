@@ -18,7 +18,7 @@
         <h1>Company</h1>
 
         {!! Form::open(['route' => $route, 'class' => 'form-horizontal']) !!}
-        @include('company._form')
+        @include('company.partials.form')
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 {!! Form::submit('Next!',

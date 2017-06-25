@@ -1,7 +1,7 @@
 <button onclick="addInvoice(); return false" class="btn btn-green">Add invoice</button>
 <div id="invoices">
     @foreach ($invoices as $index=>$invoice)
-        @include('invoice._form')
+        @include('invoice.partials.form')
     @endforeach
 </div>
 

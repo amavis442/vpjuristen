@@ -12,7 +12,7 @@
             </div>
             <div class="panel-body">
                 <div class="col-md-12">
-                @include('dossier._searchform')
+                @include('dossier.partials.searchform')
                 </div>
             </div>
         </div>
