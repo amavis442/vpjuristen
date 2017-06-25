@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('start');
 
 
 Auth::routes();
@@ -31,14 +31,13 @@ Route::group(['namespace' => 'Admin\Auth', 'prefix' => 'admin'], function () {
     Route::post('/logout', 'LoginController@logout')->name('admin.logout')->middleware(['web']);
 
     Route::get('/password/reset', 'LoginController@showLoginForm')->name('admin.password.request')->middleware([
-        'web',
-        'guest'
-    ]);
+                                                                                                                   'web',
+                                                                                                                   'guest'
+                                                                                                               ]);
 });
 
 
-
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin','middleware' => ['auth:admin']], function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth','role:admin']], function () {
 
     Route::get('/home', 'HomeController@index')->name('admin.home');
 
@@ -123,8 +122,10 @@ Route::group(['namespace' => 'Dashboard\Auth', 'prefix' => 'dashboard'], functio
 
     /* Login and logout client and debtor */
     Route::get('login', 'LoginController@showLoginForm')->name('dashboard.login')->middleware(['web', 'guest']);
-    Route::get('login/client', 'LoginController@showLoginFormClient')->name('dashboard.login.client')->middleware(['web', 'guest']);
-    Route::get('login/debtor', 'LoginController@showLoginFormDebtor')->name('dashboard.login.debtor')->middleware(['web', 'guest']);
+    Route::get('login/client',
+               'LoginController@showLoginFormClient')->name('dashboard.login.client')->middleware(['web', 'guest']);
+    Route::get('login/debtor',
+               'LoginController@showLoginFormDebtor')->name('dashboard.login.debtor')->middleware(['web', 'guest']);
 
     Route::post('login', 'LoginController@login')->middleware(['web', 'guest']);
 
@@ -149,7 +150,11 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function () 
     Route::post('invoice/add', 'InvoiceController@ajaxAdd')->name('dashboard.invoice.ajax.add');
     Route::post('invoice/del', 'InvoiceController@ajaxDelete')->name('dashboard.invoice.ajax.delete');
     Route::get('invoice/downloadfile/{invoice_id}',
-        'InvoiceController@downloadFile')->name('dashboard.invoice.download.file');
+               'InvoiceController@downloadFile')->name('dashboard.invoice.download.file');
+
+    Route::get('/client/edit/{company}', 'CompanyController@edit')->name('dashboard.client.edit');
+    Route::get('/client/store', 'CompanyController@store')->name('dashboard.client.store');
+
 
     Route::get('/file/download/{file}', 'FileController@download')->name('dashboard.file.download');
 
