@@ -19,6 +19,7 @@ class CreateActionDossierPivotTable extends Migration
             $table->foreign('action_id')->references('id')->on('actions');
             $table->integer('dossier_id')->unsigned();
             $table->foreign('dossier_id')->references('id')->on('dossiers');
+            $table->enum('public',['client','debtor','all'])->default('all');
             $table->timestamps();
         });
     }

@@ -19,11 +19,8 @@ class CreateActionCommentPivotTable extends Migration
             $table->foreign('action_id')->references('id')->on('actions');
             $table->integer('comment_id')->unsigned();
             $table->foreign('comment_id')->references('id')->on('comments');
+            $table->enum('public',['client','debtor','all'])->default('all');
             $table->timestamps();
-
-
-
-
         });
     }
 
