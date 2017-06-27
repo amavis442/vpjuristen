@@ -12,7 +12,7 @@ class ActionPolicy
 {
     use HandlesAuthorization;
 
-    public function before(UserInterface $user, $ability)
+    public function before(User $user, $ability)
     {
         // Admin and employee may see always
         if ($user->hasRole('admin') || $user->hasRole('employee')) {
@@ -27,7 +27,7 @@ class ActionPolicy
      * @param  \App\Action $action
      * @return mixed
      */
-    public function view(UserInterface $user, Action $action)
+    public function view(User $user, Action $action)
     {
         /** @var Collection $roles */
         $roles = $user->roles()->get(['role_id']);//->values()->toArray();
@@ -49,7 +49,7 @@ class ActionPolicy
      * @param  \App\User $user
      * @return mixed
      */
-    public function create(UserInterface $user)
+    public function create(User $user)
     {
         return false;
     }
@@ -61,7 +61,7 @@ class ActionPolicy
      * @param  \App\Action $action
      * @return mixed
      */
-    public function update(UserInterface $user, Action $action)
+    public function update(User $user, Action $action)
     {
         /** @var Collection $roles */
         $roles = $user->roles()->get(['role_id']);//->values()->toArray();
@@ -84,7 +84,7 @@ class ActionPolicy
      * @param  \App\Action $action
      * @return mixed
      */
-    public function delete(UserInterface $user, Action $action)
+    public function delete(User $user, Action $action)
     {
         return false;
     }
