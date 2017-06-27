@@ -19,7 +19,7 @@ class CreateCommentDossierPivotTable extends Migration
             $table->foreign('comment_id')->references('id')->on('comments');
             $table->integer('dossier_id')->unsigned();
             $table->foreign('dossier_id')->references('id')->on('dossiers');
-            $table->enum('public',['client','debtor','all'])->default('all');
+            $table->enum('public',['none','client','debtor','all'])->default('all');
             $table->timestamps();
         });
     }
