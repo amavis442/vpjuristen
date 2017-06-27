@@ -8,6 +8,7 @@ use App\Domain\Services\Dossier\DossierService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Dossier;
+use App\File;
 use Illuminate\Support\Collection;
 
 class DossierController extends Controller
@@ -87,19 +88,41 @@ class DossierController extends Controller
         $summary = $this->dossierService->getSummary($id);
 
         return view('admin.dossier.view', [
-            $fileRoute = 'admin.file.download',
+            'fileRoute' => 'admin.file.download',
+            'routeEditClient' => 'admin.client.edit',
             'summary' => $summary
         ]);
     }
 
     public function list($id, Request $request)
     {
-        $company = Company::find($id);
-        $dossiers = $company->dossiers()->get();
+        // Can be client or debtor or both
+        $company = Company::has('dossiers')->find($id);
+
+        $dossiers = $company->dossiers;
+
+        $dos_id = [];
+        foreach ($dossiers as $dossier) {
+            $dos_id[] = $dossier->id;
+        }
+
+        $dos = Dossier::with(['companies' => function($query){
+            $query->where('type','debtor');
+               },'actions','dossierstatus'])->whereIn('id',$dos_id)->get();
+
+        $dd = new Collection();
+        $all = new Collection();
+        foreach ($dos as $dossier) {
+            $dd->put('actions',$dossier->actions);
+            $dd->put('companies',$dossier->companies);
+            $dd->put('dossierstatus', $dossier->dossierstatus);
+            $dd->put('dossier', $dossier);
+            $all->push($dd);
+        }
 
         $returnUrl = back()->getTargetUrl();
 
-        return view('admin.dossier.list', ['returnUrl' => $returnUrl, 'company' => $company, 'dossiers' => $dossiers]);
+        return view('admin.dossier.list', ['returnUrl' => $returnUrl, 'company' => $company, 'dossiers' => $all]);
     }
 
     /**
@@ -156,12 +179,13 @@ class DossierController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function downloadInvoice($id, $fileid, Request $request)
+    public function downloadInvoice(File $file, Request $request)
     {
 
         $dossierService = new DossierService();
 
-        $collection = $dossierService->downloadInvoice($id, $fileid, $request);
+        $collection = $dossierService->downloadFile($file);
+        //$collection = $dossierService->downloadInvoice($id, $fileid, $request);
         if ($collection->get('result') == 200) {
             return response()->download($collection->get('msg'));
         } else {

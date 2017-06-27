@@ -47,13 +47,13 @@
 <div class="form-group">
     <label for="title" class="col-sm-2 control-label">Visible</label>
     <div class="col-sm-10">
-        <label class="checkbox-inline">
-            <input type="checkbox" id="role_client" name="role[client]" value="client"
-                   @if(isset($checkClient)) checked @endif> Client
-        </label>
-        <label class="checkbox-inline">
-            <input type="checkbox" id="role_debtor" name="role[debtor]" value="debtor"
-                   @if(isset($checkDebtor)) checked @endif> Debtor
-        </label>
+        <div class="col-sm-10">
+            <select name="action_dossier_public" id="action_dossier_public" class="form-control">
+                <option value="none" @if(isset($public) && $public == 'none') {{ 'selected' }} @endif>None</option>
+                <option value="client" @if(isset($public) && $public == 'client') {{ 'selected' }} @endif>Client</option>
+                <option value="debtor" @if(isset($public) && $public == 'debtor') {{ 'selected' }} @endif>Debtor</option>
+                <option value="all" @if(isset($public) && $public == 'all') {{ 'selected' }} @endif>All</option>
+            </select>
+        </div>
     </div>
 </div>

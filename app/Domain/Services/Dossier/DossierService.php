@@ -192,13 +192,13 @@ class DossierService
     {
         $totalSomInvoices = 0;
         /** @var \App\Invoice[] $invoices */
-        $invoices = $dossier->invoices()->get();
+        $invoices = $dossier->invoices()->with('files')->get();
         $invoiceFiles = [];
         foreach ($invoices as $invoice) {
 
             $totalSomInvoices += $invoice->amount;
             /** @var File[] $files */
-            $files = $invoice->files()->get()->all();
+            $files = $invoice->files->all();
 
             if ($files) {
                 foreach ($files as $file) {
@@ -227,7 +227,7 @@ class DossierService
      * @param int $debtorRoleId
      * @return Collection
      */
-    public function getActionSummary(Dossier $dossier, int $clientRoleId, int $debtorRoleId): Collection
+    public function getActionSummary(Dossier $dossier): Collection
     {
         $receivedSom = 0;
         $paidSom = 0;
@@ -242,19 +242,13 @@ class DossierService
             $actionStatus = $action->listaction()->first()->description;
             $actionItemMetaCollection->put('actionStatus', $actionStatus);
 
-            $commentObj = $action->comments()->first();
+            $commentObj = $action->comments()->get()->last();
             if ($commentObj) {
-                $comment = $action->comments()->first()->comment;
+                $comment = $commentObj->comment;
                 $actionItemMetaCollection->put('comment', $comment);
             }
 
-            $actionRoles = $action->roles();
-
-            $clientCanSee = !is_null($actionRoles->get(['role_id'])
-                ->where('role_id', '=', $clientRoleId)->first()) ? true : false;
-
-            $debtorCanSee = !is_null($actionRoles->get(['role_id'])
-                ->where('role_id', '=', $debtorRoleId)->first()) ? true : false;
+            $public = $action->pivot->public;
 
             $collect = $action->collection()->get()->first();
             if ($collect) {
@@ -264,10 +258,7 @@ class DossierService
                 $actionItemMetaCollection->put('amount', '-');
                 $amount[$action->id] = '-';
             }
-            $actionItemMetaCollection->put('clientCanSee', $clientCanSee);
-            $action->clientCanSee = $clientCanSee;
-            $actionItemMetaCollection->put('debtorCanSee', $debtorCanSee);
-            $action->debtorCanSee = $debtorCanSee;
+            $actionItemMetaCollection->put('public', $public);
 
             /** @var Listaction $listactionItem */
             $listactionItem = $action->listaction()->get()->first();
@@ -320,27 +311,28 @@ class DossierService
         /** @var \App\Dossierstatus $dossierStatus */
         $dossierStatus = $dossier->dossierstatus()->first();
 
+        $clientData = $dossier->companies()->wherePivot('type','=','client')->with('contacts')->get();
+        $debtorData = $dossier->companies()->wherePivot('type','=','debtor')->with('contacts')->get();
+
+
         /** @var Collection $invoiceSummary */
         $invoiceSummaryCollection = $this->getInvoiceSummary($dossier);
         $remaining = $totalSomInvoices = $invoiceSummaryCollection->get('totalSomInvoices');
 
         /** @var \App\Company $client */
-        $client = $dossier->client()->first();
+        $client = $clientData->first();
         /** @var \App|Contact $clientContact */
-        $clientContact = $client->contacts()->first();
+        $clientContact = $client->contacts->first();
 
         /** @var \App\Company $debtor */
-        $debtor = $dossier->debtor()->first();
+        $debtor = $debtorData->first();
         /** @var \App|Contact $debtorContact */
-        $debtorContact = $debtor->contacts()->first();
-
-        $clientRoleId = Role::where('name', '=', 'client')->first()->id;
-        $debtorRoleId = Role::where('name', '=', 'debtor')->first()->id;
+        $debtorContact = $debtor->contacts->first();
 
         /** @var \App\Comment[] $comments */
         $comments = $dossier->comments()->get();
         /** @var Collection $actionCollection */
-        $actionCollection = $this->getActionSummary($dossier, $clientRoleId, $debtorRoleId);
+        $actionCollection = $this->getActionSummary($dossier);
         $receivedSom = $actionCollection->get('receivedSom', 0);
 
         $remaining -= $receivedSom;

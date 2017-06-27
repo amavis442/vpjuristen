@@ -29,31 +29,55 @@ class EloquentCompanysRepository implements CompanyRepositoryInterface
         $companies = new Collection();
 
         if ($type == 'client') {
-            $dossiers = Dossier::with('client')->get();
-            foreach ($dossiers as $dossier) {
+            $companiesData = Company::with(['dossiers','users','contacts'])->whereHas('dossiers',function($query) {
+                $query->where('type' ,'=','client');
+            })->get();
+
+            foreach ($companiesData as $company) {
                 $companyCollection = new Collection();
 
-                $company = $dossier->client()->get()->first();
-                $user = $company->users()->get()->first();
-
+                /** @var Collection $dossiers */
+                $dossiers = $company->dossiers;
+                /** @var Collection $contacts */
+                $contacts = $company->contacts;
+                /** @var Collection $user */
+                $users = $company->users;
                 $companyCollection->put('company', $company);
-                $companyCollection->put('user', $user);
+                $companyCollection->put('users', $users);
+                $companyCollection->put('contacts',$contacts);
+                $companyCollection->put('dossiers',$dossiers);
+
 
                 $companies->add($companyCollection);
             }
         }
 
-        if ($type == 'debtor') {
-            $dossiers = Dossier::with('debtor')->get();
-            foreach ($dossiers as $dossier) {
-                $companyCollection = new Collection();
-                $company = $dossier->debtor()->get()->first();
-                $user = new User();
 
+
+        if ($type == 'debtor') {
+            $companiesData = Company::with(['dossiers','users','contacts'])->whereHas('dossiers',function($query) {
+                $query->where('type' ,'=','debtor');
+            })->get();
+
+
+            foreach ($companiesData as $company) {
+                $companyCollection = new Collection();
+
+                /** @var Collection $dossiers */
+                $dossiers = $company->dossiers;
+                /** @var Collection $contacts */
+                $contacts = $company->contacts;
+                /** @var Collection $user */
+                $users = $company->users;
                 $companyCollection->put('company', $company);
-                $companyCollection->put('user', $user);
+                $companyCollection->put('users', $users);
+                $companyCollection->put('contacts',$contacts);
+                $companyCollection->put('dossiers',$dossiers);
+
+
                 $companies->add($companyCollection);
             }
+
         }
 
         return $companies;

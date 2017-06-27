@@ -17,6 +17,7 @@
                 Action
             </div>
             <div class="panel-body">
+                {!! Form::open(['route' => $route, 'class' => 'form-horizontal']) !!}
                 @include('action.partials.form')
             </div>
         </div>
@@ -27,7 +28,6 @@
                     Comments
                 </div>
                 <div class="panel-body">
-                    {!! Form::open(['route' => $route, 'class' => 'form-horizontal']) !!}
                     @include('comment.index')
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">

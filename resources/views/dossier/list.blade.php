@@ -17,18 +17,24 @@
                 </thead>
 
                 <tbody>
-                @foreach($dossiers as $item)
+                @foreach($dossiers as $dossierCol)
+                    <?php
+                    $actions = $dossierCol->get('actions');
+                    $dossier = $dossierCol->get('dossier');
+                    $debtors = $dossierCol->get('companies');
+                    $dossierstatus = $dossierCol->get('dossierstatus');
+                    ?>
                     <tr>
-                        <td>#{{ $item->id }}</td>
+                        <td>#{{ $dossier->id }}</td>
                         <td>
-                            <a href="{{ route('admin.dossier.show',['id' => $item->id]) }}">{{ $item->title }}</a>
+                            <a href="{{ route('admin.dossier.show',['id' => $dossier->id]) }}">{{ $dossier->title }}</a>
                         </td>
-                        <td>{{ $item->client()->first()->name  }}</td>
-                        <td>{{ $item->debtor()->first()->name  }}</td>
-                        <td>{{ ($item->actions()->count() > 0 ? $item->actions()->first()->title: '-')  }}</td>
-                        <td>{{ $item->dossierstatus()->first()->description  }}</td>
-                        <td> {{ $item->created_at }}</td>
-                        <td> {{ $item->updated_at }}</td>
+                        <td>{{ $company->name  }}</td>
+                        <td>{{ $debtors->first()->name  }}</td>
+                        <td>{{ ($actions->count() > 0 ? $actions->first()->title: '-')  }}</td>
+                        <td>{{  $dossierstatus->description  }}</td>
+                        <td> {{ $dossier->created_at }}</td>
+                        <td> {{ $dossier->updated_at }}</td>
                     </tr>
                 @endforeach
                 </tbody>

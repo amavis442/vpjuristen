@@ -17,9 +17,7 @@
                     <th>status</th>
                     <th>comment</th>
                     @can('edit', \App\Action::class)
-                        <th>Visible for client</th>
-                        <th>Visible for debtor</th>
-
+                        <th>public</th>
                         <th>Amount</th>
                         <th>created</th>
                         <th>modified</th>
@@ -39,9 +37,7 @@
                             <td>{{ $meta->get('actionStatus') }}</td>
                             <td>{{ $meta->get('comment','') }}</td>
                             @can('edit',\App\Action::class)
-                                <td>{{ $meta->get('clientCanSee') }}</td>
-                                <td>{{ $meta->get('debtorCanSee') }}</td>
-
+                                <td>{{ $meta->get('public') }}</td>
                                 <td>{{ $meta->get('amount') }}</td>
                                 <td>{{ $action->created_at->format('d-m-Y') }}</td>
                                 <td>{{ $action->updated_at->format('d-m-Y') }}</td>

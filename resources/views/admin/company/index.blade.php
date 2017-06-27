@@ -24,11 +24,15 @@
                             <tbody>
                             @foreach($companies as $companyCollection)
                                 <?php
+                                /** @var \Illuminate\Support\Collection $company */
                                 $company = $companyCollection->get('company');
                                 if ($type == 'client') {
-                                    $companyUser = $companyCollection->get('user');
+                                    $companyUsers = $companyCollection->get('users');
+                                    $companyUser = $companyUsers->first();
                                 }
-                                $contact = $company->contacts()->first(); ?>
+                                $contact = $companyCollection->get('contacts')->first();
+                                $dossiers = $companyCollection->get('dossiers');
+                                ?>
                                 <tr>
                                     <td>
                                         <a href="{{ route($route, ['id' => $company->id])  }}">{{ $company->id }}</a>
@@ -47,11 +51,11 @@
                                             @if($companyUser->active) On @endif
                                         </td>
                                         <td>
-                                            {{ $companyUser->status }}
+                                            {{ $companyUser->active }}
                                         </td>
                                     @endif
                                     <td><a href="{{ route('admin.dossier.list', $company->id) }}">Dossiers
-                                            #{{ $company->dossiers()->count() }}</a></td>
+                                            #{{ $dossiers->count() }}</a></td>
                                 </tr>
                             @endforeach
                             </tbody>

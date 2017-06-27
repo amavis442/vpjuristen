@@ -1,5 +1,4 @@
 <input type="hidden" name="contact[id]" value="{{ $contact->id }}"/>
-<input type="hidden" name="contact[company_id]" value="{{ $company->id }}"/>
 
 <div class="form-group">
     {!! Form::label('Sexe','Sexe', ['class' => 'col-sm-2 control-label']) !!}
