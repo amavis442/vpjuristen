@@ -23,12 +23,12 @@ class Comment extends Model
 {
     public function actions()
     {
-        return $this->belongsToMany(Action::class)->withTimestamps();
+        return $this->belongsToMany(Action::class)->withPivot('public')->withTimestamps();
     }
 
     public function dossiers()
     {
-        return $this->belongsToMany(Dossier::class)->withTimestamps();
+        return $this->belongsToMany(Dossier::class)->withPivot('public')->withTimestamps();
     }
 
 }

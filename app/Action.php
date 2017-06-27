@@ -31,18 +31,17 @@ use Illuminate\Support\Facades\Auth;
  */
 class Action extends Model
 {
+    protected $fillable = ['title','description','status','listaction_id','public'];
 
     public function comments()
     {
-        return $this->belongsToMany(Comment::class)->withTimestamps();
+        return $this->belongsToMany(Comment::class)->withPivot('public')->withTimestamps();
     }
 
     public function dossiers()
     {
-        return $this->belongsToMany(Dossier::class)->withTimestamps();
+        return $this->belongsToMany(Dossier::class)->withPivot('public')->withTimestamps();
     }
-
-
 
     public function listaction()
     {

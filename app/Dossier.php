@@ -34,16 +34,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Dossier extends Model
 {
-    protected $fillable = ['title', 'client_id', 'debtor_id', 'dossierstatus_id', 'created_at', 'updated_at'];
+    protected $fillable = ['title', 'client_id', 'debtor_id', 'dossierstatus_id'];
 
     public function actions()
     {
-        return $this->belongsToMany(Action::class)->withTimestamps();
+        return $this->belongsToMany(Action::class)->withPivot('public')->withTimestamps();
     }
 
     public function comments()
     {
-        return $this->belongsToMany(Comment::class)->withTimestamps();
+        return $this->belongsToMany(Comment::class)->withPivot('public')->withTimestamps();
     }
 
     public function companies()

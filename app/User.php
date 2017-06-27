@@ -45,7 +45,7 @@ class User extends Authenticatable implements UserInterface
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','active','status'
+        'name', 'email', 'password','active'
     ];
 
     /**
