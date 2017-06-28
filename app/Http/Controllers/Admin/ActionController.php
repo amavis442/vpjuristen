@@ -114,14 +114,11 @@ class ActionController extends Controller
             if ($collectionData['id'] > 0) {
                 $collect = \App\Collection::findOrFail($collectionData['id']);
                 $collect->amount = $collectionData['amount'];
-                $collect->updated_at = date('Y-m-d H:i:s');
                 $collect->save();
             } else {
                 $collect = new \App\Collection();
                 $collect->dossier_id = $dossier_id;
                 $collect->amount = $collectionData['amount'];
-                $collect->created_at = date('Y-m-d H:i:s');
-                $collect->updated_at = date('Y-m-d H:i:s');
                 $action->collection()->save($collect);
             }
         }
