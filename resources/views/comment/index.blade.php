@@ -14,7 +14,7 @@
             <td>{{ $comment->id }}</td>
             <td>{{ $comment->comment }}</td>
             <td>{{ $comment->updated_at }}</td>
-            <td><a href="#{{ $comment->id }}">bewerken</a></td>
+            <td><a href="{{ route('admin.comment.edit',$comment) }}">bewerken</a></td>
         </tr>
         @endif
     @endforeach
