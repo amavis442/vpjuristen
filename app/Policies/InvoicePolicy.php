@@ -13,7 +13,7 @@ class InvoicePolicy
 {
     use HandlesAuthorization;
 
-    public function before(UserInterface $user, $ability)
+    public function before(User $user, $ability)
     {
         // Admin and employee may see always
         if ($user->hasRole('admin') || $user->hasRole('employee')) {
@@ -28,13 +28,13 @@ class InvoicePolicy
      * @param  \App\Invoice  $invoice
      * @return mixed
      */
-    public function view(UserInterface $user, Invoice $invoice)
+    public function view(User $user, Invoice $invoice)
     {
         /** @var Dossier $dossier */
         $dossier = $invoice->dossier()->get()->first();
-        $clientId = $dossier->client_id;
+        $client = $dossier->getClient();
+        $company = $client->companies->first();
         /** @var Company $company */
-        $company = Company::findOrFail($clientId);
         $companyUser = $company->users()->get()->first();
 
         if ($companyUser->id == $user->id) {
@@ -51,7 +51,7 @@ class InvoicePolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(UserInterface $user)
+    public function create(User $user)
     {
         //
     }
@@ -63,7 +63,7 @@ class InvoicePolicy
      * @param  \App\Invoice  $invoice
      * @return mixed
      */
-    public function update(UserInterface $user, Invoice $invoice)
+    public function update(User $user, Invoice $invoice)
     {
         //
     }
@@ -75,7 +75,7 @@ class InvoicePolicy
      * @param  \App\Invoice  $invoice
      * @return mixed
      */
-    public function delete(UserInterface $user, Invoice $invoice)
+    public function delete(User $user, Invoice $invoice)
     {
         //
     }

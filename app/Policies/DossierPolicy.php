@@ -12,7 +12,7 @@ class DossierPolicy
 {
     use HandlesAuthorization;
 
-    public function before(UserInterface $user, $ability)
+    public function before(User $user, $ability)
     {
         // Admin and employee may see always
         if ($user->hasRole('admin') || $user->hasRole('employee')) {
@@ -27,15 +27,15 @@ class DossierPolicy
      * @param  \App\Dossier  $dossier
      * @return mixed
      */
-    public function view(UserInterface $user, Dossier $dossier)
+    public function view(User $user, Dossier $dossier)
     {
-        $clientId = $dossier->client_id;
-        /** @var Company $company */
-        $company = Company::findOrFail($clientId);
-        $companyUser = $company->users()->get()->first();
-
-        if ($companyUser->id == $user->id) {
-            return true;
+        $users = $dossier->users()->withPivot('type')->get();
+        foreach ($users as $testuser){
+            if ($testuser->pivot->type == 'client') {
+                if ($user->id == $testuser->id) {
+                    return true;
+                }
+            }
         }
 
         return false;
@@ -47,7 +47,7 @@ class DossierPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(UserInterface $user)
+    public function create(User $user)
     {
         //
     }
@@ -59,7 +59,7 @@ class DossierPolicy
      * @param  \App\Dossier  $dossier
      * @return mixed
      */
-    public function update(UserInterface $user, Dossier $dossier)
+    public function update(User $user, Dossier $dossier)
     {
         //
     }
@@ -71,7 +71,7 @@ class DossierPolicy
      * @param  \App\Dossier  $dossier
      * @return mixed
      */
-    public function delete(UserInterface $user, Dossier $dossier)
+    public function delete(User $user, Dossier $dossier)
     {
         //
     }

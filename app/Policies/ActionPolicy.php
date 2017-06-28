@@ -32,13 +32,7 @@ class ActionPolicy
         /** @var Collection $roles */
         $roles = $user->roles()->get(['role_id']);//->values()->toArray();
 
-        // May a lesser god see the action
-        $actionRoles = $action->roles()->get(['role_id']);
-        foreach ($roles as $role) {
-            if ($actionRoles->where('role_id', $role->role_id)->first()) {
-                return true;
-            }
-        }
+       return true;
 
         return false;
     }
