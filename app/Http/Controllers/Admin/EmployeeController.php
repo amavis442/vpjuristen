@@ -6,7 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Admin;
+use App\User;
 use App\Role;
 use App\Contact;
 use App\Company;
@@ -14,21 +14,16 @@ use Illuminate\View\View;
 
 class EmployeeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth:admin']);
-    }
-
 
     public function index()
     {
-        if (!Auth::guard('admin')->user()->can('manage-employees')) {
+        if (!Auth::user()->can('manage-employees')) {
             return redirect()->route('admin.home');
         }
 
         /** @var \App\Role $roles */
         //$roles = Role::with('users')->where('name', 'admin')->get();
-        $users = Admin::whereHas('roles', function ($q) {
+        $users = User::whereHas('roles', function ($q) {
             $q->whereIn('name', ['admin','employee']);
         })->get()->all();
 
@@ -37,13 +32,13 @@ class EmployeeController extends Controller
 
     public function create(Request $request)
     {
-        if (!Auth::guard('admin')->user()->can('manage-employees')) {
+        if (!Auth::user()->can('manage-employees')) {
             return redirect()->route('admin.home');
         }
 
         $company = Company::find(1);
 
-        $user = new Admin();
+        $user = new User();
         $contact = new Contact();
         return view('admin.employee.create', ['user' => $user, 'company'=>$company,'contact' => $contact, 'contactShort' => false]);
     }
@@ -59,8 +54,8 @@ class EmployeeController extends Controller
             return redirect()->route('admin.home');
         }
 
-        /** @var Admin $user */
-        $user = Admin::find($id);
+        /** @var User $user */
+        $user = User::find($id);
         $contact = $user->contacts()->first();
         $company = Company::find(1);
         return view('admin.employee.edit', ['user' => $user,'company'=>$company, 'contact' => $contact, 'contactShort' => false]);
@@ -88,9 +83,9 @@ class EmployeeController extends Controller
             $user_id = $dataUser['id'];
         }
 
-        /** @var Admin $user */
+        /** @var User $user */
         /** @var Company $company */
-        $user = Admin::updateOrCreate(['id'=>$user_id],$dataUser);
+        $user = User::updateOrCreate(['id'=>$user_id],$dataUser);
         $company = Company::where(['name' => 'admin-prime', 'company' => 'admin-prime'])->get()->first();
 
         $dataRole = $request->get('role');
