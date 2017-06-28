@@ -30,15 +30,27 @@
 
         <tbody>
         @foreach($dossiers as $item)
+            <?php
+                $companies = $item->companies;
+                foreach ($companies as $company) {
+                    $type = $company->pivot->type;
+                    if ($type =='client') {
+                        $client = $company;
+                    }
+                    if ($type =='debtor') {
+                        $debtor = $company;
+                    }
+                }
+            ?>
             <tr>
                 <td>#{{ $item->id }}</td>
                 <td>
                     <a href="{{ route($route,['id' => $item->id]) }}">{{ $item->title }}</a>
                 </td>
-                <td>{{ $item->client()->first()->name  }}</td>
-                <td>{{ $item->debtor()->first()->name  }}</td>
-                <td>{{ ($item->actions()->count() > 0 ? $item->actions()->first()->title: '-')  }}</td>
-                <td>{{ $item->dossierstatus()->first()->description  }}</td>
+                <td>{{ $client->name  }}</td>
+                <td>{{ $debtor->name  }}</td>
+                <td>{{ ($item->actions->count() > 0 ? $item->actions->last()->title: '-')  }}</td>
+                <td>{{ $item->dossierstatus->first()->description  }}</td>
                 <td> {{ $item->created_at }}</td>
                 <td> {{ $item->updated_at }}</td>
             </tr>

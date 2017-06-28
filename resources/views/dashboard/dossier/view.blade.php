@@ -61,10 +61,8 @@
         </div>
 
         <div class="row">
-            @include('action.partials._list')
+            @include('action.partials.list')
         </div>
 
     </div>
-
-
 @endsection

@@ -80,9 +80,9 @@ class Dossier extends Model
 
     public function getClient()
     {
-        return $this->with('companies')
-                    ->companies()
-                    ->wherePivot('type', '=', 'client');
+        return $this->with(['companies'=>function($query){
+            $query->wherePivot('type', '=', 'client');
+        }])->where('id',$this->id)->get()->first();
     }
 
     public function getDebtor()

@@ -84,15 +84,15 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::post('/comment/store', 'CommentController@store')->name('admin.comment.store');
 
     /* Collection admin: payment received from debtor */
-    Route::get('/collect/add/{id}', 'CollectController@create')->name('admin.action.collect.create');
-    Route::get('/collect/edit/{id}', 'CollectController@edit')->name('admin.action.collect.edit');
-    Route::post('/collect/store', 'CollectController@store')->name('admin.action.collect.store');
+    //Route::get('/collect/add/{id}', 'CollectController@create')->name('admin.action.collect.create');
+    //Route::get('/collect/edit/{id}', 'CollectController@edit')->name('admin.action.collect.edit');
+    //Route::post('/collect/store', 'CollectController@store')->name('admin.action.collect.store');
 
 
     /* Payment admin: payment done to client */
-    Route::get('/payment/add/{id}', 'PaymentController@create')->name('admin.action.payment.create');
-    Route::get('/payment/edit/{id}', 'PaymentController@edit')->name('admin.action.payment.edit');
-    Route::post('/payment/store', 'PaymentController@store')->name('admin.action.payment.store');
+    //Route::get('/payment/add/{id}', 'PaymentController@create')->name('admin.action.payment.create');
+    //Route::get('/payment/edit/{id}', 'PaymentController@edit')->name('admin.action.payment.edit');
+    //Route::post('/payment/store', 'PaymentController@store')->name('admin.action.payment.store');
 
 });
 
@@ -138,7 +138,7 @@ Route::group(['namespace' => 'Dashboard\Auth', 'prefix' => 'dashboard'], functio
 
 });
 
-Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function () {
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard','middleware' => ['auth','role:client']], function () {
     Route::get('home', 'DashboardController@index')->name('dashboard.home');
 
     /* Dossier: See dossier with actions, approved comments and payments*/

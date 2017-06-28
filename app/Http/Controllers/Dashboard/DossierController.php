@@ -27,7 +27,7 @@ class DossierController extends Controller
     {
         $user = Auth::user();
         if ($user->hasRole('client')) {
-            $dossiers = $user->companies()->first()->dossiers()->get();
+            $dossiers = $user->companies()->first()->dossiers()->with(['actions','dossierstatus'])->get();
         } else {
             $dossiers = [];
         }
@@ -38,6 +38,7 @@ class DossierController extends Controller
     public function view($id)
     {
         $dossier = Dossier::findOrFail($id);
+
         if (!$this->authorize('view', $dossier)) {
             session('msg', 'Forbidden access attempt. A report has been filed.');
             return \Redirect::route('dashboard.home');
