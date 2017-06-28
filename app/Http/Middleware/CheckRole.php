@@ -17,9 +17,23 @@ class CheckRole
      */
     public function handle($request, Closure $next, $role)
     {
-        if (!$request->user()->hasRole($role)) {
+        $roles = [];
+        if (strpos($role,"|")){
+            $roles = explode('|', $role);
+        } else {
+            $roles[] = $role;
+        }
+
+        $roleOk = false;
+        foreach ($roles as $role) {
+            if ($request->user()->hasRole($role)) {
+                $roleOk = true;
+            }
+        }
+
+        if (!$roleOk) {
             Auth::logout();
-            return redirect()->route('admin.login')->with('warning', 'Not the right permissions');
+            return redirect()->back()->with('warning', 'Not the right permissions');
         }
 
         return $next($request);
