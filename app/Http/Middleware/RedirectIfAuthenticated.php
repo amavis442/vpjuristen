@@ -20,17 +20,17 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         /** @var User $user */
-        /** @var Admin $admin */
-        $admin = $user = Auth::guard($guard)->user();
+        $user = Auth::guard($guard)->user();
         if (Auth::guard($guard)->check()) {
+
             if ($user->isActive() && !$user->hasRole('prospect')){
                 if ($user->hasRole('client') || $user->hasRole('debtor')) {
                     return redirect(route('dashboard.home'));
                 }
             }
 
-            if ($admin->isActive()){
-                if ($admin->hasRole('admin')) {
+            if ($user->isActive()){
+                if ($user->hasRole('admin')) {
                     return redirect(route('admin.home'));
                 }
             }
