@@ -30,11 +30,11 @@ class DossierSeeder extends Seeder
 
             $company = factory(App\Company::class)->create();
             $user->companies()->save($company);
+
             $contact = factory(App\Contact::class)->create();
             $company->contacts()->save($contact);
-            $user->contacts()->save($contact);
-            $company->contacts()->withTimestamps()->attach($contact->id);
-
+            $user->contacts()->attach($contact->id);
+echo '* '.$contact->id."\n";
             // Debtor
             $userDeb = factory(App\User::class)->create();
             $userDeb->save();
@@ -42,18 +42,20 @@ class DossierSeeder extends Seeder
 
             $companyDeb = factory(App\Company::class)->create();
             $userDeb->companies()->save($companyDeb);
+
             $contactDeb = factory(App\Contact::class)->create();
             $companyDeb->contacts()->save($contactDeb);
-            $userDeb->contacts()->save($contactDeb);
-            $companyDeb->contacts()->withTimestamps()->attach($contactDeb->id);
+            $userDeb->contacts()->attach($contactDeb->id);
+            echo $contactDeb->id."\n";
+
 
             // Dossier
             $dossier = factory(App\Dossier::class)->create();
             $user->dossiers()->save($dossier,['type'=>'client']);
-            $userDeb->dossiers()->withTimeStamps()->attach($dossier->id,['type'=>'debtor']);
+            $userDeb->dossiers()->attach($dossier->id,['type'=>'debtor']);
 
-            $company->dossiers()->withTimestamps()->attach($dossier->id,['type'=>'client']);
-            $companyDeb->dossiers()->withTimestamps()->attach($dossier->id,['type'=>'debtor']);
+            $company->dossiers()->attach($dossier->id,['type'=>'client']);
+            $companyDeb->dossiers()->attach($dossier->id,['type'=>'debtor']);
 
 
             // Action
