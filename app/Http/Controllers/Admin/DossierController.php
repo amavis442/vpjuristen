@@ -26,11 +26,11 @@ class DossierController extends Controller
         /** @var \App\Dossier $dossier */
         foreach ($dossiers as $dossier) {
             $item = new Collection();
-            $item->put('dossier',$dossier);
+            $item->put('dossier', $dossier);
             $item->put('dossierstatus', $dossier->dossierstatus);
             $companies = $dossier->companies;//->withPivot('type')->get()->all();
             $actions = $dossier->actions;
-            $item->put('actions',$actions);
+            $item->put('actions', $actions);
             foreach ($companies as $company) {
                 $item->put($company->pivot->type, $company);
             }
@@ -48,7 +48,7 @@ class DossierController extends Controller
      */
     public function index()
     {
-        $dossiers = Dossier::with('companies','actions','dossierstatus')->get();
+        $dossiers = Dossier::with('companies', 'actions', 'dossierstatus')->get();
 
         $data = $this->getDossier($dossiers);
 
@@ -96,33 +96,41 @@ class DossierController extends Controller
 
     public function list($id, Request $request)
     {
+
+        $company = null;
         // Can be client or debtor or both
-        $company = Company::has('dossiers')->find($id);
+        $company = Company::with(['dossiers'=>function($query){
+            $query->with('companies','actions','comments','dossierstatus');
+        }])->where('id', $id)->get()->first();
 
+        $data = new Collection();
         $dossiers = $company->dossiers;
-
-        $dos_id = [];
+        /** @var \App\Dossier $dossier */
         foreach ($dossiers as $dossier) {
-            $dos_id[] = $dossier->id;
-        }
+            $item = new Collection();
+            $item->put('dossier', $dossier);
 
-        $dos = Dossier::with(['companies' => function($query){
-            $query->where('type','debtor');
-               },'actions','dossierstatus'])->whereIn('id',$dos_id)->get();
+            $actions = $dossier->actions;
+            $item->put('actions', $actions);
 
-        $dd = new Collection();
-        $all = new Collection();
-        foreach ($dos as $dossier) {
-            $dd->put('actions',$dossier->actions);
-            $dd->put('companies',$dossier->companies);
-            $dd->put('dossierstatus', $dossier->dossierstatus);
-            $dd->put('dossier', $dossier);
-            $all->push($dd);
+            $comments = $dossier->comments;
+            $item->put('comments', $comments);
+
+            $dossierstatus = $dossier->dossierstatus;
+            $item->put('dossierstatus',$dossierstatus);
+
+            // Client and Debtor
+            $companiesAll = $dossier->companies;
+            foreach ($companiesAll as $company) {
+                $type = $company->pivot->type;
+                $item->put($type, $company);
+            }
+            $data->push($item);
         }
 
         $returnUrl = back()->getTargetUrl();
 
-        return view('admin.dossier.list', ['returnUrl' => $returnUrl, 'company' => $company, 'dossiers' => $all]);
+        return view('admin.dossier.list', ['returnUrl' => $returnUrl, 'data' => $data]);
     }
 
     /**
@@ -165,7 +173,7 @@ class DossierController extends Controller
         if (!is_null($searchTerm)) {
             $dossiers = $repository->search($searchTerm);
         } else {
-            $dossiers = Dossier::with('companies','actions','dossierstatus')->get();
+            $dossiers = Dossier::with('companies', 'actions', 'dossierstatus')->get();
         }
 
         $data = $this->getDossier($dossiers);
