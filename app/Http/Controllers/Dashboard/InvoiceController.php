@@ -14,11 +14,6 @@ class InvoiceController extends Controller
 {
     use InvoiceAjaxTrait;
 
-    public function __construct()
-    {
-        $this->middleware('auth:dashboard');
-    }
-
     //
     public function index(Request $request)
     {

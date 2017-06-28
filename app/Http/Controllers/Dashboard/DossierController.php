@@ -18,7 +18,6 @@ class DossierController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:dashboard');
         $this->dossierService = new DossierService();
     }
 
