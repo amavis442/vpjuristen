@@ -25,28 +25,28 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $remarks
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \App\Client $client
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereCity($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereCompanyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereCountry($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereFax($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereFirstname($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereHousenr($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereMiddlename($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact wherePhone($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereRemarks($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereSexe($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereStreet($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereTitle($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Contact whereZipcode($value)
+ * @property-read \App\Models\Client $client
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereCity($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereCompanyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereCountry($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereFax($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereFirstname($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereHousenr($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereMiddlename($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereRemarks($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereSexe($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereStreet($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Contact whereZipcode($value)
  * @mixin \Eloquent
- * @property-read \App\Company $company
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
+ * @property-read \App\Models\Company $company
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Company[] $companies
  */
 class Contact extends Model
