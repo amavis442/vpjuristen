@@ -89,7 +89,7 @@ class EmployeeController extends Controller
 
         $company = Company::where(['name' => 'admin-prime', 'company' => 'admin-prime'])->get()->first();
         if ($isNew) {
-            $company->users()->associate($user);
+            $company->users()->attach($user->id);
         }
 
         $dataRole  = $request->get('role');
@@ -114,7 +114,7 @@ class EmployeeController extends Controller
         $contact_id  = $dataContact['id'];
         unset($dataContact['id']);
 
-        $contact = Contact::firstOrCreate(['id' => $contact_id]);
+        $contact = Contact::firstOrNew(['id' => $contact_id]);
         $contact->fill($dataContact);
         $contact->save();
         $company->contacts()->sync($contact->id, false);
