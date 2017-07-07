@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +18,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Collection whereDossierId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Collection whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Collection whereUpdatedAt($value)
+ * @property int $action_id
+ * @property int $public
+ * @property-read \App\Models\Action $action
+ * @property-read \App\Models\Dossier $dossier
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Collection whereActionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Collection wherePublic($value)
  */
 class Collection extends Model
 {

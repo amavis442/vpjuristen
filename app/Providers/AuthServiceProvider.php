@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Policies\EmployeePolicy;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -15,15 +15,15 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
-        'App\Action' => 'App\Policies\ActionPolicy',
-        'App\Comment' => 'App\Policies\CommentPolicy',
-        'App\Company' => 'App\Policies\CompanyPolicy',
-        'App\Invoice' => 'App\Policies\InvoicePolicy',
-        'App\Contact' => 'App\Policies\ContactPolicy',
-        'App\Dossier' => 'App\Policies\DossierPolicy',
-        'App\User' => 'App\Policies\UserPolicy',
-        'App\File' => 'App\Policies\FilePolicy',
+        'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Action' => 'App\Policies\ActionPolicy',
+        'App\Models\Comment' => 'App\Policies\CommentPolicy',
+        'App\Models\Company' => 'App\Policies\CompanyPolicy',
+        'App\Models\Invoice' => 'App\Policies\InvoicePolicy',
+        'App\Models\Contact' => 'App\Policies\ContactPolicy',
+        'App\Models\Dossier' => 'App\Policies\DossierPolicy',
+        'App\Models\User' => 'App\Policies\UserPolicy',
+        'App\Models\File' => 'App\Policies\FilePolicy',
 
     ];
 

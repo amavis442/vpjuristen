@@ -2,6 +2,7 @@
 
 namespace App\Domain\Services\Dossier;
 
+use App\Domain\Repositories\Contracts\DossierRepositoryInterface;
 use App\File;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -30,6 +31,12 @@ class DossierService
     protected $debtor_id;
     protected $dossier_id;
     protected $dossier_status_id;
+
+    public function __construct(DossierRepositoryInterface $dossierRepository)
+    {
+        $this->dossierRepository = $dossierRepository;
+    }
+
 
     /**
      * @return mixed

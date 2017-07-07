@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use App\Domain\Contract\CompanyRepositoryInterface;
 use App\Domain\Contract\DossierRepositoryInterface;
-use App\Domain\Repository\EloquentCompanysRepository;
-use App\Domain\Repository\EloquentDossiersRepository;
+use App\Domain\Repository\CompanyRepository;
+use App\Domain\Repository\DossierRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -38,12 +38,5 @@ class AppServiceProvider extends ServiceProvider
             $this->app->alias('Debugbar', 'Barryvdh\Debugbar\Facade');
         }
 
-        $this->app->bind(CompanyRepositoryInterface::class, function () {
-            return new EloquentCompanysRepository();
-        });
-
-        $this->app->bind(DossierRepositoryInterface::class, function () {
-            return new EloquentDossiersRepository();
-        });
     }
 }

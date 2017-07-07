@@ -3,23 +3,19 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Company;
+use App\Domain\Repositories\Contracts\CompanyRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Doctrine\Common\Collections\ArrayCollection;
-use App\Dossier;
-use App\Invoice;
-use App\File as InvoiceFile;
-use App\Domain\Repository\EloquentDossiersRepository;
-use App\Domain\Services\Dossier\DossierService;
+use App\User;
 
 class CompanyController extends Controller
 {
     protected $dossierService;
+    protected $companyRepository;
 
-    public function __construct()
+    public function __construct(CompanyRepositoryInterface $companyRepository)
     {
-        $this->dossierService = new DossierService();
+       $this->companyRepository = $companyRepository;
     }
 
     public function edit(Company $company, Request $request)
@@ -45,5 +41,26 @@ class CompanyController extends Controller
                     ]);
     }
 
+    public function store(Request $request)
+    {
+        $companyData = $request->get('company');
+        $id = $companyData['id'];
+
+        if ($id) {
+            $company = Company::findOrFail($id);
+            if (!$this->authorize('update', $company)) {
+                return redirect()->route('admin.home');
+            }
+        } else {
+            $company = new Company();
+            if (!$this->authorize('create', Company::class)) {
+                return redirect()->route('admin.home');
+            }
+        }
+
+        $this->companyRepository->store($company, $request);
+
+        return \Redirect::route($this->routeIndex);
+    }
 
 }

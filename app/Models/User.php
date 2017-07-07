@@ -1,8 +1,6 @@
 <?php
 
-namespace App;
-
-use App\Domain\Contract\UserInterface;
+namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -32,13 +30,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $status
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contact[] $contacts
  * @method static \Illuminate\Database\Query\Builder|\App\User whereStatus($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dossier[] $dossiers
  */
-class User extends Authenticatable implements UserInterface
+class User extends Authenticatable
 {
 
     use Notifiable;
 
-    protected $guard = 'dashboard';
+    //protected $guard = 'dashboard';
     /**
      * The attributes that are mass assignable.
      *

@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Company;
+use App\Models\Company;
 use App\Domain\Contract\UserInterface;
-use App\User;
-use App\Dossier;
+use App\Models\User;
+use App\Models\Dossier;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class DossierPolicy

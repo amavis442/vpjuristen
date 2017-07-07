@@ -6,14 +6,15 @@
  * Time: 5:17 PM
  */
 
-namespace App\Domain\Repository;
+namespace App\Repositories\Eloquent;
 
-use App\Domain\Contract\DossierRepositoryInterface;
+use App\Repositories\Contracts\DossierRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use App\Dossier;
+use App\Models\Dossier;
 
-class EloquentDossiersRepository implements DossierRepositoryInterface
+class DossierRepository implements DossierRepositoryInterface
 {
+
     public function search(string $term = ""): Collection
     {
         return Dossier::with('companies', 'actions', 'dossierstatus')

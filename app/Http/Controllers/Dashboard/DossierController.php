@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Dossier;
 use App\Invoice;
 use App\File as InvoiceFile;
-use App\Domain\Repository\EloquentDossiersRepository;
+use App\Domain\Repository\DossierRepository;
 use App\Domain\Services\Dossier\DossierService;
 
 class DossierController extends Controller
@@ -103,7 +103,7 @@ class DossierController extends Controller
     }
 
 
-    public function search(EloquentDossiersRepository $repository)
+    public function search(DossierRepository $repository)
     {
         $user = Auth::user();
         $searchTerm = request('q');

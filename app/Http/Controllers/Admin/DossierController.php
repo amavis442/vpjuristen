@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Company;
-use App\Domain\Repository\EloquentDossiersRepository;
+use App\Models\Company;
+use App\Repositories\Contracts\DossierRepositoryInterface;
 use App\Domain\Services\Dossier\DossierService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Dossier;
-use App\File;
+use App\Models\Dossier;
+use App\Models\File;
 use Illuminate\Support\Collection;
 
 class DossierController extends Controller
 {
     protected $dossierService;
+    protected $dossierRepository;
 
-    public function __construct()
+    public function __construct(DossierRepositoryInterface $dossierRepository)
     {
-        $this->dossierService = new DossierService();
+        $this->dossierRepository = $dossierRepository;
     }
 
     private function getDossier(Collection $dossiers): Collection
@@ -85,7 +86,7 @@ class DossierController extends Controller
      */
     public function show($id)
     {
-        $summary = $this->dossierService->getSummary($id);
+        $summary = DossierService::getInstance()->getSummary($id);
 
         return view('admin.dossier.view', [
             'fileRoute' => 'admin.file.download',
@@ -167,11 +168,11 @@ class DossierController extends Controller
         //
     }
 
-    public function search(EloquentDossiersRepository $repository)
+    public function search()
     {
         $searchTerm = request('q');
         if (!is_null($searchTerm)) {
-            $dossiers = $repository->search($searchTerm);
+            $dossiers = $this->dossierRepository->search($searchTerm);
         } else {
             $dossiers = Dossier::with('companies', 'actions', 'dossierstatus')->get();
         }

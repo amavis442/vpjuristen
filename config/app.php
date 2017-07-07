@@ -179,6 +179,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        App\Repositories\Providers\CompanyRepositoryServiceProvider::class,
+        App\Repositories\Providers\DossierRepositoryServiceProvider::class,
+        App\Providers\DossierServiceServiceProvider::class,
 
 
     ],

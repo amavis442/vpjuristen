@@ -8,8 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Request;
 
-use App\Dossier;
-use App\Domain\Services\Dossier\DossierService;
+use App\Models\Dossier;
+use App\Services\DossierService;
 
 // create a dossier with x invoices attached
 
@@ -35,7 +35,7 @@ An action can be:
 */
 
 
-class DossierServiceTest extends TestCase
+class DossierServiceT extends TestCase
 {
     protected $postData;
     protected $dossierId;

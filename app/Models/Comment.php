@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +18,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Comment whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Comment whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $public
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Action[] $actions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dossier[] $dossiers
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Comment wherePublic($value)
  */
 class Comment extends Model
 {

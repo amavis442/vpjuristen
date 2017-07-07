@@ -10,8 +10,9 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Repositories\Contracts\CompanyRepositoryInterface;
+use App\Repositories\CompanyRepository;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ use App\Models\Company;
 use Illuminate\View\View;
 
 
-abstract class AbstractCompanyController extends Controller
+class CompanyController extends Controller
 {
     protected $name       = '';
     protected $routeIndex = 'admin.company.index';
@@ -28,14 +29,22 @@ abstract class AbstractCompanyController extends Controller
     protected $routeStore = 'admin.company.store';
     /** @var  CompanyRepositoryInterface */
     protected $companyRepository;
+    protected $user;
 
     public function __construct(CompanyRepositoryInterface $companyRepository)
     {
         $this->companyRepository = $companyRepository;
+
+        /** @var \App\User $user */
+        $this->user = Auth::user();
     }
 
     public function getCompany($type = 'client')
     {
+        if (!$this->user->can('view', Company::class)) {
+            return redirect()->route('admin.home');
+        }
+
         $companies = $this->companyRepository->getCompany($type);
 
         return view('admin.company.index',
@@ -44,7 +53,7 @@ abstract class AbstractCompanyController extends Controller
 
     public function createCompany(Request $request)
     {
-        if (!$this->authorize('create', Company::class)) {
+        if (!$this->user->can('create', Company::class)) {
             return redirect()->route('admin.home');
         }
 

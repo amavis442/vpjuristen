@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Domain\Contract\UserInterface;
-use App\User;
+use App\Models\User;
 use App\Action;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Collection;

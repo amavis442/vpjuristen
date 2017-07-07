@@ -4,8 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
-use App\User;
-use App\Admin;
+use App\Models\User;
 
 class RedirectIfAuthenticated
 {

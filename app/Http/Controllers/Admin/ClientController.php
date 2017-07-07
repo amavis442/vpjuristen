@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Company;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class ClientController extends AbstractCompanyController
 {
@@ -12,9 +12,12 @@ class ClientController extends AbstractCompanyController
     protected $routeEdit = 'admin.client.edit';
     protected $routeStore = 'admin.client.store';
 
+
     public function index()
     {
-        return parent::getCompany('client');
+        if ($this->authorize('view',Company::class)) {
+            return parent::getCompany('client');
+        }
     }
 
     public function edit($id,Request $request)

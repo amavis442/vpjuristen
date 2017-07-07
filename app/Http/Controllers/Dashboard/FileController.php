@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Company;
-use App\Domain\Repository\EloquentDossiersRepository;
+use App\Domain\Repository\DossierRepository;
 use App\Domain\Services\Dossier\DossierService;
 use App\File;
 use Illuminate\Http\Request;

@@ -157,7 +157,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard','middleware' =
                'InvoiceController@downloadFile')->name('dashboard.invoice.download.file');
 
     Route::get('/client/edit/{company}', 'CompanyController@edit')->name('dashboard.client.edit');
-    Route::get('/client/store', 'CompanyController@store')->name('dashboard.client.store');
+    Route::post('/client/store', 'CompanyController@store')->name('dashboard.client.store');
 
 
     Route::get('/file/download/{file}', 'FileController@download')->name('dashboard.file.download');

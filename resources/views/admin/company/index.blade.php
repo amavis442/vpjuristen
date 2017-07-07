@@ -22,16 +22,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($companies as $companyCollection)
+                            @foreach($companies as $company)
                                 <?php
                                 /** @var \Illuminate\Support\Collection $company */
-                                $company = $companyCollection->get('company');
+
                                 if ($type == 'client') {
-                                    $companyUsers = $companyCollection->get('users');
+                                    $companyUsers = $company->users;
                                     $companyUser = $companyUsers->first();
                                 }
-                                $contact = $companyCollection->get('contacts')->first();
-                                $dossiers = $companyCollection->get('dossiers');
+                                $contact = $company->contacts->first();
+                                $dossiers = $company->dossiers;
                                 ?>
                                 <tr>
                                     <td>

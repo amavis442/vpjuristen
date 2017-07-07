@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Invoice;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 trait InvoiceAjaxTrait

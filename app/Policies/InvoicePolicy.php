@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Company;
+use App\Models\Company;
 use App\Domain\Contract\UserInterface;
-use App\Dossier;
-use App\User;
-use App\Invoice;
+use App\Models\Dossier;
+use App\Models\User;
+use App\Models\Invoice;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class InvoicePolicy

@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Domain\Contract\UserInterface;
-use App\User;
-use App\Company;
+use App\Models\User;
+use App\Models\Company;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CompanyPolicy
@@ -13,7 +12,7 @@ class CompanyPolicy
 
     public function before(User $user, $ability)
     {
-        // Admin and employee may see always
+       // Admin and employee may see always
         if ($user->hasRole('admin') || $user->hasRole('employee')) {
             return true;
         }

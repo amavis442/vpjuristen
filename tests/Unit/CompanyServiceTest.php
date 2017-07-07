@@ -2,16 +2,16 @@
 
 namespace Tests\Unit;
 
-use App\Domain\Services\Client\ClientService;
+use App\Services\CompanyService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use App\User;
-use App\Company;
-use App\Contact;
+use App\Models\User;
+use App\Models\Company;
+use App\Models\Contact;
 
-class ClientServiceTest extends TestCase
+class CompanyServiceTest extends TestCase
 {
     protected $postData;
 
@@ -52,18 +52,21 @@ class ClientServiceTest extends TestCase
 
     public function createClient()
     {
-        $postData = $this->postData;
+        $postData = $this->postData['client'];
 
-        $client = new ClientService();
-        $data = $client->create($postData);
-        $this->assertInstanceOf('App\Company', $data);
+        $company = new Company();
+        $company->fill($this->postData['client']);
+        $company->save();
+        $this->assertInstanceOf('App\Models\Company', $company);
 
-        /** @var Company $company */
-        $company = $data;
+        $contact = new Contact();
+        $contact->fill($this->postData['contact']);
+        $company->contacts()->save($contact);
+
         /** @var Contact $contact */
         $contact = $company->contacts()->first();
 
-        $this->assertInstanceOf('App\Contact', $contact);
+        $this->assertInstanceOf('App\Models\Contact', $contact);
         $this->assertEquals($postData['contact']['name'], $contact->name);
     }
 
@@ -76,31 +79,13 @@ class ClientServiceTest extends TestCase
     public function testGetClientByUser()
     {
         $user = User::findOrFail(1);
+        $company = Company::findOrFail(2);
+        $company->users()->save($user);
 
-        $client = new ClientService($user);
-        $client->setUser($user);
+        $users = $company->users()->get();
+        $userCreated = $users->last();
 
-        $company = $client->getClient();
-        $this->assertInstanceOf('App\Company', $company);
+        $this->assertEquals($user->name, $userCreated->name);
     }
 
-    public function testGetClientById()
-    {
-        $client = new ClientService();
-
-        $company = $client->getClient(1);
-        $this->assertInstanceOf('App\Company', $company);
-    }
-
-
-    public function testUpdateByArray()
-    {
-        $postData = $this->postData;
-        $postData['client']['id'] = 1;
-
-        $client = new ClientService();
-        $company = $client->update($postData['client']);
-
-        $this->assertEquals($postData['client']['name'], $company->name);
-    }
 }

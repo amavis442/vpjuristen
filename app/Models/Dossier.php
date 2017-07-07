@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Dossierstatus $dossierstatus
  * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereDossierstatusId($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Action[] $actions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  */
 class Dossier extends Model
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \App\Invoice $invoice
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invoice[] $invoices
+ * @property int $invoice_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\File whereInvoiceId($value)
  */
 class File extends Model
 {

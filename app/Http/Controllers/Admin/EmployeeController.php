@@ -6,10 +6,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\User;
-use App\Role;
-use App\Contact;
-use App\Company;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Contact;
+use App\Models\Company;
 use Illuminate\View\View;
 
 class EmployeeController extends Controller
@@ -50,7 +50,7 @@ class EmployeeController extends Controller
      */
     public function edit($id, Request $request)
     {
-        if (!Auth::guard('admin')->user()->can('manage-employees')) {
+        if (!Auth::guard()->user()->can('manage-employees')) {
             return redirect()->route('admin.home');
         }
 
@@ -63,7 +63,7 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        if (!Auth::guard('admin')->user()->can('manage-employees')) {
+        if (!Auth::guard()->user()->can('manage-employees')) {
             return redirect()->route('admin.home');
         }
 

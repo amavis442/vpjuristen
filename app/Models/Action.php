@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +28,11 @@ use Illuminate\Support\Facades\Auth;
  * @property-read \App\Listaction $listaction
  * @property string $listaction_id
  * @method static \Illuminate\Database\Query\Builder|\App\Action whereListactionId($value)
+ * @property int $public
+ * @property-read \App\Models\Collection $collection
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dossier[] $dossiers
+ * @property-read \App\Models\Payment $payment
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Action wherePublic($value)
  */
 class Action extends Model
 {

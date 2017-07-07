@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use App\Company;
-use App\Invoice;
-use App\File;
+use App\Models\Company;
+use App\Models\Invoice;
+use App\Models\File;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Domain\Contract\UserInterface;
 
