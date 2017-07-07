@@ -6,6 +6,13 @@ use App\Models\Role;
 use App\Models\Company;
 use App\Models\Contact;
 use App\Models\Dossier;
+use App\Models\Action;
+use App\Models\Comment;
+use App\Models\Invoice;
+use App\Models\File as InvoiceFile;
+
+
+
 
 class DossierSeeder extends Seeder
 {
@@ -24,33 +31,31 @@ class DossierSeeder extends Seeder
 
             // Client
             /** @var Company $company */
-            $user = factory(App\User::class)->create();
+            $user = factory(User::class)->create();
             $user->save();
             $user->roles()->save($clientUserRole);
 
-            $company = factory(App\Company::class)->create();
+            $company = factory(Company::class)->create();
             $user->companies()->save($company);
 
-            $contact = factory(App\Contact::class)->create();
+            $contact = factory(Contact::class)->create();
             $company->contacts()->save($contact);
             $user->contacts()->attach($contact->id);
-echo '* '.$contact->id."\n";
+
             // Debtor
-            $userDeb = factory(App\User::class)->create();
+            $userDeb = factory(User::class)->create();
             $userDeb->save();
             $userDeb->roles()->save($clientUserRole);
 
-            $companyDeb = factory(App\Company::class)->create();
+            $companyDeb = factory(Company::class)->create();
             $userDeb->companies()->save($companyDeb);
 
-            $contactDeb = factory(App\Contact::class)->create();
+            $contactDeb = factory(Contact::class)->create();
             $companyDeb->contacts()->save($contactDeb);
             $userDeb->contacts()->attach($contactDeb->id);
-            echo $contactDeb->id."\n";
-
 
             // Dossier
-            $dossier = factory(App\Dossier::class)->create();
+            $dossier = factory(Dossier::class)->create();
             $user->dossiers()->save($dossier,['type'=>'client']);
             $userDeb->dossiers()->attach($dossier->id,['type'=>'debtor']);
 
@@ -59,19 +64,19 @@ echo '* '.$contact->id."\n";
 
 
             // Action
-            $action = new \App\Action();
+            $action = new Action();
             $action->title = 'First action';
             $action->listaction_id = 1;
             $action->description = '';
             $dossier->actions()->save($action);
 
             // Comment
-            $comment = new App\Comment();
+            $comment = new Comment();
             $comment->comment = 'Start';
             $action->comments()->save($comment);
 
             // Invoice
-            $invoice = new App\Invoice();
+            $invoice = new Invoice();
             $invoice->title = $faker->title;
             $invoice->amount = $faker->numberBetween(10, 4000);
             $invoice->due_date = $faker->dateTimeBetween('-1 years')->format('Y-m-d');
@@ -84,7 +89,7 @@ echo '* '.$contact->id."\n";
             $filename = $doc->store('invoices');
             $filename_org = $doc->getClientOriginalName();
 
-            $file = new \App\File();
+            $file = new InvoiceFile();
             $file->filename = $filename;
             $file->filename_org = $filename_org;
 

@@ -12,7 +12,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
@@ -25,7 +25,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 
-$factory->define(App\Company::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'company' => $faker->word,
@@ -41,7 +41,7 @@ $factory->define(App\Company::class, function (Faker\Generator $faker) {
 });
 
 
-$factory->define(App\Contact::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Contact::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->lastName,
         'firstname' => $faker->firstNameFemale,
@@ -60,7 +60,7 @@ $factory->define(App\Contact::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Dossier::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Dossier::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->title,
         'dossierstatus_id' => 1
@@ -68,7 +68,7 @@ $factory->define(App\Dossier::class, function (Faker\Generator $faker) {
 });
 
 
-$factory->define(App\Invoice::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Invoice::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->title,
         'amount' => $faker->numberBetween(10, 4000),
