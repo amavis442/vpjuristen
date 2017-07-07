@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\User;
-use App\Role;
-use App\Company;
-use App\Contact;
-use App\Dossier;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Company;
+use App\Models\Contact;
+use App\Models\Dossier;
 
 class DossierSeeder extends Seeder
 {
