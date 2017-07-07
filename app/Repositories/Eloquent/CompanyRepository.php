@@ -9,8 +9,8 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Dossier;
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 use App\Repositories\Contracts\CompanyRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Company;
