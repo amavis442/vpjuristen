@@ -37,7 +37,7 @@
     </label>
     <label class="checkbox-inline">
         {!! Form::checkbox('role[employee]', 'employee', $user->hasRole('employee'), [
-        'id' => 'role_admin'
+        'id' => 'role_employee'
         ]) !!} Employee
     </label>
 

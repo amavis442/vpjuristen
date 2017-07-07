@@ -21,10 +21,10 @@ class EmployeeController extends Controller
             return redirect()->route('admin.home');
         }
 
-        /** @var \App\Role $roles */
+        /** @var \App\Models\Role $roles */
         //$roles = Role::with('users')->where('name', 'admin')->get();
         $users = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['admin','employee']);
+            $q->whereIn('name', ['admin', 'employee']);
         })->get()->all();
 
         return view('admin.employee.index', ['users' => $users]);
@@ -38,9 +38,9 @@ class EmployeeController extends Controller
 
         $company = Company::find(1);
 
-        $user = new User();
+        $user    = new User();
         $contact = new Contact();
-        return view('admin.employee.create', ['user' => $user, 'company'=>$company,'contact' => $contact, 'contactShort' => false]);
+        return view('admin.employee.create', ['user' => $user, 'company' => $company, 'contact' => $contact, 'contactShort' => false]);
     }
 
     /**
@@ -55,10 +55,10 @@ class EmployeeController extends Controller
         }
 
         /** @var User $user */
-        $user = User::find($id);
+        $user    = User::find($id);
         $contact = $user->contacts()->first();
         $company = Company::find(1);
-        return view('admin.employee.edit', ['user' => $user,'company'=>$company, 'contact' => $contact, 'contactShort' => false]);
+        return view('admin.employee.edit', ['user' => $user, 'company' => $company, 'contact' => $contact, 'contactShort' => false]);
     }
 
     public function store(Request $request)
@@ -67,10 +67,10 @@ class EmployeeController extends Controller
             return redirect()->route('admin.home');
         }
 
-        $isNew = true;
+        $isNew    = true;
         $dataUser = $request->get('user');
         if (isset($dataUser['password'])) {
-            $dataUser['password'] = bcrypt($dataUser['password']);
+            $dataUser['password'] = \Hash::make($dataUser['password']);
         }
         $dataUser['active'] = 1;
 
@@ -79,44 +79,48 @@ class EmployeeController extends Controller
             if (empty($dataUser['password'])) {
                 unset($dataUser['password']); // Keep the old password
             }
-            $isNew = false;
+            $isNew   = false;
             $user_id = $dataUser['id'];
         }
 
         /** @var User $user */
         /** @var Company $company */
-        $user = User::updateOrCreate(['id'=>$user_id],$dataUser);
+        $user = User::updateOrCreate(['id' => $user_id], $dataUser);
+
         $company = Company::where(['name' => 'admin-prime', 'company' => 'admin-prime'])->get()->first();
+        if ($isNew) {
+            $company->users()->associate($user);
+        }
 
-        $dataRole = $request->get('role');
+        $dataRole  = $request->get('role');
         $roleNames = ['admin', 'employee'];
-
         foreach ($roleNames as $roleName) {
-            $role = Role::where(['name' => $roleName])->get()->first();
+            $role    = Role::where(['name' => $roleName])->get()->first();
             $hasRole = $user->hasRole($roleName);
             if (!is_null($role)) {
 
                 if (isset($dataRole[$roleName]) && !$hasRole) {
-                    $user->roles()->withTimestamps()->attach($role->id);
+                    $user->roles()->attach($role->id);
                 } else {
-                    if (!$hasRole) {
+                    if (!isset($dataRole[$roleName]) && $hasRole) {
                         $user->roles()->detach($role->id);
                     }
                 }
             }
         }
-        if ($isNew) {
-            $user->companies()->withTimestamps()->attach($company->id);
-        }
+
 
         $dataContact = $request->get('contact');
-        $contact_id = $dataContact['id'];
+        $contact_id  = $dataContact['id'];
         unset($dataContact['id']);
-        $contact = $company->contacts()->updateOrCreate(['id' => $contact_id], $dataContact);
 
-        if ($isNew) {
-            $user->contacts()->withTimestamps()->attach($contact->id);
-        }
+        $contact = Contact::firstOrCreate(['id' => $contact_id]);
+        $contact->fill($dataContact);
+        $contact->save();
+        $company->contacts()->sync($contact->id, false);
+        $user->contacts()->sync($contact->id, false);
+
+
         return \Redirect::route('admin.employee.index');
     }
 }
