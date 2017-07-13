@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Company;
-use App\Dossier;
-use App\Invoice;
+use App\Models\Company;
+use App\Models\Dossier;
+use App\Models\Invoice;
 use Doctrine\Common\Collections\ArrayCollection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

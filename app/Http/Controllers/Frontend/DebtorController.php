@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Company;
-use App\Contact;
-use App\Debtor;
-use App\Client;
+use App\Models\Company;
+use App\Models\Contact;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

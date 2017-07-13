@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\User;
-use App\Contact;
-use App\Company;
-use App\Role;
+use App\Models\User;
+use App\Models\Contact;
+use App\Models\Company;
+use App\Models\Role;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientFormRequest;
