@@ -18,7 +18,7 @@ class DossierServiceServiceProvider extends ServiceProvider
         $this->app->bind('dossierService', function($app)
         {
             return new DossierService(
-                $app->make('App\Domain\Repositories\Contracts\DossierRepositoryInterface')
+                $app->make('App\Repositories\Contracts\DossierRepositoryInterface')
             );
         });
     }

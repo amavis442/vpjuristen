@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Domain\Contract\CompanyRepositoryInterface;
-use App\Domain\Contract\DossierRepositoryInterface;
-use App\Domain\Repository\CompanyRepository;
-use App\Domain\Repository\DossierRepository;
+use App\Repositories\Contracts\CompanyRepository;
+use App\Repositories\Contracts\DossierRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
