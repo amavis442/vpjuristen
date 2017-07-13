@@ -4,34 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 /**
- * App\Dossier
+ * App\Models\Dossier
  *
  * @property int $id
- * @property int $client_id
- * @property int $debtor_id
  * @property string $title
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property-read \App\Client $client
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
- * @property-read \App\Debtor $debtor
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Invoice[] $invoices
- * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereClientId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereDebtorId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereTitle($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property string $status
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Company[] $companies
- * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereStatus($value)
- * @property string $dossierstatus_id
- * @property-read \App\Dossierstatus $dossierstatus
- * @method static \Illuminate\Database\Query\Builder|\App\Dossier whereDossierstatusId($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Action[] $actions
+ * @property int $dossierstatus_id
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Action[] $actions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Company[] $companies
+ * @property-read \App\Models\Dossierstatus $dossierstatus
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Invoice[] $invoices
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dossier whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dossier whereDossierstatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dossier whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dossier whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dossier whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Dossier extends Model
 {
@@ -77,19 +70,5 @@ class Dossier extends Model
         return $this->belongsToMany(User::class)
                     ->withPivot('type')
                     ->withTimestamps();
-    }
-
-    public function getClient()
-    {
-        return $this->with(['companies'=>function($query){
-            $query->wherePivot('type', '=', 'client');
-        }])->where('id',$this->id)->get()->first();
-    }
-
-    public function getDebtor()
-    {
-        return $this->with('companies')
-                    ->companies()
-                    ->wherePivot('type', '=', 'debtor');
     }
 }

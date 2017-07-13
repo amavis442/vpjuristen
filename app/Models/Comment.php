@@ -4,24 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 /**
- * App\Comment
+ * App\Models\Comment
  *
  * @property int $id
  * @property string $comment
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property-read \App\Action $action
- * @property-read \App\Dossier $dossier
- * @method static \Illuminate\Database\Query\Builder|\App\Comment whereComment($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Comment whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Comment whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Comment whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property int $public
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Action[] $actions
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dossier[] $dossiers
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Comment whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Comment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Comment whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Comment wherePublic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Comment whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Comment extends Model
 {

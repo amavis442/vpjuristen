@@ -4,26 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 /**
- * App\Collection
+ * App\Models\Collection
  *
- * @mixin \Eloquent
  * @property int $id
  * @property int $dossier_id
- * @property float $amount
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Database\Query\Builder|\App\Collection whereAmount($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Collection whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Collection whereDossierId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Collection whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Collection whereUpdatedAt($value)
  * @property int $action_id
+ * @property float $amount
  * @property int $public
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
  * @property-read \App\Models\Action $action
  * @property-read \App\Models\Dossier $dossier
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Collection whereActionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Collection whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Collection whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Collection whereDossierId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Collection whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Collection wherePublic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Collection whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Collection extends Model
 {
