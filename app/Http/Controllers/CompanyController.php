@@ -10,9 +10,9 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Repositories\Contracts\CompanyRepositoryInterface;
-use App\Repositories\CompanyRepository;
+use App\Repositories\Eloquent\CompanyRepository;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +35,7 @@ class CompanyController extends Controller
     {
         $this->companyRepository = $companyRepository;
 
-        /** @var \App\User $user */
+        /** @var \App\Models\User $user */
         $this->user = Auth::user();
     }
 
@@ -69,7 +69,7 @@ class CompanyController extends Controller
      */
     public function editCompany($id, Request $request)
     {
-        /** @var \App\Company $company */
+        /** @var \App\Models\Company $company */
         $company = Company::findOrFail($id);
         if (!$this->authorize('edit', $company)) {
             return redirect()->route('admin.home');
