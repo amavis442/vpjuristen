@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Role;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Dossier;
-use App\Action;
-use App\Comment;
-use App\Listaction;
+use App\Models\Dossier;
+use App\Models\Action;
+use App\Models\Comment;
+use App\Models\Listaction;
 use Illuminate\View\View;
 
 class CommentController extends Controller
@@ -48,7 +48,7 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment, Request $request)
     {
-        /** @var \App\Action $action */
+        /** @var \App\Models\Action $action */
         $user = Auth::user();
         if (!$user->can('update', $comment)) {
             \Redirect::route('admin.home');

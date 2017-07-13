@@ -60,7 +60,7 @@ abstract class AbstractCompanyController extends Controller
      */
     public function editCompany($id, Request $request)
     {
-        /** @var \App\Company $company */
+        /** @var \App\Models\Company $company */
         $company = Company::findOrFail($id);
         if (!$this->authorize('edit', $company)) {
             return redirect()->route('admin.home');

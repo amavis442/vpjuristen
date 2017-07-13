@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Company;
 use App\Repositories\Contracts\DossierRepositoryInterface;
-use App\Domain\Services\Dossier\DossierService;
+use App\Repositories\Eloquent\DossierRepository;
+use App\Services\DossierService;
+use App\Services\DossierSummaryService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Dossier;
@@ -24,7 +26,7 @@ class DossierController extends Controller
     private function getDossier(Collection $dossiers): Collection
     {
         $data = new Collection();
-        /** @var \App\Dossier $dossier */
+        /** @var \App\Models\Dossier $dossier */
         foreach ($dossiers as $dossier) {
             $item = new Collection();
             $item->put('dossier', $dossier);
@@ -74,7 +76,6 @@ class DossierController extends Controller
      */
     public function store(Request $request)
     {
-        $dossierService = new \App\Domain\Services\Dossier\DossierService();
         //
     }
 
@@ -86,7 +87,11 @@ class DossierController extends Controller
      */
     public function show($id)
     {
-        $summary = DossierService::getInstance()->getSummary($id);
+        $dossier = Dossier::findOrFail($id);
+        $dossierSummaryService = new DossierSummaryService($dossier);
+
+
+        $summary = $dossierSummaryService->getSummary();
 
         return view('admin.dossier.view', [
             'fileRoute' => 'admin.file.download',
@@ -106,7 +111,7 @@ class DossierController extends Controller
 
         $data = new Collection();
         $dossiers = $company->dossiers;
-        /** @var \App\Dossier $dossier */
+        /** @var \App\Models\Dossier $dossier */
         foreach ($dossiers as $dossier) {
             $item = new Collection();
             $item->put('dossier', $dossier);
@@ -191,7 +196,7 @@ class DossierController extends Controller
     public function downloadInvoice(File $file, Request $request)
     {
 
-        $dossierService = new DossierService();
+        $dossierService = new DossierService(new DossierRepository());
 
         $collection = $dossierService->downloadFile($file);
         //$collection = $dossierService->downloadInvoice($id, $fileid, $request);

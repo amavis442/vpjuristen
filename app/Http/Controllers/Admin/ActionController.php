@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Role;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Dossier;
-use App\Action;
-use App\Comment;
-use App\Listaction;
+use App\Models\Dossier;
+use App\Models\Action;
+use App\Models\Comment;
+use App\Models\Listaction;
 use Illuminate\View\View;
 
 class ActionController extends Controller
@@ -55,7 +55,7 @@ class ActionController extends Controller
      */
     public function edit($id, Request $request)
     {
-        /** @var \App\Action $action */
+        /** @var \App\Models\Action $action */
         $action = Action::with(['dossiers', 'comments', 'collection', 'payment'])->findOrFail($id);
         $user = Auth::user();
         if (!$user->can('update', $action)) {
@@ -93,7 +93,7 @@ class ActionController extends Controller
         $isNew = $actionData['id'] < 1 ? true : false;
         $dossier_id = $dossierData['id'];
 
-        /** @var \App\Dossier $dossier */
+        /** @var \App\Models\Dossier $dossier */
         $dossier = Dossier::findOrFail($dossier_id);
 
         $actionData['status'] = 1;
@@ -112,11 +112,11 @@ class ActionController extends Controller
         if ($action->listaction->description == 'betaling ontvangen') {
             $amount = $collectionData['amount'];
             if ($collectionData['id'] > 0) {
-                $collect = \App\Collection::findOrFail($collectionData['id']);
+                $collect = \App\Models\Collection::findOrFail($collectionData['id']);
                 $collect->amount = $collectionData['amount'];
                 $collect->save();
             } else {
-                $collect = new \App\Collection();
+                $collect = new \App\Models\Collection();
                 $collect->dossier_id = $dossier_id;
                 $collect->amount = $collectionData['amount'];
                 $action->collection()->save($collect);

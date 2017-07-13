@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Company;
-use App\Domain\Repository\DossierRepository;
-use App\Domain\Services\Dossier\DossierService;
+use App\Models\Company;
+use App\Repositories\Eloquent\DossierRepository;
+use App\Services\DossierService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Dossier;
+use App\Models\Dossier;
 
 class InvoiceController extends Controller
 {
@@ -15,7 +15,7 @@ class InvoiceController extends Controller
 
     public function __construct()
     {
-        $this->dossierService = new DossierService();
+        $this->dossierService = new DossierService(new DossierRepository());
     }
 
 }

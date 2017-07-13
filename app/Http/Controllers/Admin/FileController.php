@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Company;
-use App\Domain\Repository\DossierRepository;
+use App\Models\Company;
+use App\Repositories\Eloquent\DossierRepository;
 use App\Domain\Services\Dossier\DossierService;
-use App\File;
+use App\Models\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Dossier;
+use App\Models\Dossier;
 
 class FileController extends Controller
 {
@@ -17,7 +17,7 @@ class FileController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->dossierService = new DossierService();
+        $this->dossierService = new DossierService(new DossierRepository());
     }
 
 
@@ -34,7 +34,7 @@ class FileController extends Controller
             return response('File not found',404);
         }
 
-        $dossierService = new DossierService();
+        $dossierService = new DossierService(new DossierRepository());
 
         $collection = $dossierService->downloadFile($file);
         if ($collection->get('result') == 200) {
