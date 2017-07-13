@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\Company;
-use App\Domain\Contract\UserInterface;
 use App\Models\User;
 use App\Models\Dossier;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -23,8 +22,8 @@ class DossierPolicy
     /**
      * Determine whether the user can view the dossier.
      *
-     * @param  \App\User  $user
-     * @param  \App\Dossier  $dossier
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Dossier  $dossier
      * @return mixed
      */
     public function view(User $user, Dossier $dossier)
@@ -44,7 +43,7 @@ class DossierPolicy
     /**
      * Determine whether the user can create dossiers.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -55,8 +54,8 @@ class DossierPolicy
     /**
      * Determine whether the user can update the dossier.
      *
-     * @param  \App\User  $user
-     * @param  \App\Dossier  $dossier
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Dossier  $dossier
      * @return mixed
      */
     public function update(User $user, Dossier $dossier)
@@ -67,8 +66,8 @@ class DossierPolicy
     /**
      * Determine whether the user can delete the dossier.
      *
-     * @param  \App\User  $user
-     * @param  \App\Dossier  $dossier
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Dossier  $dossier
      * @return mixed
      */
     public function delete(User $user, Dossier $dossier)

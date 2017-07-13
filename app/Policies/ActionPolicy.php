@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Domain\Contract\UserInterface;
 use App\Models\User;
-use App\Action;
+use App\Models\Action;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Collection;
 
@@ -23,8 +22,8 @@ class ActionPolicy
     /**
      * Determine whether the user can view the action.
      *
-     * @param  \App\User $user
-     * @param  \App\Action $action
+     * @param  \App\Models\User $user
+     * @param  \App\Models\Action $action
      * @return mixed
      */
     public function view(User $user, Action $action)
@@ -40,7 +39,7 @@ class ActionPolicy
     /**
      * Determine whether the user can create actions.
      *
-     * @param  \App\User $user
+     * @param  \App\Models\User $user
      * @return mixed
      */
     public function create(User $user)
@@ -51,8 +50,8 @@ class ActionPolicy
     /**
      * Determine whether the user can update the action.
      *
-     * @param  \App\User $user
-     * @param  \App\Action $action
+     * @param  \App\Models\User $user
+     * @param  \App\Models\Action $action
      * @return mixed
      */
     public function update(User $user, Action $action)
@@ -74,8 +73,8 @@ class ActionPolicy
     /**
      * Determine whether the user can delete the action.
      *
-     * @param  \App\User $user
-     * @param  \App\Action $action
+     * @param  \App\Models\User $user
+     * @param  \App\Models\Action $action
      * @return mixed
      */
     public function delete(User $user, Action $action)

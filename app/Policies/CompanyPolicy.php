@@ -21,8 +21,8 @@ class CompanyPolicy
     /**
      * Determine whether the user can view the company.
      *
-     * @param  \App\User  $user
-     * @param  \App\Company  $company
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Company  $company
      * @return mixed
      */
     public function view(User $user, Company $company)
@@ -40,7 +40,7 @@ class CompanyPolicy
     /**
      * Determine whether the user can create companies.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -51,8 +51,8 @@ class CompanyPolicy
     /**
      * Determine whether the user can update the company.
      *
-     * @param  \App\User  $user
-     * @param  \App\Company  $company
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Company  $company
      * @return mixed
      */
     public function update(User $user, Company $company)
@@ -82,8 +82,8 @@ class CompanyPolicy
     /**
      * Determine whether the user can delete the company.
      *
-     * @param  \App\User  $user
-     * @param  \App\Company  $company
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Company  $company
      * @return mixed
      */
     public function delete(User $user, Company $company)

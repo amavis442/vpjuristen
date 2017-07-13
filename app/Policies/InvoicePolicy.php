@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\Company;
-use App\Domain\Contract\UserInterface;
 use App\Models\Dossier;
 use App\Models\User;
 use App\Models\Invoice;
@@ -24,8 +23,8 @@ class InvoicePolicy
     /**
      * Determine whether the user can view the invoice.
      *
-     * @param  \App\User  $user
-     * @param  \App\Invoice  $invoice
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Invoice  $invoice
      * @return mixed
      */
     public function view(User $user, Invoice $invoice)
@@ -48,7 +47,7 @@ class InvoicePolicy
     /**
      * Determine whether the user can create invoices.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -59,8 +58,8 @@ class InvoicePolicy
     /**
      * Determine whether the user can update the invoice.
      *
-     * @param  \App\User  $user
-     * @param  \App\Invoice  $invoice
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Invoice  $invoice
      * @return mixed
      */
     public function update(User $user, Invoice $invoice)
@@ -71,8 +70,8 @@ class InvoicePolicy
     /**
      * Determine whether the user can delete the invoice.
      *
-     * @param  \App\User  $user
-     * @param  \App\Invoice  $invoice
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Invoice  $invoice
      * @return mixed
      */
     public function delete(User $user, Invoice $invoice)
