@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: patrick
- * Date: 7/2/17
- * Time: 3:34 PM
- */
-
 namespace App\Services;
 
 
@@ -19,7 +12,9 @@ class CompanyService
 
     public function __construct(CompanyRepositoryInterface $companyRepository)
     {
-        $this->companyRepository =$companyRepository;
+        $this->companyRepository = $companyRepository;
 
     }
+
+
 }

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: patrick
- * Date: 7/2/17
- * Time: 3:51 PM
- */
-
 namespace App\Services;
 
 use App\Repositories\Contracts\ActionRepositoryInterface;
