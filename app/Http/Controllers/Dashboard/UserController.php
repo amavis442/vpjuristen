@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Dashboard;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Company;
-use App\Contact;
+use App\Models\Company;
+use App\Models\Contact;
 
 class UserController extends Controller
 {

@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Domain\Services\Dossier\DossierService;
 use App\Http\Controllers\InvoiceAjaxTrait;
+use App\Repositories\Eloquent\DossierRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Dossier;
-use App\Invoice;
+use App\Models\Dossier;
+use App\Models\Invoice;
 
 class InvoiceController extends Controller
 {
@@ -45,7 +46,7 @@ class InvoiceController extends Controller
 
     public function downloadFile($invoice_id, Request $request)
     {
-        $dossierService = new DossierService();
+        $dossierService = new DossierService(new DossierRepository());
         return $dossierService->downloadInvoice($invoice_id);
     }
 }

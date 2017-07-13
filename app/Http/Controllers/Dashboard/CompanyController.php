@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Company;
-use App\Domain\Repositories\Contracts\CompanyRepositoryInterface;
+use App\Models\Company;
+use App\Repositories\Contracts\CompanyRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 
 class CompanyController extends Controller
 {
@@ -20,7 +20,7 @@ class CompanyController extends Controller
 
     public function edit(Company $company, Request $request)
     {
-        /** @var \App\Company $company */
+        /** @var \App\Models\Company $company */
         if (!$this->authorize('edit', $company)) {
             return redirect()->route('dashboard.home');
         }

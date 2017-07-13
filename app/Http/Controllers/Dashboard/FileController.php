@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Company;
-use App\Domain\Repository\DossierRepository;
+use App\Models\Company;
+use App\Repositories\Eloquent\DossierRepository;
 use App\Domain\Services\Dossier\DossierService;
-use App\File;
+use App\Models\File as InvoiceFile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Dossier;
+use App\Models\Dossier;
 use Illuminate\Support\Facades\Auth;
 
 class FileController extends Controller
@@ -17,7 +17,7 @@ class FileController extends Controller
 
     public function __construct()
     {
-        $this->dossierService = new DossierService();
+        $this->dossierService = new DossierService(new DossierRepository());
     }
 
 
@@ -27,14 +27,14 @@ class FileController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function download(Request $request, File $file)
+    public function download(Request $request, InvoiceFile $file)
     {
         $user = Auth::user();
         if (!$user->can('download', $file)){
             return response('File not found',404);
         }
 
-        $dossierService = new DossierService();
+        $dossierService = new DossierService(new DossierRepository());
 
         $collection = $dossierService->downloadFile($file);
         if ($collection->get('result') == 200) {

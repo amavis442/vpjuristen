@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Services\DossierSummaryService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Dossier;
-use App\Invoice;
-use App\File as InvoiceFile;
-use App\Domain\Repository\DossierRepository;
-use App\Domain\Services\Dossier\DossierService;
+use App\Models\Dossier;
+use App\Models\Invoice;
+use App\Models\File as InvoiceFile;
+use App\Repositories\Eloquent\DossierRepository;
+use App\Services\DossierService;
 
 class DossierController extends Controller
 {
@@ -18,7 +19,7 @@ class DossierController extends Controller
 
     public function __construct()
     {
-        $this->dossierService = new DossierService();
+        $this->dossierService = new DossierService(new DossierRepository());
     }
 
 
@@ -44,7 +45,7 @@ class DossierController extends Controller
             return \Redirect::route('dashboard.home');
         }
 
-        $summary = $this->dossierService->getSummary($id);
+        $summary = (new DossierSummaryService($dossier))->getSummary();
 
         return view('dashboard.dossier.view', [
             'fileRoute' => 'dashboard.file.download',
