@@ -36,6 +36,10 @@ class User extends Authenticatable
 
     use Notifiable;
 
+    const RULES = [
+
+    ];
+
     //protected $guard = 'dashboard';
     /**
      * The attributes that are mass assignable.

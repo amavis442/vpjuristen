@@ -3,12 +3,11 @@
 namespace App\Services;
 
 use App\Models\Company;
+use App\Models\Dossier;
 use App\Repositories\Contracts\DossierRepositoryInterface;
 use App\Repositories\Eloquent\ActionRepository;
 use App\Repositories\Eloquent\InvoiceRepository;
 use Illuminate\Support\Collection;
-use App\Models\Dossier;
-
 
 class DossierService
 {

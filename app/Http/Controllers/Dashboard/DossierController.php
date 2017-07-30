@@ -73,12 +73,19 @@ class DossierController extends Controller
         return view('dashboard.dossier.edit', ['dossier' => $dossier, 'invoices' => $invoices, 'prefix'=>'dashboard']);
     }
 
+    /**
+     * Create a new dossier
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
             'doc' => 'file|mimes:pdf,doc,docx,jpeg,png,jpg,gif,svg|max:2048'
         ]);
-        $data = $request->get('dossier');
+
+        $data = $request->get('dossier.*');
         $dossier = Dossier::findOrFail($data['id']);
         $dossier->update($data);
 
@@ -100,9 +107,27 @@ class DossierController extends Controller
 
         }
 
-        return \Redirect::route('dashboard.dossier.index');
+        return redirect()->route('dashboard.dossier.index')->with('msg','Created dossier');
     }
 
+    /**
+     * Update an existing dossier
+     *
+     * @param Request $request
+     * @param Dossier $dossier
+     */
+    public function update(Request $request, Dossier $dossier)
+    {
+        $this->validate($request, [
+            'doc' => 'file|mimes:pdf,doc,docx,jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        $data = $request->get('dossier.*');
+        $dossier = Dossier::findOrFail($data['id']);
+        $dossier->update($data);
+
+        return redirect()->route('dashboard.dossier.index')->with('msg','Dossier updated');
+    }
 
     public function search(DossierRepository $repository)
     {
