@@ -8,7 +8,7 @@
                     <div class="panel-heading">Employees</div>
 
                     <div class="panel-body">
-                        <a href="{{ route('admin.employee.create') }}" class="btn btn-default">Add Employee</a>
+                        <a href="{{ route('admin.employees.create') }}" class="btn btn-default">Add Employee</a>
 
                         <table class="table">
                             <thead>
@@ -17,13 +17,14 @@
                                 <th>Name</th>
                                 <th>Active</th>
                                 <th>Roles</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($users as $user)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('admin.employee.edit', ['id' => $user->id])  }}">{{ $user->id }}</a>
+                                        <a href="{{ route('admin.employees.edit', ['id' => $user->id])  }}">{{ $user->id }}</a>
                                     </td>
                                     <td>
                                         {{ $user->name }}
@@ -35,6 +36,15 @@
                                         @foreach ($user->roles as $role)
                                             {{ $role->name }},
                                         @endforeach
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="...">
+                                            <a href="{{ route('admin.employees.edit', ['id' => $user->id]) }}"
+                                               class="btn btn-info">Edit <span
+                                                        class="glyphicon glyphicon-edit"></span></a>
+
+                                            @include('utils.delete',array( 'url' => route('admin.employees.destroy', $user),'text' => '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> delete me'))
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

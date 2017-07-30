@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container">
-        {!! Form::open(['route' => 'admin.employee.store', 'class' => 'form-horizontal']) !!}
-
+        {!! Form::open(['url' => route('admin.employees.update', $user), 'class' => 'form-horizontal']) !!}
+        {{ method_field('PUT') }}
         <input type="hidden" name="user[id]" value="{{ $user->id }}"/>
 
         <div class="panel panel-default">
@@ -11,7 +11,7 @@
                 User data
             </div>
             <div class="panel-body">
-                @include('employee.partials.form')
+                @include('employees.partials.form')
             </div>
         </div>
 
@@ -26,11 +26,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        @if (!is_null($user))
-                            {!! Form::submit('Update!', array('class'=>'btn btn-primary')) !!}
-                        @else
-                            {!! Form::submit('Save!', array('class'=>'btn btn-primary')) !!}
-                        @endif
+                        {!! Form::submit('Save!', array('class'=>'btn btn-primary')) !!}
                     </div>
                 </div>
             </div>

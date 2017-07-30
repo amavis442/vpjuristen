@@ -48,6 +48,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Contact extends Model
 {
+    const RULES = [];
+
     protected $fillable = ['company_id', 'sexe','firstname','middlename','name',
                            'email', 'phone','zipcode','street','housenr','city',
                            'fax','country'];

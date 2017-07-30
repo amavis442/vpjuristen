@@ -3,14 +3,21 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Company;
+use App\Models\Dossier;
 use App\Repositories\Eloquent\DossierRepository;
-use App\Domain\Services\Dossier\DossierService;
+use App\Services\DossierService;
 use App\Models\File as InvoiceFile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Dossier;
+
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class FileController
+ * @package App\Http\Controllers\Dashboard
+ *
+ * @deprecated Will use spatie/media libary to store files with local driver
+ */
 class FileController extends Controller
 {
     protected $dossierService;

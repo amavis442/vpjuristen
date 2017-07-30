@@ -44,10 +44,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     /* Pages: create, edit and update pages */
 
     /* Employee admin: create, update and add/update roles to employee users */
-    Route::get('/employee/create', 'EmployeeController@create')->name('admin.employee.create');
-    Route::get('/employee/edit/{id}', 'EmployeeController@edit')->name('admin.employee.edit');
-    Route::post('/employee/store', 'EmployeeController@store')->name('admin.employee.store');
-    Route::get('/employee', 'EmployeeController@index')->name('admin.employee.index');
+    //Route::get('/employee/create', 'EmployeeController@create')->name('admin.employee.create');
+    //Route::get('/employee/edit/{id}', 'EmployeeController@edit')->name('admin.employee.edit');
+    //Route::post('/employee/store', 'EmployeeController@store')->name('admin.employee.store');
+    //Route::get('/employee', 'EmployeeController@index')->name('admin.employee.index');
+
+    Route::resource('employees','EmployeeController',['as' => 'admin']);
+
 
     /* Dossier admin: update dossier, add action and comments */
     Route::get('/dossier/search', 'DossierController@search');
