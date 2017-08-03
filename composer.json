@@ -12,7 +12,8 @@
         "jeroennoten/laravel-adminlte": "^1.19",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "laravelcollective/html": "5.5.x-dev"
+        "laravelcollective/html": "5.5.x-dev",
+        "spatie/laravel-medialibrary": "^5.0.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

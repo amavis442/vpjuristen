@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 
 /**
@@ -28,8 +30,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invoice whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Invoice extends Model
+class Invoice extends Model implements HasMedia
 {
+
+    use HasMediaTrait;
+
     protected $fillable = ['title', 'remarks', 'amount', 'due_date'];
 
     /**
