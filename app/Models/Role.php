@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\Role
@@ -28,5 +28,20 @@ class Role extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function getAdminRoles(): Collection
+    {
+        $adminRoles = ['admin', 'employee'];
+        $roles = new Collection();
+        $allRoles = Role::all();
+
+        foreach ($allRoles as $role) {
+            if (in_array($role->name, $adminRoles)) {
+                $roles->push($role);
+            }
+        }
+
+        return $roles;
     }
 }

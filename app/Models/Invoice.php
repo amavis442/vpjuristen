@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
-
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\Invoice
@@ -43,7 +43,7 @@ class Invoice extends Model implements HasMedia
      */
     public function getInvoicesByDossierId($dossier_id): Collection
     {
-        /** @var \App\Models\Invoice[] $invoices */
+        /** @var Collection $invoices */
         $invoices = Invoice::with('files', 'dossier')->where('dossier_id', $dossier_id)->get();
 
         return $invoices;
