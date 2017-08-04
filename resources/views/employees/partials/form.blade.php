@@ -30,15 +30,11 @@
 </div>
 
 <div class="col-sm-10">
+    @foreach($roles as $role)
     <label class="checkbox-inline">
-        {!! Form::checkbox('role[admin]', 'admin', $user->hasRole('admin'), [
-        'id' => 'role_admin'
-        ]) !!} Admin
+        {!! Form::checkbox('roles['.$role->name.']', $role->id, $user->hasRole($role->name), [
+        'id' => 'roles_admin'
+        ]) !!} {{ ucfirst($role->name) }}
     </label>
-    <label class="checkbox-inline">
-        {!! Form::checkbox('role[employee]', 'employee', $user->hasRole('employee'), [
-        'id' => 'role_employee'
-        ]) !!} Employee
-    </label>
-
+    @endforeach
 </div>

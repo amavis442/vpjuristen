@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Cache\Repository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -34,9 +33,17 @@ class EmployeeController extends Controller
 
         $company = Company::find(1);
 
-        $user    = new User();
+        $user = new User();
         $contact = new Contact();
-        return view('admin.employees.create', ['user' => $user, 'company' => $company, 'contact' => $contact, 'contactShort' => false]);
+        $roles = (new Role())->getAdminRoles();
+
+        return view('admin.employees.create', [
+            'user' => $user,
+            'company' => $company,
+            'contact' => $contact,
+            'contactShort' => false,
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -51,7 +58,7 @@ class EmployeeController extends Controller
             return redirect()->route('admin.home');
         }
 
-        $this->validate($request,User::RULES);
+        $this->validate($request, User::RULES);
 
         $dataUser = $request->get('user');
         if (isset($dataUser['password'])) {
@@ -64,7 +71,6 @@ class EmployeeController extends Controller
             if (empty($dataUser['password'])) {
                 unset($dataUser['password']); // Keep the old password
             }
-            $isNew   = false;
             $user_id = $dataUser['id'];
         }
 
@@ -75,41 +81,26 @@ class EmployeeController extends Controller
         $company = Company::where(['name' => 'admin-prime', 'company' => 'admin-prime'])->get()->first();
         $company->users()->attach($user->id);
 
-        $dataRole  = $request->get('role');
-        $roleNames = ['admin', 'employee'];
-        foreach ($roleNames as $roleName) {
-            $role    = Role::where(['name' => $roleName])->get()->first();
-            $hasRole = $user->hasRole($roleName);
-            if (!is_null($role)) {
-
-                if (isset($dataRole[$roleName]) && !$hasRole) {
-                    $user->roles()->attach($role->id);
-                } else {
-                    if (!isset($dataRole[$roleName]) && $hasRole) {
-                        $user->roles()->detach($role->id);
-                    }
-                }
-            }
-        }
-
+        $roles = $request->get('roles');
+        $user->roles()->sync($roles);
 
         $dataContact = $request->get('contact');
-        $contact_id  = $dataContact['id'];
+        $contact_id = $dataContact['id'];
         unset($dataContact['id']);
 
         $contact = Contact::firstOrNew(['id' => $contact_id]);
         $contact->fill($dataContact);
         $contact->save();
-        $company->contacts()->sync($contact->id, false);
-        $user->contacts()->sync($contact->id, false);
 
+        $contact->companies()->sync([$company->id]);
+        $contact->users()->sync([$user->id]);
 
         return redirect()->route('admin.employees.index');
     }
 
     public function show(Request $request, User $user)
     {
-
+        return redirect()->route('admin.employees.index');
     }
 
     /**
@@ -124,10 +115,19 @@ class EmployeeController extends Controller
         }
 
         /** @var User $user */
-        $user    = User::find($id);
+        $user = User::find($id);
         $contact = $user->contacts()->first();
         $company = Company::find(1);
-        return view('admin.employees.edit ', ['user' => $user, 'company' => $company, 'contact' => $contact, 'contactShort' => false]);
+
+        $roles = (new Role())->getAdminRoles();
+
+        return view('admin.employees.edit ', [
+            'user' => $user,
+            'company' => $company,
+            'contact' => $contact,
+            'contactShort' => false,
+            'roles' => $roles
+        ]);
     }
 
 
@@ -140,8 +140,8 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $this->validate($request,User::RULES);
-        //$this->validate($request,Contact::RULES);
+        $this->validate($request, User::RULES);
+
         $user = User::findOrFail($request->input('user.id'));
         $user->name = $request->input('user.name');
         $user->email = $request->input('user.email');
@@ -150,17 +150,17 @@ class EmployeeController extends Controller
         }
         $user->save();
 
-        //$roles =
+        $roles = $request->get('roles');
+        $user->roles()->sync($roles);
 
 
-
-        return redirect()->route('admin.employees.index')->with('msg','Employee updated.');
+        return redirect()->route('admin.employees.index')->with('msg', 'Employee updated.');
     }
 
     public function destroy(Request $request, User $user)
     {
         $user->delete();
 
-        return redirect()->route('admin.employees.index')->with('msg','Employee deleted');
+        return redirect()->route('admin.employees.index')->with('msg', 'Employee deleted');
     }
 }

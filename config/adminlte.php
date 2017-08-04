@@ -111,24 +111,24 @@ return [
         'MAIN NAVIGATION',
         [
             'text' => 'Employees',
-            'url'  => 'admin/employee',
+            'url'  => 'admin/employees',
             'can'  => 'manage-employees',
         ],
         [
             'text'        => 'Dossiers',
-            'url'         => 'admin/dossier',
+            'url'         => 'admin/dossiers',
             'icon'        => 'file',
             'label'       => 4,
             'label_color' => 'success',
         ],
         [
             'text' => 'Clients',
-            'url'  => 'admin/client',
+            'url'  => 'admin/clients',
             'can'  => 'manage-employees',
         ],
         [
             'text' => 'Debtors',
-            'url'  => 'admin/debtor',
+            'url'  => 'admin/debtors',
             'can'  => 'manage-employees',
         ],
 
