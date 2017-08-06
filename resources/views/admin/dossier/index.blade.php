@@ -1,8 +1,8 @@
 @extends('adminlte::page')
 
 <?php
-    $searchUrl = 'admin/dossier/search';
-    $route = 'admin.dossier.show';
+    $searchUrl = 'admin/dossiers/search';
+    $route = 'admin.dossiers.show';
 ?>
 @section('content')
     <div class="container">
