@@ -31,7 +31,7 @@ class DossierSummaryService
      */
     public function getInvoiceSummary(): Collection
     {
-        $invoices = $this->dossier->invoices();
+        $invoices = $this->dossier->invoices()->get();
         $totalSomInvoices = 0;
 
         /** @var \App\Models\Invoice[] $invoices */
@@ -157,28 +157,24 @@ class DossierSummaryService
     {
         /** @var \App\Models\Dossierstatus $dossierStatus */
         $dossierStatus = $this->dossier->dossierstatus()->first();
-
-        $clientData = $this->getClient();
-        $debtorData = $this->getDebtor();
-
+        /** @var \App\Models\Company $client */
+        $client = $this->getClient();
+        /** @var \App\Models\Company $debtor */
+        $debtor = $this->getDebtor();
 
         /** @var Collection $invoiceSummary */
         $invoiceSummaryCollection = $this->getInvoiceSummary();
         $remaining                = $totalSomInvoices = $invoiceSummaryCollection->get('totalSomInvoices');
 
-        /** @var \App\Models\Company $client */
-        $client = $clientData->first();
-
         /** @var \App|Models\Contact $clientContact */
         $clientContact = $client->contacts->first();
 
-        /** @var \App\Models\Company $debtor */
-        $debtor = $debtorData->first();
-        /** @var \App|Contact $debtorContact */
+         /** @var \App|Models\Contact $debtorContact */
         $debtorContact = $debtor->contacts->first();
 
         /** @var \App\Models\Comment[] $comments */
         $comments = $this->dossier->comments()->get();
+
         /** @var Collection $actionCollection */
         $actionCollection = $this->getActionSummary();
         $receivedSom      = $actionCollection->get('receivedSom', 0);
