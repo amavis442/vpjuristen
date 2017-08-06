@@ -85,11 +85,9 @@ class DossierController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Dossier $dossier)
     {
-        $dossier = Dossier::findOrFail($id);
         $dossierSummaryService = new DossierSummaryService($dossier);
-
 
         $summary = $dossierSummaryService->getSummary();
 
