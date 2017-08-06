@@ -43,7 +43,7 @@
                 <tr>
                     <td>#{{ $dossier->id }}</td>
                     <td>
-                        <a href="{{ route($route, ['id' => $dossier->id]) }}">{{ $dossier->title }}</a>
+                        <a href="{{ route($route,$dossier) }}">{{ $dossier->title }}</a>
                     </td>
                     <td>{{ $client->name  }}</td>
                     <td>{{ $debtor->name  }}</td>
