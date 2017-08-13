@@ -19,13 +19,12 @@ use App\Models\Contact;
 use App\Models\Company;
 use Illuminate\View\View;
 
-
-abstract class AbstractCompanyController extends Controller
+class CompanyController extends Controller
 {
     protected $name       = '';
-    protected $routeIndex = 'admin.company.index';
-    protected $routeEdit  = 'admin.company.edit';
-    protected $routeStore = 'admin.company.store';
+    protected $routeIndex = 'admin.companies.index';
+    protected $routeEdit  = 'admin.companies.edit';
+    protected $routeStore = 'admin.companies.store';
     /** @var  CompanyRepositoryInterface */
     protected $companyRepository;
 
@@ -34,15 +33,15 @@ abstract class AbstractCompanyController extends Controller
         $this->companyRepository = $companyRepository;
     }
 
-    public function getCompany($type = 'client')
+    public function index(Request $request, $type)
     {
         $companies = $this->companyRepository->getCompany($type);
 
-        return view('admin.company.index',
+        return view('company.admin.index',
                     ['type' => $type, 'route' => $this->routeEdit, 'companies' => $companies]);
     }
 
-    public function createCompany(Request $request)
+    public function create(Request $request)
     {
         if (!$this->authorize('create', Company::class)) {
             return redirect()->route('admin.home');
@@ -54,34 +53,12 @@ abstract class AbstractCompanyController extends Controller
     }
 
     /**
-     * @param $id
+     * Save new company
+     *
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|RedirectResponse|View
+     * @return RedirectResponse
      */
-    public function editCompany($id, Request $request)
-    {
-        /** @var \App\Models\Company $company */
-        $company = Company::findOrFail($id);
-        if (!$this->authorize('edit', $company)) {
-            return redirect()->route('admin.home');
-        }
-        $contact = $company->contacts()->first();
-        $user = $company->users()->get()->first();
-        if (is_null($user)) {
-            $user = new User();
-        }
-
-        return view('admin.company.edit',
-                    [
-                        'route' => $this->routeStore,
-                        'company' => $company,
-                        'contact' => $contact,
-                        'user' => $user,
-                        'contactShort' => false
-                    ]);
-    }
-
-    public function storeCompany(Request $request)
+    public function store(Request $request)
     {
         $companyData = $request->get('company');
         $id = $companyData['id'];
@@ -102,5 +79,69 @@ abstract class AbstractCompanyController extends Controller
 
         return \Redirect::route($this->routeIndex);
     }
+
+    public function show($type = 'client')
+    {
+        $companies = $this->companyRepository->getCompany($type);
+
+        return view('admin.company.index',
+                    ['type' => $type, 'route' => $this->routeEdit, 'companies' => $companies]);
+    }
+
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|RedirectResponse|View
+     */
+    public function edit(Request $request, Company $company)
+    {
+        /** @var \App\Models\Company $company */
+        if (!$this->authorize('edit', $company)) {
+            return redirect()->route('admin.home');
+        }
+        $contact = $company->contacts()->first();
+        $user = $company->users()->get()->first();
+        if (is_null($user)) {
+            $user = new User();
+        }
+
+        return view('admin.company.edit',
+                    [
+                        'route' => $this->routeStore,
+                        'company' => $company,
+                        'contact' => $contact,
+                        'user' => $user,
+                        'contactShort' => false
+                    ]);
+    }
+    /**
+     * Save new company
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function update(Request $request, Company $company)
+    {
+        $companyData = $request->get('company');
+        $id = $companyData['id'];
+
+        if ($id) {
+            $company = Company::findOrFail($id);
+            if (!$this->authorize('update', $company)) {
+                return redirect()->route('admin.home');
+            }
+        } else {
+            $company = new Company();
+            if (!$this->authorize('create', Company::class)) {
+                return redirect()->route('admin.home');
+            }
+        }
+
+        $this->companyRepository->store($company, $request);
+
+        return \Redirect::route($this->routeIndex);
+    }
+
 
 }

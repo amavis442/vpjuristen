@@ -6,6 +6,7 @@
         @include('form.error')
 
         {!! Form::open(['route' => $route, 'class' => 'form-horizontal']) !!}
+        {{ method_field('PUT') }}
 
         <div class="panel panel-default">
             <div class="panel-heading">Company</div>
@@ -33,7 +34,6 @@
                       array('class'=>'btn btn-primary')) !!}
                     </div>
                 </div>
-
             </div>
         </div>
 

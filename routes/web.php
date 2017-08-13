@@ -51,6 +51,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::get('/dossiers/search', 'DossierController@search');
     Route::resource('dossiers','DossierController',['as' => 'admin']);
 
+    //Route::resource('companies','CompanyController',['as' => 'admin']);
+    Route::get('/companies/{type}','CompanyController@index')->name('admin.companies.index');
+    Route::get('/companies/{company}/edit','CompanyController@edit')->name('admin.companies.edit');
 
     //Route::get('/dossier/list/{id}', 'DossierController@list')->name('admin.dossier.list');
     //Route::get('/dossier/view/{id}', 'DossierController@show')->name('admin.dossier.show');
@@ -63,10 +66,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
 
     /* Client admin: see client data and update them */
     Route::get('/client/search', 'ClientController@search');
-    Route::get('/client/view/{id}', 'ClientController@show')->name('admin.client.show');
-    Route::get('/client/edit/{id}', 'ClientController@edit')->name('admin.client.edit');
-    Route::post('/client/store', 'ClientController@store')->name('admin.client.store');
-    Route::get('/client', 'ClientController@index')->name('admin.client.index');
+    //Route::resource('clients',ClientController::class,['as' => 'admin']);
+
+    //Route::get('/client/view/{id}', 'ClientController@show')->name('admin.client.show');
+    //Route::get('/client/edit/{id}', 'ClientController@edit')->name('admin.client.edit');
+    //Route::post('/client/store', 'ClientController@store')->name('admin.client.store');
+    //Route::get('/client', 'ClientController@index')->name('admin.client.index');
 
     /* Debtor admin: see debtor data and update them */
     Route::get('/debtor/search', 'DebtorController@search');

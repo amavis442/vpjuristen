@@ -123,12 +123,12 @@ return [
         ],
         [
             'text' => 'Clients',
-            'url'  => 'admin/clients',
+            'url'  => 'admin/companies/client',
             'can'  => 'manage-employees',
         ],
         [
             'text' => 'Debtors',
-            'url'  => 'admin/debtors',
+            'url'  => 'admin/companies/debtor',
             'can'  => 'manage-employees',
         ],
 

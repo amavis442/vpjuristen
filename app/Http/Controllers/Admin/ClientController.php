@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 class ClientController extends AbstractCompanyController
 {
     protected $name = 'client';
-    protected $routeIndex = 'admin.client.index';
-    protected $routeEdit = 'admin.client.edit';
-    protected $routeStore = 'admin.client.store';
+    protected $routeIndex = 'admin.clients.index';
+    protected $routeEdit = 'admin.clients.edit';
+    protected $routeStore = 'admin.clients.store';
 
 
     public function index()
