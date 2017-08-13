@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Clients</div>
+                    <div class="panel-heading">{{ ucfirst($type) }}</div>
                     <div class="panel-body">
                         <table class="table">
                             <thead>
@@ -54,7 +54,7 @@
                                             {{ $companyUser->active }}
                                         </td>
                                     @endif
-                                    <td><a href="{{ route('admin.dossier.list', $company->id) }}">Dossiers
+                                    <td><a href="{{ route('admin.dossiers.show', $company->id) }}">Dossiers
                                             #{{ $dossiers->count() }}</a></td>
                                 </tr>
                             @endforeach
