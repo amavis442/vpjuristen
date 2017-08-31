@@ -28,15 +28,15 @@
         <tbody>
         @foreach($data as $item)
             <?php
-            /** @var \App\Dossier $dossier */
+            /** @var \App\Models\Dossier $dossier */
             $dossier = $item->get('dossier');
-            /** @var \App\Company $client */
+            /** @var \App\Models\Company $client */
             $client = $item->get('client');
-            /** @var  \App\Company $debtor */
+            /** @var  \App\Models\Company $debtor */
             $debtor = $item->get('debtor');
-            /** @var \App\Action $actions */
+            /** @var \App\Models\Action $actions */
             $actions = $item->get('actions');
-            /** @var \App\Dossierstatus $dossierstatus */
+            /** @var \App\Models\Dossierstatus $dossierstatus */
             $dossierstatus = $item->get('dossierstatus');
             ?>
             @can('view', $dossier)
@@ -50,7 +50,7 @@
                     <td>{{ ($actions->count() > 0 ? $actions->first()->title: '-')  }}</td>
                     <td>{{ $dossierstatus->description  }}</td>
                     <td> {{ $dossier->created_at }}</td>
-                    <td> {{ $dossier->updated_at }}</td>
+                    <td> {{ $dossier->invoices()->count() }}</td>
                 </tr>
             @endcan
         @endforeach
