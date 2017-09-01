@@ -22,7 +22,7 @@ class EmployeeController extends Controller
             $q->whereIn('name', ['admin', 'employee']);
         })->get()->all();
 
-        return view('admin.employees.index', ['users' => $users]);
+        return view('employees.index', ['users' => $users]);
     }
 
     public function create(Request $request)
@@ -33,16 +33,16 @@ class EmployeeController extends Controller
 
         $company = Company::find(1);
 
-        $user = new User();
+        $user    = new User();
         $contact = new Contact();
-        $roles = (new Role())->getAdminRoles();
+        $roles   = (new Role())->getAdminRoles();
 
-        return view('admin.employees.create', [
-            'user' => $user,
-            'company' => $company,
-            'contact' => $contact,
+        return view('employees.create', [
+            'user'         => $user,
+            'company'      => $company,
+            'contact'      => $contact,
             'contactShort' => false,
-            'roles' => $roles
+            'roles'        => $roles,
         ]);
     }
 
@@ -85,7 +85,7 @@ class EmployeeController extends Controller
         $user->roles()->sync($roles);
 
         $dataContact = $request->get('contact');
-        $contact_id = $dataContact['id'];
+        $contact_id  = $dataContact['id'];
         unset($dataContact['id']);
 
         $contact = Contact::firstOrNew(['id' => $contact_id]);
@@ -104,7 +104,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * @param $id
+     * @param         $id
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|RedirectResponse|View
      */
@@ -115,18 +115,18 @@ class EmployeeController extends Controller
         }
 
         /** @var User $user */
-        $user = User::find($id);
+        $user    = User::find($id);
         $contact = $user->contacts()->first();
         $company = Company::find(1);
 
         $roles = (new Role())->getAdminRoles();
 
-        return view('admin.employees.edit ', [
-            'user' => $user,
-            'company' => $company,
-            'contact' => $contact,
+        return view('employees.edit ', [
+            'user'         => $user,
+            'company'      => $company,
+            'contact'      => $contact,
             'contactShort' => false,
-            'roles' => $roles
+            'roles'        => $roles,
         ]);
     }
 
@@ -135,15 +135,15 @@ class EmployeeController extends Controller
      * Update an existing user
      *
      * @param Request $request
-     * @param User $user
+     * @param User    $user
      *
      */
     public function update(Request $request, User $user)
     {
         $this->validate($request, User::RULES);
 
-        $user = User::findOrFail($request->input('user.id'));
-        $user->name = $request->input('user.name');
+        $user        = User::findOrFail($request->input('user.id'));
+        $user->name  = $request->input('user.name');
         $user->email = $request->input('user.email');
         if ($request->has('user.password') && !empty($request->input('user.password'))) {
             $user->password = \Hash::make($request->input('user.password'));

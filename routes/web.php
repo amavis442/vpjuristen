@@ -37,23 +37,23 @@ Route::group(['namespace' => 'Admin\Auth', 'prefix' => 'admin'], function () {
 });
 
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth','role:admin']], function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
 
     Route::get('/home', 'HomeController@index')->name('admin.home');
 
     /* Pages: create, edit and update pages */
 
     /* Employee admin: create, update and add/update roles to employee users */
-    Route::resource('employees','EmployeeController',['as' => 'admin']);
+    Route::resource('employees', 'EmployeeController', ['as' => 'admin']);
 
 
     /* Dossier admin: update dossier, add action and comments */
     Route::get('/dossiers/search', 'DossierController@search');
-    Route::resource('dossiers','DossierController',['as' => 'admin']);
+    Route::resource('dossiers', 'DossierController', ['as' => 'admin']);
 
     //Route::resource('companies','CompanyController',['as' => 'admin']);
-    Route::get('/companies/{type}','CompanyController@index')->name('admin.companies.index');
-    Route::get('/companies/{company}/edit','CompanyController@edit')->name('admin.companies.edit');
+    Route::get('/companies/{type}', 'CompanyController@index')->name('admin.companies.index');
+    Route::get('/companies/{company}/edit', 'CompanyController@edit')->name('admin.companies.edit');
 
     //Route::get('/dossier/list/{id}', 'DossierController@list')->name('admin.dossier.list');
     //Route::get('/dossier/view/{id}', 'DossierController@show')->name('admin.dossier.show');
@@ -146,36 +146,37 @@ Route::group(['namespace' => 'Dashboard\Auth', 'prefix' => 'dashboard'], functio
 
 });
 
-Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard','middleware' => ['auth','role:client']], function () {
-    Route::get('home', 'DashboardController@index')->name('dashboard.home');
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => ['auth', 'role:client']],
+    function () {
+        Route::get('home', 'DashboardController@index')->name('dashboard.home');
 
-    /* Dossier: See dossier with actions, approved comments and payments*/
-    Route::get('dossier/index', 'DossierController@index')->name('dashboard.dossier.index');
-    Route::get('dossier/create', 'DossierController@create')->name('dashboard.dossier.create');
-    Route::get('dossier/edit/{id}', 'DossierController@edit')->name('dashboard.dossier.edit');
-    Route::post('dossier/store', 'DossierController@store')->name('dashboard.dossier.store');
-    Route::get('dossier/view/{id}', 'DossierController@view')->name('dashboard.dossier.show');
-    //Route::get('dossier/search', 'DossierController@search');
-
-
-    /* Invoice:  */
-    Route::post('invoice/add', 'InvoiceController@ajaxAdd')->name('dashboard.invoice.ajax.add');
-    Route::post('invoice/del', 'InvoiceController@ajaxDelete')->name('dashboard.invoice.ajax.delete');
-    Route::get('invoice/downloadfile/{invoice_id}',
-               'InvoiceController@downloadFile')->name('dashboard.invoice.download.file');
-
-    Route::get('/client/edit/{company}', 'CompanyController@edit')->name('dashboard.client.edit');
-    Route::post('/client/store', 'CompanyController@store')->name('dashboard.client.store');
+        /* Dossier: See dossier with actions, approved comments and payments*/
+        Route::get('dossier/index', 'DossierController@index')->name('dashboard.dossier.index');
+        Route::get('dossier/create', 'DossierController@create')->name('dashboard.dossier.create');
+        Route::get('dossier/edit/{id}', 'DossierController@edit')->name('dashboard.dossier.edit');
+        Route::post('dossier/store', 'DossierController@store')->name('dashboard.dossier.store');
+        Route::get('dossier/view/{id}', 'DossierController@view')->name('dashboard.dossier.show');
+        //Route::get('dossier/search', 'DossierController@search');
 
 
-    Route::get('/file/download/{file}', 'FileController@download')->name('dashboard.file.download');
+        /* Invoice:  */
+        Route::post('invoice/add', 'InvoiceController@ajaxAdd')->name('dashboard.invoice.ajax.add');
+        Route::post('invoice/del', 'InvoiceController@ajaxDelete')->name('dashboard.invoice.ajax.delete');
+        Route::get('invoice/downloadfile/{invoice_id}',
+                   'InvoiceController@downloadFile')->name('dashboard.invoice.download.file');
+
+        Route::get('/client/edit/{company}', 'CompanyController@edit')->name('dashboard.client.edit');
+        Route::post('/client/store', 'CompanyController@store')->name('dashboard.client.store');
 
 
-    Route::get('/debtor/view/{id}', 'UserController@show')->name('dashboard.debtor.show');
+        Route::get('/file/download/{file}', 'FileController@download')->name('dashboard.file.download');
 
 
-    /* User admin to edit their data and login credentials */
-    Route::get('user', 'UserController@index')->name('dashboard.user');
-    Route::get('user/edit', 'UserController@edit')->name('dashboard.user.edit');
-    Route::post('user/store', 'UserController@store')->name('dashboard.user.store');
-});
+        Route::get('/debtor/view/{id}', 'UserController@show')->name('dashboard.debtor.show');
+
+
+        /* User admin to edit their data and login credentials */
+        Route::get('user', 'UserController@index')->name('dashboard.user');
+        Route::get('user/edit', 'UserController@edit')->name('dashboard.user.edit');
+        Route::post('user/store', 'UserController@store')->name('dashboard.user.store');
+    });

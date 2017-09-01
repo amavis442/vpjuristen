@@ -15,15 +15,15 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Models\Model' => 'App\Policies\ModelPolicy',
-        'App\Models\Action' => 'App\Policies\ActionPolicy',
-        'App\Models\Comment' => 'App\Policies\CommentPolicy',
-        'App\Models\Company' => 'App\Policies\CompanyPolicy',
-        'App\Models\Invoice' => 'App\Policies\InvoicePolicy',
-        'App\Models\Contact' => 'App\Policies\ContactPolicy',
-        'App\Models\Dossier' => 'App\Policies\DossierPolicy',
-        'App\Models\User' => 'App\Policies\UserPolicy',
-        'App\Models\File' => 'App\Policies\FilePolicy',
+        'App\Models\Model'         => 'App\Policies\ModelPolicy',
+        \App\Models\Action::class  => \App\Policies\ActionPolicy::class,
+        \App\Models\Comment::class => \App\Policies\CommentPolicy::class,
+        \App\Models\Company::class => \App\Policies\CompanyPolicy::class,
+        \App\Models\Invoice::class => \App\Policies\InvoicePolicy::class,
+        \App\Models\Contact::class => \App\Policies\ContactPolicy::class,
+        \App\Models\Dossier::class => \App\Policies\DossierPolicy::class,
+        \App\Models\User::class    => \App\Policies\EmployeePolicy::class,
+        \App\Models\File::class    => \App\Policies\FilePolicy::class,
 
     ];
 
