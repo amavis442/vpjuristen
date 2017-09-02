@@ -1062,16 +1062,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.0",
+            "version": "v5.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "bd352a0d2ca93775fce8ef02365b03fc4fb8cbb0"
+                "reference": "fad090f6e14b97df91489803644ac88b5321864e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/bd352a0d2ca93775fce8ef02365b03fc4fb8cbb0",
-                "reference": "bd352a0d2ca93775fce8ef02365b03fc4fb8cbb0",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/fad090f6e14b97df91489803644ac88b5321864e",
+                "reference": "fad090f6e14b97df91489803644ac88b5321864e",
                 "shasum": ""
             },
             "require": {
@@ -1135,7 +1135,7 @@
                 "aws/aws-sdk-php": "~3.0",
                 "doctrine/dbal": "~2.5",
                 "filp/whoops": "^2.1.4",
-                "mockery/mockery": "~0.9.4",
+                "mockery/mockery": "~1.0",
                 "orchestra/testbench-core": "3.5.*",
                 "pda/pheanstalk": "~3.0",
                 "phpunit/phpunit": "~6.0",
@@ -1157,7 +1157,7 @@
                 "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (~2.0).",
                 "symfony/css-selector": "Required to use some of the crawler integration testing tools (~3.3).",
                 "symfony/dom-crawler": "Required to use most of the crawler integration testing tools (~3.3).",
-                "symfony/psr-http-message-bridge": "Required to psr7 bridging features (0.2.*)."
+                "symfony/psr-http-message-bridge": "Required to psr7 bridging features (~1.0)."
             },
             "type": "library",
             "extra": {
@@ -1190,7 +1190,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-08-30T09:25:30+00:00"
+            "time": "2017-09-01T06:33:38+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1318,7 +1318,7 @@
             ],
             "description": "HTML and Form Builders for the Laravel Framework",
             "homepage": "http://laravelcollective.com",
-            "time": "2017-08-31 14:46:03"
+            "time": "2017-08-31T14:46:03+00:00"
         },
         {
             "name": "league/flysystem",
@@ -2328,24 +2328,24 @@
         },
         {
             "name": "spatie/pdf-to-image",
-            "version": "1.2.2",
+            "version": "1.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/pdf-to-image.git",
-                "reference": "9a5cb264a99e87e010c65d4ece03b51f821d55bd"
+                "reference": "6a0938462f5a39cd9c9d582a41affc14ffe07940"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/pdf-to-image/zipball/9a5cb264a99e87e010c65d4ece03b51f821d55bd",
-                "reference": "9a5cb264a99e87e010c65d4ece03b51f821d55bd",
+                "url": "https://api.github.com/repos/spatie/pdf-to-image/zipball/6a0938462f5a39cd9c9d582a41affc14ffe07940",
+                "reference": "6a0938462f5a39cd9c9d582a41affc14ffe07940",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.0"
+                "ext-imagick": "*",
+                "php": "^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*",
-                "scrutinizer/ocular": "~1.1"
+                "phpunit/phpunit": "^6.2"
             },
             "type": "library",
             "autoload": {
@@ -2374,7 +2374,7 @@
                 "pdf-to-image",
                 "spatie"
             ],
-            "time": "2016-12-14T15:37:00+00:00"
+            "time": "2017-07-18T15:41:52+00:00"
         },
         {
             "name": "spatie/temporary-directory",
