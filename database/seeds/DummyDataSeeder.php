@@ -12,9 +12,7 @@ use App\Models\Invoice;
 use App\Models\File as InvoiceFile;
 
 
-
-
-class DossierSeeder extends Seeder
+class DummyDataSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -25,7 +23,8 @@ class DossierSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
 
-        $clientUserRole = Role::where(['name' => 'prospect'])->get()->first();
+        $clientUserRole = Role::whereName('prospect')->first();
+
         for ($i = 0; $i < 50; $i++) {
             $currentTimestamp = \Carbon\Carbon::now();
 
@@ -83,17 +82,10 @@ class DossierSeeder extends Seeder
             $invoice->remarks = $faker->paragraph(2);
             $dossier->invoices()->save($invoice);
 
-
             // File
-            $doc = Illuminate\Http\UploadedFile::fake()->create('test',500);
-            $filename = $doc->store('invoices');
-            $filename_org = $doc->getClientOriginalName();
+            $doc = $faker->file(storage_path() .'/app/images', storage_path() .'/app/dossier');
+            $invoice->addMedia($doc)->preservingOriginal()->toMediaCollection('invoices','invoices');
 
-            $file = new InvoiceFile();
-            $file->filename = $filename;
-            $file->filename_org = $filename_org;
-
-            $invoice->files()->save($file);
         }
     }
 }
