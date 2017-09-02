@@ -23,31 +23,26 @@ class InvoicePolicy
     /**
      * Determine whether the user can view the invoice.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Invoice  $invoice
+     * @param  \App\Models\User    $user
+     * @param  \App\Models\Invoice $invoice
+     *
      * @return mixed
      */
     public function view(User $user, Invoice $invoice)
     {
-        /** @var Dossier $dossier */
-        $dossier = $invoice->dossier()->get()->first();
-        $client = $dossier->getClient();
-        $company = $client->companies->first();
-        /** @var Company $company */
-        $companyUser = $company->users()->get()->first();
-
-        if ($companyUser->id == $user->id) {
+        $users = $invoice->dossier()->first()->users()->get()->keyBy('id');
+        if ($users->has($user->id)) {
             return true;
         }
 
         return false;
-
     }
 
     /**
      * Determine whether the user can create invoices.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\User $user
+     *
      * @return mixed
      */
     public function create(User $user)
@@ -58,24 +53,50 @@ class InvoicePolicy
     /**
      * Determine whether the user can update the invoice.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Invoice  $invoice
+     * @param  \App\Models\User    $user
+     * @param  \App\Models\Invoice $invoice
+     *
      * @return mixed
      */
     public function update(User $user, Invoice $invoice)
     {
-        //
+        $users = $invoice->dossier()->first()->users()->wherePivot('type', '=', 'client')->get()->keyBy('id');
+        if ($users->has($user->id)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * Determine whether the user can delete the invoice.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Invoice  $invoice
+     * @param  \App\Models\User    $user
+     * @param  \App\Models\Invoice $invoice
+     *
      * @return mixed
      */
     public function delete(User $user, Invoice $invoice)
     {
-        //
+        $users = $invoice->dossier()->first()->users()->wherePivot('type', '=', 'client')->get()->keyBy('id');
+        if ($users->has($user->id)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Download invoice file
+     */
+    public function download(User $user, Invoice $invoice)
+    {
+        /** @var \Illuminate\Support\Collection $users */
+        $users = $invoice->dossier()->first()->users()->wherePivot('type', '=', 'client')->get()->keyBy('id');
+        if ($users->has($user->id)) {
+            return true;
+        }
+
+        return false;
     }
 }

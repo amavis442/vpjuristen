@@ -93,6 +93,7 @@ class DossierClientController extends Controller
 
         return view('dossier.admin.view', [
             'fileRoute' => 'admin.file.download',
+            'invoiceRoute' => 'invoice.show',
             'routeEditClient' => 'admin.client.edit',
             'summary' => $summary
         ]);

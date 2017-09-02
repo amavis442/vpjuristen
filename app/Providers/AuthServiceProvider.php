@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Policies\EmployeePolicy;
 use App\Models\User;
+use App\Policies\InvoicePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -43,6 +44,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('search', function ($user) {
             return $user->hasRole('admin') || $user->hasRole('employee');
         });
+
+        Gate::define('download','App\Policies\InvoicePolicy@download');
 
         /*Gate::define('see-comment', function ($user, $comment) {
             if ($user->id == $comment->user_id) {

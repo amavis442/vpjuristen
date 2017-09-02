@@ -92,49 +92,11 @@ class DossierController extends Controller
         $summary = $dossierSummaryService->getSummary();
 
         return view('dossier.admin.view', [
-            'fileRoute' => 'admin.file.download',
+            'fileRoute' => 'file.download',
+            'invoiceRoute' => 'invoice.show',
             'routeEditClient' => 'admin.client.edit',
             'summary' => $summary
         ]);
-    }
-
-    public function list($id, Request $request)
-    {
-
-        $company = null;
-        // Can be client or debtor or both
-        $company = Company::with(['dossiers'=>function($query){
-            $query->with('companies','actions','comments','dossierstatus');
-        }])->where('id', $id)->get()->first();
-
-        $data = new Collection();
-        $dossiers = $company->dossiers;
-        /** @var \App\Models\Dossier $dossier */
-        foreach ($dossiers as $dossier) {
-            $item = new Collection();
-            $item->put('dossier', $dossier);
-
-            $actions = $dossier->actions;
-            $item->put('actions', $actions);
-
-            $comments = $dossier->comments;
-            $item->put('comments', $comments);
-
-            $dossierstatus = $dossier->dossierstatus;
-            $item->put('dossierstatus',$dossierstatus);
-
-            // Client and Debtor
-            $companiesAll = $dossier->companies;
-            foreach ($companiesAll as $company) {
-                $type = $company->pivot->type;
-                $item->put($type, $company);
-            }
-            $data->push($item);
-        }
-
-        $returnUrl = back()->getTargetUrl();
-
-        return view('dossier.admin.list', ['returnUrl' => $returnUrl, 'data' => $data]);
     }
 
     /**
@@ -143,7 +105,7 @@ class DossierController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Dossier $dossier)
     {
         //
     }
@@ -155,7 +117,7 @@ class DossierController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Dossier $dossier)
     {
         //
     }
@@ -185,23 +147,4 @@ class DossierController extends Controller
         return view('dossier.admin.index', ['data' => $data]);
     }
 
-    /**
-     * @param $id
-     * @param $fileid
-     * @param Request $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function downloadInvoice(File $file, Request $request)
-    {
-
-        $dossierService = new DossierService(new DossierRepository());
-
-        $collection = $dossierService->downloadFile($file);
-        //$collection = $dossierService->downloadInvoice($id, $fileid, $request);
-        if ($collection->get('result') == 200) {
-            return response()->download($collection->get('msg'));
-        } else {
-            return response($collection->get('msg'), $collection->get('result'));
-        }
-    }
 }

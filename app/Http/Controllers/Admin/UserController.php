@@ -12,29 +12,28 @@ use App\Models\Contact;
 use App\Models\Company;
 use Illuminate\View\View;
 
-class EmployeeController extends Controller
+class UserController extends Controller
 {
     /**
-     * Show list of employees
+     * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\View\Factory|View
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         /** @var \App\Models\Role $roles */
         //$roles = Role::with('users')->where('name', 'admin')->get();
         $users = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['admin', 'employee']);
+            $q->whereNotIn('name', ['admin', 'employee']);
         })->get()->all();
 
         return view('employees.index', ['users' => $users]);
     }
 
     /**
-     * Create a new employee
+     * Show the form for creating a new resource.
      *
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|RedirectResponse|View
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -58,10 +57,10 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Store a new employee
+     * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return RedirectResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -112,19 +111,24 @@ class EmployeeController extends Controller
         return redirect()->route('admin.employees.index');
     }
 
-    public function show(Request $request, User $user)
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show(User $user)
     {
         return view('employees.index');
     }
 
     /**
-     * Edit an existing employee
+     * Show the form for editing the specified resource.
      *
-     * @param         $id
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|RedirectResponse|View
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
      */
-    public function edit(User $employee, Request $request)
+    public function edit(User $user)
     {
         if (!Auth::guard()->user()->can('manage-employees')) {
             return redirect()->route('admin.home');
@@ -132,13 +136,13 @@ class EmployeeController extends Controller
 
         /** @var User $user */
 
-        $contact = $employee->contacts()->first();
+        $contact = $user->contacts()->first();
         $company = Company::find(1);
 
         $roles = (new Role())->getAdminRoles();
 
         return view('employees.edit ', [
-            'user'         => $employee,
+            'user'         => $user,
             'company'      => $company,
             'contact'      => $contact,
             'contactShort' => false,
@@ -146,35 +150,40 @@ class EmployeeController extends Controller
         ]);
     }
 
-
     /**
-     * Update an existing user
+     * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param User    $user
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
      */
-    public function update(User $employee, Request $request)
+    public function update(Request $request, User $user)
     {
         $this->validate($request, User::RULES);
 
-        $employee->name  = $request->input('user.name');
-        $employee->email = $request->input('user.email');
+        $user->name  = $request->input('user.name');
+        $user->email = $request->input('user.email');
         if ($request->has('user.password') && !empty($request->input('user.password'))) {
-            $employee->password = \Hash::make($request->input('user.password'));
+            $user->password = \Hash::make($request->input('user.password'));
         }
-        $employee->save();
+        $user->save();
 
         $roles = $request->get('roles');
-        $employee->roles()->sync($roles);
+        $user->roles()->sync($roles);
 
         return redirect()->route('admin.employees.index')->with('msg', 'Employee updated.');
     }
 
-    public function destroy(User $employee, Request $request)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
     {
-        $employee->delete();
+        $user->delete();
 
-        return redirect()->route('admin.employees.index')->with('msg', 'Employee deleted');
+        return redirect()->route('admin.employees.index')->with('msg', 'Employee deleted');//
     }
 }

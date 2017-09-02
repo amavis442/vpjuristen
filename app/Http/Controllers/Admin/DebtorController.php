@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class DebtorController extends AbstractCompanyController
+class DebtorController extends Controller
 {
     protected $name = 'debtor';
     protected $routeIndex = 'admin.debtor.index';

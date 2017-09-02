@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
-trait InvoiceAjaxTrait
+trait InvoiceTrait
 {
     /**
      * Add a new invoice html view only if the number of current invoices < 5
@@ -35,4 +35,22 @@ trait InvoiceAjaxTrait
         session(['numInvoices' => --$numInvoices]);
     }
 
+    /**
+     * @param \App\Models\Invoice      $invoice
+     * @param int                      $id
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download(Invoice $invoice, $id, Request $request)
+    {
+        $this->authorize('download', $invoice);
+
+        /** @var \Illuminate\Support\Collection $files */
+        $files = $invoice->getMedia('invoices')->keyBy('id');
+        $file = $files[$id];
+        $pathToFile = $file->getPath();
+
+        return response()->download($pathToFile);
+    }
 }

@@ -1,10 +1,21 @@
-<div id="invoice{{ $invoice->id}}">
-    <h2>Invoice #{{ $invoice->title }}</h2>
+<div id="invoice{{ $index }}">
+    <h2>Invoice #{{ $index + 1 }}</h2>
+    @if (is_object($invoice) && $invoice->id > 0)
+        <input type="hidden" name="invoice[{{  $index }}][id]" value="{{ $invoice->id }}"/>
+    @endif
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button onclick="delInvoice({{ $index }});return false;" class="btn btn-defalt" id="delInvoice{{ $index }}">
+                Remove invoice # {{ $index + 1 }}
+            </button>
+        </div>
+    </div>
 
     <div class="form-group">
         {!! Form::label('Title',null, ['class' => 'col-sm-2 control-label']) !!}
         <div class="col-sm-10">
-            {!! Form::text('title', $invoice->title,
+            {!! Form::text('invoice['.$index.'][title]', $invoice->title,
             ['required',
               'class'=>'form-control',
               'placeholder'=>'Title']) !!}
@@ -14,7 +25,7 @@
     <div class="form-group">
         {!! Form::label('Amount',null, ['class' => 'col-sm-2 control-label']) !!}
         <div class="col-sm-10">
-            {!! Form::text('amount', $invoice->amount,
+            {!! Form::text('invoice['.$index.'][amount]', $invoice->amount,
             ['required',
               'class'=>'form-control',
               'placeholder'=>'Amount']) !!}
@@ -24,7 +35,7 @@
     <div class="form-group">
         {!! Form::label('Due date',null, ['class' => 'col-sm-2 control-label']) !!}
         <div class="col-sm-10">
-            {!! Form::text('due_date', $invoice->due_date,
+            {!! Form::text('invoice['.$index.'][due_date]', $invoice->due_date,
             ['required',
               'class'=>'form-control',
               'placeholder'=>'Due date']) !!}
@@ -34,35 +45,26 @@
     <div class="control-group">
         <div class="controls">
             {!! Form::label('Invoice',null, ['class' => 'col-sm-2 control-label']) !!}
-            <div class="col-sm-10">
-            {!! Form::file('invoice_file') !!}
+            {!! Form::file('invoice_'.$index.'_file') !!}
 
-            @if (!is_null($invoice->getMedia('invoices')))
-                @foreach ($invoice->getMedia('invoices') as $media)
-                    <a href="{!! route('file.download', ['invoice' => $invoice,'id' => $media->id]) !!}" target="_blank">{{ $media->file_name }}</a>
-                @endforeach
+            @if (!is_null($invoice->files()->first()))
+                <a href="{!! route('dashboard.invoice.download.file', ['invoice_id'=>$invoice->id]) !!}" target="_blank">{{ $invoice->files()->first()->filename_org }}</a>
             @endif
 
             <p class="errors">{!!$errors->first('invoice')!!}</p>
             @if(Session::has('error'))
                 <p class="errors">{!! Session::get('error') !!}</p>
             @endif
-            </div>
         </div>
     </div>
 
     <div class="form-group">
         {!! Form::label('Remarks',null, ['class' => 'col-sm-2 control-label']) !!}
         <div class="col-sm-10">
-            {!! Form::textarea('remarks', $invoice->remarks,
+            {!! Form::textarea('invoice['.$index.'][remarks]', $invoice->remarks,
             ['required',
               'class'=>'form-control',
               'placeholder'=>'Remarks']) !!}
         </div>
-    </div>
-<div class="col-md-10">
-            <span class="pull-right">
-            <input type="submit" class="btn btn-default" value="Save">
-                </span>
     </div>
 </div>
