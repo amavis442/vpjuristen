@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-
+        // User 1
         /** @var User $user */
         $user = User::create([
                                  'name' => 'patrick',
@@ -24,44 +24,25 @@ class UsersTableSeeder extends Seeder
                                  'active' => 1
                              ]);
 
-        $role = Role::where(['name' => 'admin'])->get()->first();
+        $role = Role::whereName('admin')->first();
         if (is_null($role)) {
             $user->delete();
             throw new \Exception('Please run the RoleSeeder first');
         }
         $user->roles()->save($role);
 
-        $company = new Company();
-        $company->name = 'admin-prime';
-        $company->company = 'admin-prime';
-        $company->street = 'admin';
-        $company->housenr = 1;
-        $company->postcode = '1234AA';
-        $company->city = 'Ede';
-        $company->country = 'NL';
-        $company->phone = '06123456789';
-        $company->email = 'patrick@test.nl';
-        $company->website = '';
-        $user->companies()->save($company);
+        // User 2
+        $user = User::create([
+            'name' => 'vincent',
+            'email' => 'vin193@hotmail.com',
+            'password' => \Hash::make('secret02'),
+            'active' => 1
+        ]);
 
-        $contact = new Contact();
-        $contact->name = 'admin';
-        $contact->firstname = 'admin';
-        $contact->middlename = '';
-        $contact->sexe = 'M';
-        $contact->title = 'admin';
-        $contact->street = 'admin';
-        $contact->housenr = 1;
-        $contact->city = 'Ede';
-        $contact->zipcode = '1234AA';
-        $contact->country = 'NL';
-        $contact->phone = '06123456789';
-        $contact->email = 'patrick@test.nl';
-        $contact->fax = '';
-        $contact->remarks = 'Admin';
-        $user->contacts()->save($contact);
-
-        $company->contacts()->withTimestamps()->attach($contact->id);
-
+        if (is_null($role)) {
+            $user->delete();
+            throw new \Exception('Please run the RoleSeeder first');
+        }
+        $user->roles()->save($role);
     }
 }
