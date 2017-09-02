@@ -123,7 +123,7 @@ return [
         ],
         [
             'text' => 'Clients',
-            'url'  => 'admin/companies/client',
+            'url'  => 'admin/client',
             'can'  => 'manage-employees',
         ],
         [

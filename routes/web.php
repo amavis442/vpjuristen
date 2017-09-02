@@ -51,6 +51,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
     Route::get('/dossiers/search', 'DossierController@search');
     Route::resource('dossiers', 'DossierController', ['as' => 'admin']);
 
+    Route::resource('client', 'ClientController', ['as' => 'admin']);
+
     //Route::resource('companies','CompanyController',['as' => 'admin']);
     Route::get('/companies/{type}', 'CompanyController@index')->name('admin.companies.index');
     Route::get('/companies/{company}/edit', 'CompanyController@edit')->name('admin.companies.edit');

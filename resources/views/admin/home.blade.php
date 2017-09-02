@@ -12,8 +12,8 @@
                             <a href="{{ route('admin.employees.index') }} " class="btn btn-default">Employees</a>
                         @endif
                         <a href="{{ route('admin.dossiers.index') }}" class="btn btn-default">Dossiers</a>
-                        <a href="{{ route('admin.companies.index',['type'=>'client']) }}" class="btn btn-default">Clients</a>
-                        <a href="{{ route('admin.companies.index',['type'=>'debtor']) }}" class="btn btn-default">Debtors</a>
+                        <a href="{{ route('admin.client.index',['type'=>'client']) }}" class="btn btn-default">Clients</a>
+                        <a href="{{ route('admin.debtor.index',['type'=>'debtor']) }}" class="btn btn-default">Debtors</a>
                     </div>
                 </div>
             </div>

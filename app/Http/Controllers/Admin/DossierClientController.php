@@ -13,7 +13,7 @@ use App\Models\Dossier;
 use App\Models\File;
 use Illuminate\Support\Collection;
 
-class DossierController extends Controller
+class DossierClientController extends Controller
 {
     protected $dossierService;
     protected $dossierRepository;
