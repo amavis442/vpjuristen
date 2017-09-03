@@ -44,7 +44,7 @@ class Invoice extends Model implements HasMedia
     public function getInvoicesByDossierId($dossier_id): Collection
     {
         /** @var Collection $invoices */
-        $invoices = Invoice::with('files', 'dossier')->where('dossier_id', $dossier_id)->get();
+        $invoices = Invoice::with('dossier')->where('dossier_id', $dossier_id)->get();
 
         return $invoices;
     }
