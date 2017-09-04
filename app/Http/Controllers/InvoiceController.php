@@ -71,6 +71,7 @@ class InvoiceController extends Controller
     {
         $this->authorize('update');
 
+
         return view('invoice.form', ['add' => true, 'index' => 1, 'invoice' => $invoice]);
     }
 
@@ -84,7 +85,8 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        //Authrize
+        $this->authorize('update');
+
         $request->validate([
                                'title'    => 'required|max:255',
                                'amount'   => 'required',
@@ -92,6 +94,8 @@ class InvoiceController extends Controller
                            ]);
 
         $invoice->fill($request->all());
+
+        $invoice->save();
 
         return redirect()->route('invoice.show', ['invoice' => $invoice])->with('msg', 'Invoice updated');
     }
