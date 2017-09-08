@@ -57,6 +57,8 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
+        $this->authorize('view', $invoice);
+
         return view('invoice.edit', ['invoice' => $invoice]);
     }
 
@@ -69,7 +71,7 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        $this->authorize('update');
+        $this->authorize('update', $invoice);
 
 
         return view('invoice.form', ['add' => true, 'index' => 1, 'invoice' => $invoice]);
@@ -85,7 +87,7 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        $this->authorize('update');
+        $this->authorize('update', $invoice);
 
         $request->validate([
                                'title'    => 'required|max:255',
@@ -109,6 +111,8 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        //
+        $this->authorize('delete', $invoice);
+
+        $invoice->delete();
     }
 }
