@@ -35,9 +35,7 @@ class ClientController extends Controller
 
     public function index()
     {
-        $companies = Company::with(['dossiers','users','contacts'])->whereHas('dossiers',function($query) {
-            $query->where('type' ,'=','client');
-        })->get();
+        $companies = Company::with(['dossiers','users','contacts'])->client()->get();
 
         return view('company.admin.index',
                     ['type' => 'client', 'route' => $this->routeEdit, 'companies' => $companies]);
@@ -96,22 +94,23 @@ class ClientController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|RedirectResponse|View
      */
-    public function edit(Request $request, Company $company)
+    public function edit(Request $request, Company $client)
     {
         /** @var \App\Models\Company $company */
-        if (!$this->authorize('edit', $company)) {
+        if (!$this->authorize('edit', $client)) {
             return redirect()->route('admin.home');
         }
-        $contact = $company->contacts()->first();
-        $user = $company->users()->get()->first();
+
+        $contact = $client->contacts()->first();
+        $user = $client->users()->get()->first();
         if (is_null($user)) {
             $user = new User();
         }
 
-        return view('admin.company.edit',
+        return view('company.admin.edit',
                     [
                         'route' => $this->routeStore,
-                        'company' => $company,
+                        'company' => $client,
                         'contact' => $contact,
                         'user' => $user,
                         'contactShort' => false
