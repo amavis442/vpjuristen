@@ -72,4 +72,15 @@ class Company extends Model
         return $this->with(Dossier::class)->dossiers()->wherePivot('type','=','debtor');
     }
 
+    public function scopeClient($query) {
+        return $query->whereHas('dossiers',function($query) {
+            $query->where('type' ,'=','client');
+        });
+    }
+
+    public function scopeDebtor($query) {
+        return $query->whereHas('dossiers',function($query) {
+            $query->where('type' ,'=','debtor');
+        });
+    }
 }
