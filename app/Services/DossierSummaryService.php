@@ -4,11 +4,7 @@ namespace App\Services;
 
 
 use App\Models\Dossier;
-use App\Models\File as InvoiceFile;
-use App\Models\Action;
-use App\Models\Comment;
 use App\Models\Company;
-use App\Models\Dossierstatus;
 use App\Models\Listaction;
 use Illuminate\Support\Collection;
 
@@ -56,7 +52,7 @@ class DossierSummaryService
         $actionMetaCollection = new Collection();
 
         /** @var \App\Models\Action[] $actions */
-        $actions = $this->dossier->actions()->with(['listaction','comments','collection','payment'])->get();
+        $actions = $this->dossier->actions()->get();
 
         foreach ($actions as $action) {
             $actionItemMetaCollection = new Collection();
@@ -122,7 +118,7 @@ class DossierSummaryService
      */
     public function getClient(): Company
     {
-        return $this->dossier->companies()->wherePivot('type', '=', 'client')->with('contacts')->get()->first();
+        return $this->dossier->client()->first();
     }
 
     /**
@@ -130,7 +126,7 @@ class DossierSummaryService
      */
     public function getDebtor(): Company
     {
-        return $this->dossier->companies()->wherePivot('type', '=', 'debtor')->with('contacts')->get()->first();
+        return $this->dossier->debtor()->first();
     }
 
     /**
