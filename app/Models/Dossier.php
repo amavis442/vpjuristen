@@ -32,7 +32,7 @@ class Dossier extends Model
 
     public function actions()
     {
-        return $this->belongsToMany(Action::class)->withPivot('public')->withTimestamps();
+        return $this->belongsToMany(Action::class)->withPivot('public')->with(['listaction','comments','collection','payment'])->withTimestamps();
     }
 
     public function comments()
@@ -65,10 +65,29 @@ class Dossier extends Model
         $this->hasMany(Payment::class);
     }
 
+    /*
+     *
+     */
     public function users()
     {
         return $this->belongsToMany(User::class)
                     ->withPivot('type')
                     ->withTimestamps();
+    }
+
+    /**
+     * @return $this
+     */
+    public function debtor()
+    {
+        return $this->companies()->wherePivot('type', '=', 'debtor')->with('contacts');
+    }
+
+    /**
+     * @return $this
+     */
+    public function client()
+    {
+        return $this->companies()->wherePivot('type', '=', 'client')->with('contacts');
     }
 }
