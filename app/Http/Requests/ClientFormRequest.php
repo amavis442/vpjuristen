@@ -24,7 +24,8 @@ class ClientFormRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'company.name' => 'required',
+
         ];
     }
 }

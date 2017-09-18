@@ -21,10 +21,8 @@ use Illuminate\View\View;
 
 class ClientController extends Controller
 {
-    protected $name       = '';
-    protected $routeIndex = 'admin.client.index';
-    protected $routeEdit  = 'admin.client.edit';
-    protected $routeStore = 'admin.client.store';
+    protected $name = '';
+
     /** @var  CompanyRepositoryInterface */
     protected $companyRepository;
 
@@ -35,10 +33,10 @@ class ClientController extends Controller
 
     public function index()
     {
-        $companies = Company::with(['dossiers','users','contacts'])->client()->get();
+        $companies = Company::with(['dossiers', 'users', 'contacts'])->client()->get();
 
         return view('company.admin.index',
-                    ['type' => 'client', 'route' => $this->routeEdit, 'companies' => $companies]);
+                    ['type' => 'client', 'route' => 'admin.client.show', 'companies' => $companies]);
     }
 
     public function create(Request $request)
@@ -49,13 +47,15 @@ class ClientController extends Controller
 
         $user = new User();
         $contact = new Contact();
-        return view('admin.company.create', ['user' => $user, 'contact' => $contact, 'contactShort' => false]);
+
+        return view('admin.company.create', ['route' => 'admin.client.store', 'user' => $user, 'contact' => $contact, 'contactShort' => false]);
     }
 
     /**
      * Save new company
      *
      * @param Request $request
+     *
      * @return RedirectResponse
      */
     public function store(Request $request)
@@ -80,18 +80,26 @@ class ClientController extends Controller
         return \Redirect::route($this->routeIndex);
     }
 
-    public function show($type = 'client')
+    public function show(Company $client)
     {
-        $companies = $this->companyRepository->getCompany($type);
+        $contact = $client->contacts()->first();
+        $user = $contact->users()->first();
 
-        return view('admin.company.index',
-                    ['type' => $type, 'route' => $this->routeEdit, 'companies' => $companies]);
+        return view('company.admin.show',
+                    [
+                        'type'    => 'client',
+                        'route'   => 'admin.client.edit',
+                        'company' => $client,
+                        'contact' => $client,
+                        'user'    => $user,
+                    ]);
     }
 
 
     /**
-     * @param $id
+     * @param         $id
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|RedirectResponse|View
      */
     public function edit(Request $request, Company $client)
@@ -109,17 +117,19 @@ class ClientController extends Controller
 
         return view('company.admin.edit',
                     [
-                        'route' => $this->routeStore,
-                        'company' => $client,
-                        'contact' => $contact,
-                        'user' => $user,
-                        'contactShort' => false
+                        'route'        => 'admin.client.update',
+                        'company'      => $client,
+                        'contact'      => $contact,
+                        'user'         => $user,
+                        'contactShort' => false,
                     ]);
     }
+
     /**
      * Save new company
      *
      * @param Request $request
+     *
      * @return RedirectResponse
      */
     public function update(Request $request, Company $company)
@@ -141,7 +151,7 @@ class ClientController extends Controller
 
         $this->companyRepository->store($company, $request);
 
-        return \Redirect::route($this->routeIndex);
+        return \Redirect::route('admin.client.index');
     }
 
 

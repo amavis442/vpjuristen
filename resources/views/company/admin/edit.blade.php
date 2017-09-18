@@ -5,7 +5,7 @@
 
         @include('form.error')
 
-        {!! Form::open(['route' => $route, 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['route' => [$route, 'client' => $company], 'class' => 'form-horizontal']) !!}
         {{ method_field('PUT') }}
 
         <div class="panel panel-default">

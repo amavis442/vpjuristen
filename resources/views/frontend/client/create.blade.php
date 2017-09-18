@@ -12,7 +12,7 @@
             @endforeach
         </ul>
 
-        {!! Form::open(['route' => 'frontend.register.client.store', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['route' => 'frontend.client.store', 'class' => 'form-horizontal']) !!}
 
 
         <div class="panel panel-default">

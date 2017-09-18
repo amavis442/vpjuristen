@@ -46,7 +46,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Company extends Model
 {
-    protected $fillable = ['name', 'company', 'street', 'housenr', 'postcode', 'city', 'country', 'phone', 'email', 'website'];
+    protected $fillable = ['name', 'street', 'housenr', 'postcode', 'city', 'country', 'phone', 'email', 'website'];
 
 
     public function contacts()

@@ -35,7 +35,7 @@
                                 ?>
                                 <tr>
                                     <td>
-                                        <a href="{{ route($route, ['id' => $company->id])  }}">{{ $company->id }}</a>
+                                        <a href="{{ route($route, $company)  }}">{{ $company->id }}</a>
                                     </td>
                                     <td>
                                         {{ $company->name }}
