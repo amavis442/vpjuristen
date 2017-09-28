@@ -12,30 +12,28 @@
             @endforeach
         </ul>
 
-        {!! Form::open(['route' => 'frontend.client.store', 'class' => 'form-horizontal']) !!}
-
-
-        <div class="panel panel-default">
-            <div class="panel-heading">Client</div>
-            <div class="panel-body">
-                @include('company.partials.form')
+        <form method="POST" action="{{ route('frontend.client.store') }}" accept-charset="UTF-8" class="form-horizontal">
+            {{ csrf_field() }}
+            <div class="panel panel-default">
+                <div class="panel-heading">Client</div>
+                <div class="panel-body">
+                    @include('company.partials.form')
+                </div>
             </div>
-        </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">Contact</div>
-            <div class="panel-body">
-                @include('contact.partials.form')
+            <div class="panel panel-default">
+                <div class="panel-heading">Contact</div>
+                <div class="panel-body">
+                    @include('contact.partials.form')
+                </div>
             </div>
-        </div>
 
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                {!! Form::submit('Next!',
-              array('class'=>'btn btn-primary')) !!}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    {!! Form::submit('Next!',
+                  array('class'=>'btn btn-primary')) !!}
+                </div>
             </div>
-        </div>
-        {!! Form::close() !!}
+        </form>
     </div>
 @endsection

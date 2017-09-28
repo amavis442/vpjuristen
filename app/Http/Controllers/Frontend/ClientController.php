@@ -6,11 +6,8 @@ use App\Models\User;
 use App\Models\Contact;
 use App\Models\Company;
 use App\Models\Role;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientFormRequest;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -45,7 +42,6 @@ class ClientController extends Controller
         $currentTimestamp = date('Y-m-d H:i:s');;
         $data = $request->get('contact');
         $data['created_at'] = $currentTimestamp;
-        $data['created_at'] = $currentTimestamp;
         /** @var Contact $contact */
         $contact = $company->contacts()->create($data);
 
@@ -71,6 +67,10 @@ class ClientController extends Controller
         // Store the company id for the next step
         session(['client_id' => $company->id]);
 
-        return \Redirect::route('frontend.register.debtor.create');
+        return \Redirect::route('frontend.debtor.create');
+    }
+
+    public function show(Company $company) {
+
     }
 }

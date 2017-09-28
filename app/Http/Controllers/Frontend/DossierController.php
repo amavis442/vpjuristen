@@ -28,8 +28,9 @@ class DossierController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -92,30 +93,8 @@ class DossierController extends Controller
             }
         }
 
-        return \Redirect::route('frontend.register.thankyou');
+        return \Redirect::route('frontend.dossier.thankyou');
     }
-
-    public function imageUploadPost(Request $request)
-    {
-
-        $this->validate($request, [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        $imageName = time() . '.' . $request->image->getClientOriginalExtension();
-        $request->image->move(public_path('images'), $imageName);
-
-        return back()
-            ->with('success', 'Image Uploaded successfully.')
-            ->with('path', $imageName);
-
-    }
-
-    public function ajaxAddInvoice()
-    {
-        return view('common.invoice.form');
-    }
-
 
     public function thankyou(Request $request)
     {

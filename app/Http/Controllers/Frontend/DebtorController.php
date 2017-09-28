@@ -54,7 +54,10 @@ class DebtorController extends Controller
         // Todo: Maybe there should also be a user created for the debtor for collection purposes
         session(['debtor_id' => $company->id]);
 
-        return \Redirect::route('frontend.register.dossier.create');
+        return \Redirect::route('frontend.dossier.create');
+    }
+
+    public function show(Company $company) {
 
     }
 }

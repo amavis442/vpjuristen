@@ -26,22 +26,15 @@ Route::group(['prefix' => 'registratie', 'middleware' => ['web', 'guest']], func
     // Controllers Within The "App\Http\Controllers\Frontend" Namespace
     Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
 
-        Route::get('client/create', 'ClientController@create')->name('client.create');
-        Route::post('client/store', 'ClientController@store')->name('client.store');
+        Route::resource('client','ClientController',['only' =>['create','store','show']]);
+        Route::resource('debtor','DebtorController',['only' =>['create','store','show']]);
+        Route::resource('dossier','DebtorController',['only' =>['create','store','show']]);
+        Route::get('dossier/thankyou', 'DossierController@thankyou')->name('dossier.thankyou');
 
-
-        Route::get('debtor/create', 'DebtorController@create')->name('debtor.create');
-        Route::post('debtor/store', 'DebtorController@store')->name('debtor.store');
-
-        Route::get('dossier/create', 'DossierController@create')->name('dossier.create');
-        Route::post('dossier/store', 'DossierController@store')->name('dossier.store');
-        Route::get('dossier/thankyou', 'DossierController@thankyou')->name('thankyou');
-    });
-
-    Route::group(['as' => 'frontend.'], function () {
         Route::post('invoice/create', 'InvoiceController@ajaxAdd')->name('invoice.ajax.add');
         Route::post('invoice/destroy', 'InvoiceController@ajaxDelete')->name('invoice.ajax.delete');
     });
+
 });
 
 /**
