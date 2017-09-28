@@ -30,8 +30,8 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    {!! Form::submit('Next!',
-                  array('class'=>'btn btn-primary')) !!}
+
+                    <input value="Next!" class="btn btn-primary" type="submit" id="btnSubmit">
                 </div>
             </div>
         </form>
