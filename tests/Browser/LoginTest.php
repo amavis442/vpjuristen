@@ -13,6 +13,12 @@ class LoginTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
+    public function setUp()
+    {
+        parent::setUp();
+        $this->artisan('db:seed');
+    }
+
     /**
      * A Dusk test example.
      *
