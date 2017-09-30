@@ -12,7 +12,7 @@
             @endforeach
         </ul>
 
-        {!! Form::open(['route' => 'frontend.register.debtor.store', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['route' => 'frontend.debtor.store', 'class' => 'form-horizontal']) !!}
 
 
         <div class="panel panel-default">
