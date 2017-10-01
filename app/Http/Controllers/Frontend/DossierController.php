@@ -36,10 +36,10 @@ class DossierController extends Controller
     {
         if (!session()->has('client_id') || !session()->has('debtor_id')) {
             if (!session()->has('client_id')) {
-                \Redirect::route('frontend.register.client.create');
+                \Redirect::route('frontend.client.create');
             }
             if (!session()->has('debtor_id')) {
-                \Redirect::route('frontend.register.debtor.create');
+                \Redirect::route('frontend.debtor.create');
             }
         }
 

@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\Company;
 use App\Models\Contact;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\CompanyService;
+
 
 class DebtorController extends Controller
 {
+    protected $companyService;
+
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -18,7 +26,7 @@ class DebtorController extends Controller
     public function create()
     {
         if (!session()->has('client_id')) { // TODO: Maybe put this in a middleware for debtor and dossier.
-            \Redirect::route('frontend.register.client.create');
+            \Redirect::route('frontend.client.create');
         }
 
         $company = new Company();
@@ -36,22 +44,15 @@ class DebtorController extends Controller
     public function store(Request $request)
     {
         if (!session()->has('client_id')) {
-            return \Redirect::route('frontend.register.client.create');
+            return \Redirect::route('frontend.client.create');
         }
-        $currentTimestamp = date('Y-m-d H:i:s');;
 
-        // Create the debtor company
-        $data = $request->get('company');
-        /** @var Company $company */
-        $company = Company::create($data);
 
-        // Create the contact for the debtor company
-        $data = $request->get('contact');
-        $data['created_at'] = $currentTimestamp;
-        $data['created_at'] = $currentTimestamp;
-        $company->contacts()->create($data);
+        $data['company'] = $request->get('company');
+        $data['contact'] = $request->get('contact');
 
-        // Todo: Maybe there should also be a user created for the debtor for collection purposes
+        $company = $this->companyService->createWithContactAndUser($data);
+
         session(['debtor_id' => $company->id]);
 
         return \Redirect::route('frontend.dossier.create');
