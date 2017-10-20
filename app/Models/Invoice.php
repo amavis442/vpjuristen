@@ -38,13 +38,13 @@ class Invoice extends Model implements HasMedia
     protected $fillable = ['title', 'remarks', 'amount', 'due_date'];
 
     /**
-     * @param $dossier_id
+     * @param $id
      * @return Collection
      */
-    public function getInvoicesByDossierId($dossier_id)
-    : Collection {
+    public function getInvoicesByDossierId($id): Collection
+    {
         /** @var Collection $invoices */
-        $invoices = Invoice::with('dossier')->where('dossier_id', $dossier_id)->get();
+        $invoices = Invoice::with('dossier')->where('dossier_id', $id)->get();
 
         return $invoices;
     }
