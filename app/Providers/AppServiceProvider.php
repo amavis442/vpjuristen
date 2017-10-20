@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use App\Repositories\Contracts\CompanyRepository;
-use App\Repositories\Contracts\DossierRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Laravel\Dusk\DuskServiceProvider;
+use App\Services\DossierService;
+use App\Services\CompanyService;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,12 +31,27 @@ class AppServiceProvider extends ServiceProvider
         if (env('APP_DEBUG', false)) {
 
             // Providers
-            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 
-            // Aliases
-            $this->app->alias('Debugbar', 'Barryvdh\Debugbar\Facade');
+            if ($this->app->environment('local', 'testing', 'development')) {
+                $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+                $this->app->register(DuskServiceProvider::class);
+
+                // Aliases
+                $this->app->alias('Debugbar', 'Barryvdh\Debugbar\Facade');
+            }
+
+
         }
 
+        // Services (not Providers)
+        $this->app->bind('DossierService', function ($app) {
+            return new DossierService();
+        });
+
+        $this->app->bind('CompanyService', function ($app) {
+            return new CompanyService();
+        });
     }
 }

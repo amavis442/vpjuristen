@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\User;
 use App\Models\Contact;
 use App\Models\Company;
-use App\Models\Role;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientFormRequest;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Services\CompanyService;
 
 class ClientController extends Controller
 {
+
+    protected $companyService;
+
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -35,42 +40,18 @@ class ClientController extends Controller
      */
     public function store(ClientFormRequest $request)
     {
-        $data = $request->get('company');
+        $data['company'] = $request->get('company');
+        $data['contact'] = $request->get('contact');
 
-        // Create the company
-        /** @var Company $company */
-        $company = Company::create($data);
-
-        // Create the contact and attach it to the company
-        $currentTimestamp = date('Y-m-d H:i:s');;
-        $data = $request->get('contact');
-        $data['created_at'] = $currentTimestamp;
-        $data['created_at'] = $currentTimestamp;
-        /** @var Contact $contact */
-        $contact = $company->contacts()->create($data);
-
-        // Create a new user for the contact so he/she can login in
-        $userData = [];
-        $userData['name'] = $contact->name;
-        $userData['email'] = $contact->email;
-        $userData['password'] = bcrypt('secret');
-        $userData['active'] = 1;
-        $userData['status'] = 'pending';
-        $userData['created_at'] = $currentTimestamp;
-        $userData['updated_at'] = $currentTimestamp;
-
-        /** @var User $user */
-        $user = $company->users()->withTimestamps()->create($userData);
-
-        // Give the user a role so he/she can login in with restrictions
-        $user->roles()->withTimestamps()->attach(Role::where(['name' => 'prospect'])->get()->first()->id);
-
-        // Attach the user to the contact
-        $contact->users()->withTimestamps()->attach($user->id);
+        $company = $this->companyService->createWithContactAndUser($data);
 
         // Store the company id for the next step
         session(['client_id' => $company->id]);
 
-        return \Redirect::route('frontend.register.debtor.create');
+        return \Redirect::route('frontend.debtor.create');
+    }
+
+    public function show(Company $company) {
+
     }
 }

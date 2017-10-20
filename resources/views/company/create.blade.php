@@ -2,7 +2,7 @@
 
 @section('content')
     <?php
-    $route = 'client-store';
+    $route = 'client.store';
     ?>
 
     <div class="container">

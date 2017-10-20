@@ -28,7 +28,6 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
-        'company' => $faker->word,
         'street' => $faker->streetName,
         'housenr' => $faker->buildingNumber,
         'postcode' => $faker->postcode,

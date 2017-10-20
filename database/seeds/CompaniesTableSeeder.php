@@ -14,7 +14,6 @@ class CompaniesTableSeeder extends Seeder
     {
         $company = new Company();
         $company->name = 'admin-prime';
-        $company->company = 'admin-prime';
         $company->street = 'admin';
         $company->housenr = 1;
         $company->postcode = '1234AA';

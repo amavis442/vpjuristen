@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Company;
 use App\Repositories\Contracts\DossierRepositoryInterface;
-use App\Repositories\Eloquent\DossierRepository;
-use App\Services\DossierService;
 use App\Services\DossierSummaryService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Dossier;
-use App\Models\File;
 use Illuminate\Support\Collection;
 
 class DossierController extends Controller
@@ -31,7 +27,7 @@ class DossierController extends Controller
             $item = new Collection();
             $item->put('dossier', $dossier);
             $item->put('dossierstatus', $dossier->dossierstatus);
-            $companies = $dossier->companies;//->withPivot('type')->get()->all();
+            $companies = $dossier->companies;
             $actions = $dossier->actions;
             $item->put('actions', $actions);
             foreach ($companies as $company) {

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        {!! Form::open(['route' => 'admin.employee.store', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['route' => $route, 'class' => 'form-horizontal']) !!}
 
         <div class="panel panel-default">
             <div class="panel-heading">

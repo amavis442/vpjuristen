@@ -1,25 +1,22 @@
-
 <input type="hidden" name="company[id]" value="{{ $company->id }}"/>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 <div class="form-group">
     {!! Form::label('Name',null, ['class' => 'col-sm-2 control-label']) !!}
     <div class="col-sm-10">
-        {!! Form::text('company[name]', $company->name,
-        ['required',
-          'class'=>'form-control',
-          'placeholder'=>'Your name']) !!}
-    </div>
-</div>
+        {!! Form::text('company[name]', $company->name, [
 
+            'class'=>'form-control',
+            'placeholder'=>'Your name']) !!}
 
-<div class="form-group">
-    {!! Form::label('Company name',null, ['class' => 'col-sm-2 control-label']) !!}
-
-    <div class="col-sm-10">
-        {!! Form::text('company[company]', $company->company,
-        ['class'=>'form-control',
-              'placeholder'=>'Company'])
-        !!}
     </div>
 </div>
 

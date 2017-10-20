@@ -41,10 +41,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereWebsite($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company client()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company debtor()
  */
 class Company extends Model
 {
-    protected $fillable = ['name', 'company', 'street', 'housenr', 'postcode', 'city', 'country', 'phone', 'email', 'website'];
+    protected $fillable = ['name', 'street', 'housenr', 'postcode', 'city', 'country', 'phone', 'email', 'website'];
 
 
     public function contacts()
