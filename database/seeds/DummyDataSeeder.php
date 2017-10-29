@@ -25,13 +25,21 @@ class DummyDataSeeder extends Seeder
 
         $clientUserRole = Role::whereName('prospect')->first();
 
+        if (!file_exists(storage_path() .'/app/images')) {
+            mkdir(storage_path() .'/app/images');
+        }
+        if (!file_exists(storage_path() .'/app/dossier')) {
+            mkdir(storage_path() .'/app/dossier');
+        }
+
+        file_put_contents(storage_path() .'/app/images/test.txt','Dit is een fake regel...');
+
         for ($i = 0; $i < 50; $i++) {
             $currentTimestamp = \Carbon\Carbon::now();
 
             // Client
             /** @var Company $company */
             $user = factory(User::class)->create();
-            $user->save();
             $user->roles()->save($clientUserRole);
 
             $company = factory(Company::class)->create();
@@ -43,7 +51,6 @@ class DummyDataSeeder extends Seeder
 
             // Debtor
             $userDeb = factory(User::class)->create();
-            $userDeb->save();
             $userDeb->roles()->save($clientUserRole);
 
             $companyDeb = factory(Company::class)->create();
