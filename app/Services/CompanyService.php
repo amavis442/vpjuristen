@@ -41,14 +41,12 @@ class CompanyService
 
         /** @var \App\Models\User $user */
         $user = $company->users()->create($userData);
-
-        $roleId = Role::whereName('prospect')->first()->id;
-
-        // Give the user a role so he/she can login in with restrictions
-        $user->roles()->attach($roleId);
-
         // Attach the user to the contact
         $contact->users()->attach($user->id);
+
+        // Give the user a role so he/she can login in with restrictions
+        $roleId = Role::whereName('prospect')->first()->id;
+        $user->roles()->attach($roleId);
 
         return $company;
     }
