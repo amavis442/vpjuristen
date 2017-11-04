@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\Company;
 use App\Models\Contact;
 
-class LoginTest extends DuskTestCase
+class CreateClientTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
@@ -27,8 +27,8 @@ class LoginTest extends DuskTestCase
     public function testExample()
     {
         /** @var Company $company */
-        $company = factory(Company::class)->create();
-        $contact = factory(Contact::class)->create();
+        $company = factory(Company::class)->make();
+        $contact = factory(Contact::class)->make();
 
         $this->browse(function (Browser $browser) use ($company, $contact) {
             $browser->visit('/')
