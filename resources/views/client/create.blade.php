@@ -18,8 +18,7 @@
             @include('client._form')
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    {!! Form::submit('Next!',
-                  array('class'=>'btn btn-primary')) !!}
+                    <input type="submit" class="btn btn-primary" name="btnSubmit" id="btnSubmit" >
                 </div>
             </div>
             {!! Form::close() !!}
