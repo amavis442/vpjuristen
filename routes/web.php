@@ -22,27 +22,28 @@ Route::get('/home', 'HomeController@index');
 /**
  * Routes for frontend
  */
-Route::group(['prefix' => 'registratie', 'middleware' => ['web', 'guest']], function () {
-    // Controllers Within The "App\Http\Controllers\Frontend" Namespace
-    Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
+Route::group([
+                 'namespace'  => 'Frontend',
+                 'as'         => 'frontend.',
+                 'prefix'     => 'registratie',
+                 'middleware' => ['web', 'guest'],
+             ], function () {
 
-        Route::resource('client','ClientController',['only' =>['create','store','show']]);
-        Route::resource('debtor','DebtorController',['only' =>['create','store','show']]);
-        Route::resource('dossier','DebtorController',['only' =>['create','store','show']]);
-        Route::get('dossier/thankyou', 'DossierController@thankyou')->name('dossier.thankyou');
+    Route::resource('client', 'ClientController', ['only' => ['create', 'store']]);
+    Route::resource('debtor', 'DebtorController', ['only' => ['create', 'store']]);
+    Route::resource('dossier', 'DossierController', ['only' => ['create', 'store', 'show']]);
+    Route::get('dossier/thankyou', 'DossierController@thankyou')->name('dossier.thankyou');
 
-        Route::post('invoice/create', 'InvoiceController@ajaxAdd')->name('invoice.ajax.add');
-        Route::post('invoice/destroy', 'InvoiceController@ajaxDelete')->name('invoice.ajax.delete');
-    });
-
+    Route::post('invoice/create', 'InvoiceController@ajaxAdd')->name('invoice.ajax.add');
+    Route::post('invoice/destroy', 'InvoiceController@ajaxDelete')->name('invoice.ajax.delete');
 });
 
 /**
  * Routes for Admin: maintenance, pages, employees and dossiers
  */
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/file/download/{invoice}/{id}', 'InvoiceController@download')->name('file.download');
 
+    Route::get('/file/download/{invoice}/{id}', 'InvoiceController@download')->name('file.download');
     Route::resource('invoice', 'InvoiceController');
 
     // Auth Login / logout
