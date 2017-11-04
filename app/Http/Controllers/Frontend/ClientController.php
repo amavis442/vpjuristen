@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Http\Requests\CompanyAndContactRequest;
 use App\Models\Contact;
 use App\Models\Company;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ClientFormRequest;
 use App\Services\CompanyService;
 
 class ClientController extends Controller
@@ -35,10 +35,10 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param ClientFormRequest $request
+     * @param CompanyAndContactRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(ClientFormRequest $request)
+    public function store(CompanyAndContactRequest $request)
     {
         $data['company'] = $request->get('company');
         $data['contact'] = $request->get('contact');
@@ -49,9 +49,5 @@ class ClientController extends Controller
         session(['client_id' => $company->id]);
 
         return \Redirect::route('frontend.debtor.create');
-    }
-
-    public function show(Company $company) {
-
     }
 }
