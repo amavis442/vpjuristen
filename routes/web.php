@@ -41,71 +41,52 @@ Route::group([
 /**
  * Routes for Admin: maintenance, pages, employees and dossiers
  */
-Route::group(['prefix' => 'admin'], function () {
-
-    Route::get('/file/download/{invoice}/{id}', 'InvoiceController@download')->name('file.download');
-    Route::resource('invoice', 'InvoiceController');
+Route::group(['namespace' => 'Admin','prefix' => 'admin','as' => 'admin.'], function () {
 
     // Auth Login / logout
-    Route::group(['namespace' => 'Admin\Auth'], function () {
+    Route::group(['namespace' => 'Auth'], function () {
 
         Route::get('/', function () {
-            return \Redirect::route('admin.login');
+            return \Redirect::route('login');
         });
 
         Route::group(['middleware' => ['web', 'guest']], function () {
-            Route::get('/login', 'LoginController@showLoginForm')->name('admin.login');
+            Route::get('/login', 'LoginController@showLoginForm')->name('login');
             Route::post('/login', 'LoginController@login');
 
-            Route::get('/password/reset', 'LoginController@showLoginForm')->name('admin.password.request');
+            Route::get('/password/reset', 'LoginController@showLoginForm')->name('password.request');
         });
-        Route::post('/logout', 'LoginController@logout')->name('admin.logout')->middleware(['web']);
+
+        Route::post('/logout', 'LoginController@logout')->name('logout')->middleware(['web']);
     });
 
     // Admin
-    Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'role:admin,manager,employee']], function () {
+    Route::group(['middleware' => ['auth', 'role:admin,manager,employee']], function () {
+        Route::get('/file/download/{invoice}/{id}', 'InvoiceController@download')->name('file.download');
 
-        Route::get('/home', 'HomeController@index')->name('admin.home');
+        Route::get('/home', 'HomeController@index')->name('home');
 
         /* Pages: create, edit and update pages */
 
         /* Employee admin: create, update and add/update roles to employee users */
-        Route::resource('employees', 'EmployeeController', ['as' => 'admin']);
-        Route::resource('users', 'UserController', ['as' => 'admin']);
+        Route::resource('employees', 'EmployeeController');
+        Route::resource('users', 'UserController');
+
+        Route::resource('companies', 'CompanyController@index');
 
         /* Dossier admin: update dossier, add action and comments */
-        Route::resource('dossiers', 'DossierController', ['as' => 'admin']);
+        Route::resource('dossiers', 'DossierController');
         Route::get('/dossiers/search', 'DossierController@search');
 
-
-        Route::resource('client', 'ClientController', ['as' => 'admin']);
-
-        //Route::resource('companies','CompanyController',['as' => 'admin']);
-        Route::get('/companies/{type}', 'CompanyController@index')->name('admin.companies.index');
-        Route::get('/companies/{company}/edit', 'CompanyController@edit')->name('admin.companies.edit');
-
-        //Route::get('/dossier/list/{id}', 'DossierController@list')->name('admin.dossier.list');
-        //Route::get('/dossier/view/{id}', 'DossierController@show')->name('admin.dossier.show');
-        //Route::get('/dossier/edit/{id}', 'DossierController@edit')->name('admin.dossier.edit');
-        //Route::post('/dossier/store', 'DossierController@store')->name('admin.dossier.store');
-        //Route::get('/dossier', 'DossierController@index')->name('admin.dossier.index');
-
+        Route::resource('invoices', 'InvoiceController');
 
         /* Client admin: see client data and update them */
+        Route::resource('clients', 'ClientController');
         Route::get('/client/search', 'ClientController@search');
-        //Route::resource('clients',ClientController::class,['as' => 'admin']);
-
-        //Route::get('/client/view/{id}', 'ClientController@show')->name('admin.client.show');
-        //Route::get('/client/edit/{id}', 'ClientController@edit')->name('admin.client.edit');
-        //Route::post('/client/store', 'ClientController@store')->name('admin.client.store');
-        //Route::get('/client', 'ClientController@index')->name('admin.client.index');
 
         /* Debtor admin: see debtor data and update them */
+        Route::resource('debtors', 'DebtorController');
         Route::get('/debtor/search', 'DebtorController@search');
-        Route::get('/debtor/view/{id}', 'DebtorController@show')->name('admin.debtor.show');
-        Route::get('/debtor/edit/{id}', 'DebtorController@edit')->name('admin.debtor.edit');
-        Route::post('/debtor/store', 'DebtorController@store')->name('admin.debtor.store');
-        Route::get('/debtor', 'DebtorController@index')->name('admin.debtor.index');
 
 
         /* Action admin: add an action to a dossier. An action can be receiving a payment, contact with debtor/client etc. */

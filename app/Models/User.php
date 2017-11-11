@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -8,19 +9,32 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 /**
  * App\Models\User
  *
- * @property int $id
- * @property string $name
- * @property string $email
- * @property string $password
- * @property int $active
- * @property string|null $remember_token
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Company[] $companies
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Contact[] $contacts
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dossier[] $dossiers
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property int
+ *               $id
+ * @property string
+ *               $name
+ * @property string
+ *               $email
+ * @property string
+ *               $password
+ * @property int
+ *               $active
+ * @property string|null
+ *               $remember_token
+ * @property \Carbon\Carbon|null
+ *               $created_at
+ * @property \Carbon\Carbon|null
+ *               $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Company[]
+ *                    $companies
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Contact[]
+ *                    $contacts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dossier[]
+ *                    $dossiers
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[]
+ *                $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[]
+ *                    $roles
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmail($value)
@@ -37,11 +51,14 @@ class User extends Authenticatable
     use Notifiable;
 
     const RULES = [
-        'email' => 'required|email',
-        'password' => 'required:min:6'
+        'name'     => 'required|string|max:255',
+        'email'    => 'required|email',
+        'password' => 'required|min:6',
     ];
 
-    const ROLES = ['guest','user','employee','manager','admin'];
+    const ROLES = ['guest', 'user', 'employee', 'manager', 'admin'];
+
+    const STATUS = ['pending', 'active', 'disabled'];
 
     //protected $guard = 'dashboard';
     /**
@@ -50,7 +67,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','active'
+        'name',
+        'email',
+        'password',
+        'status',
     ];
 
     /**
@@ -59,7 +79,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     public function companies()

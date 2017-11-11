@@ -18,20 +18,58 @@
     </div>
 </div>
 
+<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+    <label for="password" class="col-sm-2 control-label">Password</label>
+
+    <div class="col-sm-4">
+        <input id="password" type="password" class="form-control" name="user[password]" @if(isset($passwordrequired)) required @endif>
+
+        @if ($errors->has('password'))
+            <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+        @endif
+    </div>
+
+    <label for="password-confirm" class="col-sm-2 control-label">Confirm Password</label>
+
+    <div class="col-sm-4">
+        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" @if(isset($passwordrequired)) required @endif>
+    </div>
+</div>
+
 
 <div class="form-group">
     {!! Form::label('Active','Active', ['class' => 'col-sm-2 control-label']) !!}
     <div class="col-sm-4">
-        <label class="radio-inline">
-            {!! Form::radio('user[active]', '1', ($user->active ? true:false), [
-            'id' => 'user_active_yes'
-            ]) !!} Yes
-        </label>
-
-        <label class="radio-inline">
-            {!! Form::radio('user[active]', '0',($user->active == false ? true:false), [
-            'id' => 'user_active_false'
-            ]) !!} No
-        </label>
+        <select name="user[status]">
+            <option></option>
+            @forelse($statuses as $status)
+                <option value="{{ $status }}" @if($user->status == $status) selected @endif>{{ $status }}</option>
+            @empty
+                <option>No statuses available at the moment</option>
+            @endforelse
+        </select>
     </div>
 </div>
+
+@push('js')
+    @if(!isset($passwordrequired))
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#password').on('blur',function(){
+                if ($('#password').length >0 && $('#password').val() != '') {
+                    if (!$('#password-confirm').attr('required')) {
+                        $('#password-confirm').attr('required', 'required');
+                    }
+                } else {
+                    if ($('#password-confirm').attr('required')) {
+                        $('#password-confirm').removeAttr('required');
+                    }
+                }
+            });
+        });
+
+    </script>
+    @endif
+@endpush

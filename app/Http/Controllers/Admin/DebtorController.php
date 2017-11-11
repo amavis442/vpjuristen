@@ -2,28 +2,84 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Company;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class DebtorController extends Controller
 {
-    protected $name = 'debtor';
-    protected $routeIndex = 'admin.debtor.index';
-    protected $routeEdit = 'admin.debtor.edit';
-    protected $routeStore = 'admin.debtor.store';
+    use CompanyTrait;
+
+
+    public function __construct()
+    {
+
+    }
 
     public function index()
     {
-        return parent::getCompany($this->name);
+        $companies = Company::with(['dossiers', 'users', 'contacts'])->debtor()->get();
+
+        return view('admin.debtors.index', compact('companies'));
     }
 
-    public function edit($id,Request $request)
+    public function create(Request $request)
     {
-        return parent::editCompany($id, $request);
+        $data = $this->createCompany();
+
+        return view('admin.debtors.create', $data);
     }
 
+    /**
+     * Save new company
+     *
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     */
     public function store(Request $request)
     {
-        return parent::storeCompany($request);
+        $this->storeCompany($request);
+
+        return \Redirect::route('admin.debtors.index');
     }
+
+    public function show(Company $debtor)
+    {
+        $data = $this->showCompany($debtor);
+
+        return view('admin.debtors.view', $data);
+    }
+
+
+    /**
+     * @param         $id
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|RedirectResponse|View
+     */
+    public function edit(Request $request, Company $debtor)
+    {
+        $data = $this->editCompany($debtor);
+
+        return view('admin.debtors.edit', $data);
+    }
+
+    /**
+     * Save new company
+     *
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     */
+    public function update(Request $request, Company $debtor)
+    {
+        $this->updateCompany($request);
+
+        return \Redirect::route('admin.debtors.index');
+    }
+
+
 }

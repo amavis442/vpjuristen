@@ -21,34 +21,25 @@ use Illuminate\View\View;
 
 class ClientController extends Controller
 {
-    protected $name = '';
+    use CompanyTrait;
 
-    /** @var  CompanyRepositoryInterface */
-    protected $companyRepository;
-
-    public function __construct(CompanyRepositoryInterface $companyRepository)
+    public function __construct()
     {
-        $this->companyRepository = $companyRepository;
+
     }
 
     public function index()
     {
         $companies = Company::with(['dossiers', 'users', 'contacts'])->client()->get();
 
-        return view('company.admin.index',
-                    ['type' => 'client', 'route' => 'admin.client.show', 'companies' => $companies]);
+        return view('admin.clients.index', compact('companies'));
     }
 
     public function create(Request $request)
     {
-        if (!$this->authorize('create', Company::class)) {
-            return redirect()->route('admin.home');
-        }
+        $data = $this->createCompany();
 
-        $user = new User();
-        $contact = new Contact();
-
-        return view('admin.company.create', ['route' => 'admin.client.store', 'user' => $user, 'contact' => $contact, 'contactShort' => false]);
+        return view('admin.clients.create', $data);
     }
 
     /**
@@ -60,39 +51,16 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $companyData = $request->get('company');
-        $id = $companyData['id'];
+        $this->storeCompany($request);
 
-        if ($id) {
-            $company = Company::findOrFail($id);
-            if (!$this->authorize('update', $company)) {
-                return redirect()->route('admin.home');
-            }
-        } else {
-            $company = new Company();
-            if (!$this->authorize('create', Company::class)) {
-                return redirect()->route('admin.home');
-            }
-        }
-
-        $this->companyRepository->store($company, $request);
-
-        return \Redirect::route($this->routeIndex);
+        return \Redirect::route('admin.clients.index');
     }
 
     public function show(Company $client)
     {
-        $contact = $client->contacts()->first();
-        $user = $contact->users()->first();
+        $data = $this->showCompany($client);
 
-        return view('company.admin.show',
-                    [
-                        'type'    => 'client',
-                        'route'   => 'admin.client.edit',
-                        'company' => $client,
-                        'contact' => $client,
-                        'user'    => $user,
-                    ]);
+        return view('admin.clients.view', $data);
     }
 
 
@@ -104,25 +72,10 @@ class ClientController extends Controller
      */
     public function edit(Request $request, Company $client)
     {
-        /** @var \App\Models\Company $company */
-        if (!$this->authorize('edit', $client)) {
-            return redirect()->route('admin.home');
-        }
+        $data = $this->editCompany($client);
 
-        $contact = $client->contacts()->first();
-        $user = $client->users()->get()->first();
-        if (is_null($user)) {
-            $user = new User();
-        }
+        return view('admin.clients.edit', $data);
 
-        return view('company.admin.edit',
-                    [
-                        'route'        => 'admin.client.update',
-                        'company'      => $client,
-                        'contact'      => $contact,
-                        'user'         => $user,
-                        'contactShort' => false,
-                    ]);
     }
 
     /**
@@ -134,24 +87,9 @@ class ClientController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        $companyData = $request->get('company');
-        $id = $companyData['id'];
+        $this->updateCompany($request);
 
-        if ($id) {
-            $company = Company::findOrFail($id);
-            if (!$this->authorize('update', $company)) {
-                return redirect()->route('admin.home');
-            }
-        } else {
-            $company = new Company();
-            if (!$this->authorize('create', Company::class)) {
-                return redirect()->route('admin.home');
-            }
-        }
-
-        $this->companyRepository->store($company, $request);
-
-        return \Redirect::route('admin.client.index');
+        return \Redirect::route('admin.clients.index');
     }
 
 

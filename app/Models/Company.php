@@ -46,15 +46,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Company extends Model
 {
-    protected $fillable = ['name', 'street', 'housenr', 'postcode', 'city', 'country', 'phone', 'email', 'website'];
+    protected $fillable = ['name', 'street', 'housenumber', 'postalcode', 'city', 'country', 'phone', 'email', 'website'];
+
     const RULES = [
-        'name'     => 'required|string|max:255',
-        'street'   => 'required|string|max:255',
-        'housenr'  => 'required|string|max:10',
-        'postcode' => 'required|string|max:10',
-        'city'     => 'required|string|max:255',
-        'email'    => 'email',
-        'website'  => 'max:255',
+        'name'        => 'required|string|max:255',
+        'street'      => 'required|string|max:255',
+        'housenumber' => 'required|string|max:10',
+        'postalcode'  => 'required|string|max:10',
+        'city'        => 'required|string|max:255',
+        'email'       => 'email',
+        'website'     => 'max:255',
     ];
 
     public function contacts()

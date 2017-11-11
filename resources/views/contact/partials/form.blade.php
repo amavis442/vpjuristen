@@ -63,7 +63,7 @@
 
 <div class="form-group">
     {!! Form::label('Housenr',null, ['class' => 'col-sm-2 control-label']) !!}
-    <div class="col-sm-4">{!! Form::text('contact[housenr]', $contact->housenr,
+    <div class="col-sm-4">{!! Form::text('contact[housenumber]', $contact->housenumber,
             ['required',
             'class'=>'form-control',
             'placeholder'=>'House number'])
@@ -71,7 +71,7 @@
     </div>
 
     {!! Form::label('Zipcode',null, ['class' => 'col-sm-2 control-label']) !!}
-    <div class="col-sm-4">{!! Form::text('contact[zipcode]', $contact->zipcode,
+    <div class="col-sm-4">{!! Form::text('contact[postalcode]', $contact->postalcode,
             ['required',
             'class'=>'form-control',
             'placeholder'=>'Zipcode'])

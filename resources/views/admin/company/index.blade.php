@@ -22,7 +22,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($companies as $company)
+                            @forelse($companies as $company)
                                 <?php
                                 /** @var \Illuminate\Support\Collection $company */
 
@@ -57,7 +57,14 @@
                                     <td><a href="{{ route('admin.dossiers.show', $company->id) }}">Dossiers
                                             #{{ $dossiers->count() }}</a></td>
                                 </tr>
-                            @endforeach
+                                @empty
+                                <tr>
+                                    <td colspan="@if($type == 'client') 7 @else 5 @endif">
+                                        No clients found
+                                    </td>
+                                </tr>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>

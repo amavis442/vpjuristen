@@ -8,25 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Contact
  *
- * @property int $id
- * @property string $name
- * @property string $firstname
- * @property string|null $middlename
- * @property string $sexe
- * @property string|null $title
- * @property string|null $street
- * @property string|null $housenr
- * @property string|null $city
- * @property string|null $zipcode
- * @property string|null $country
- * @property string $phone
- * @property string $email
- * @property string|null $fax
- * @property string|null $remarks
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property int                                                                 $id
+ * @property string                                                              $name
+ * @property string                                                              $firstname
+ * @property string|null                                                         $middlename
+ * @property string                                                              $sexe
+ * @property string|null                                                         $title
+ * @property string|null                                                         $street
+ * @property string|null                                                         $housenr
+ * @property string|null                                                         $city
+ * @property string|null                                                         $zipcode
+ * @property string|null                                                         $country
+ * @property string                                                              $phone
+ * @property string                                                              $email
+ * @property string|null                                                         $fax
+ * @property string|null                                                         $remarks
+ * @property \Carbon\Carbon|null                                                 $created_at
+ * @property \Carbon\Carbon|null                                                 $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Company[] $companies
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[]    $users
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Contact whereCity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Contact whereCountry($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Contact whereCreatedAt($value)
@@ -49,17 +49,29 @@ use Illuminate\Database\Eloquent\Model;
 class Contact extends Model
 {
 
-    protected $fillable = ['company_id', 'sexe','firstname','middlename','name',
-                           'email', 'phone','zipcode','street','housenr','city',
-                           'fax','country'];
+    protected $fillable = [
+        'company_id',
+        'sexe',
+        'firstname',
+        'middlename',
+        'name',
+        'email',
+        'phone',
+        'postalcode',
+        'street',
+        'housenumber',
+        'city',
+        'fax',
+        'country',
+    ];
     const RULES = [
-        'name'     => 'required|string|max:255',
-        'street'   => 'required|string|max:255',
-        'housenr'  => 'required|string|max:10',
-        'postcode' => 'required|string|max:10',
-        'city'     => 'required|string|max:255',
-        'email'    => 'email',
-        'website'  => 'max:255',
+        'name'        => 'required|string|max:255',
+        'street'      => 'required|string|max:255',
+        'housenumber' => 'required|string|max:10',
+        'postalcode'  => 'required|string|max:10',
+        'city'        => 'required|string|max:255',
+        'email'       => 'email',
+        'website'     => 'max:255',
     ];
 
     public function companies()

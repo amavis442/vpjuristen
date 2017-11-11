@@ -1,14 +1,4 @@
 <input type="hidden" name="company[id]" value="{{ $company->id }}"/>
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 <div class="form-group">
     {!! Form::label('Name',null, ['class' => 'col-sm-2 control-label']) !!}
     <div class="col-sm-10">
@@ -30,7 +20,7 @@
     </div>
 
     {!! Form::label('Housenr',null, ['class' => 'col-sm-2 control-label']) !!}
-    <div class="col-sm-2">{!! Form::text('company[housenr]', $company->housenr,
+    <div class="col-sm-2">{!! Form::text('company[housenumber]', $company->housenumber,
             ['required',
             'class'=>'form-control',
             'placeholder'=>'House number'])
@@ -40,7 +30,7 @@
 
 <div class="form-group">
     {!! Form::label('Zipcode',null, ['class' => 'col-sm-2 control-label']) !!}
-    <div class="col-sm-2">{!! Form::text('company[postcode]', $company->postcode,
+    <div class="col-sm-2">{!! Form::text('company[postalcode]', $company->postalcode,
             ['required',
             'class'=>'form-control',
             'placeholder'=>'Zipcode'])
