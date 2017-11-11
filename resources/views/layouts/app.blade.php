@@ -46,7 +46,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
 
-                    @if (!Auth::guest() && Auth::user()->hasRole('client'))
+                    @if (!Auth::guest() && Auth::user()->isUser())
                         &nbsp;
 
                     @endif
@@ -55,7 +55,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    @if (Auth::guest())
+                    @guest
                         <li><a href="{{ route('dashboard.login') }}">Login</a></li>
                         <li><a href="{{ route('frontend.client.create') }}">Dossier aanmelden</a></li>
                         <li><a href="{{ route('register') }}">Register</a></li>
@@ -81,7 +81,7 @@
                                 </li>
                             </ul>
                         </li>
-                    @endif
+                    @endguest
                 </ul>
             </div>
         </div>

@@ -40,6 +40,9 @@ class ClientController extends Controller
      */
     public function store(CompanyAndContactRequest $request)
     {
+        $rules = array_merge(Company::RULES, Contact::RULES);
+        $this->validate($request, $rules);
+
         $data['company'] = $request->get('company');
         $data['contact'] = $request->get('contact');
 

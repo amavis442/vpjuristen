@@ -20,9 +20,9 @@ class ContactsTableSeeder extends Seeder
         $contact->sexe = 'M';
         $contact->title = 'admin';
         $contact->street = 'admin';
-        $contact->housenr = 1;
+        $contact->housenumber = 1;
+        $contact->postalcode = '1234AA';
         $contact->city = 'Ede';
-        $contact->zipcode = '1234AA';
         $contact->country = 'NL';
         $contact->phone = '06123456789';
         $contact->email = 'patrick@test.nl';
@@ -40,9 +40,9 @@ class ContactsTableSeeder extends Seeder
         $contact->sexe = 'M';
         $contact->title = 'admin';
         $contact->street = 'admin';
-        $contact->housenr = 1;
+        $contact->housenumber = 1;
+        $contact->postalcode = '1234AA';
         $contact->city = 'Ede';
-        $contact->zipcode = '1234AA';
         $contact->country = 'NL';
         $contact->phone = '06123456789';
         $contact->email = 'vincent@test.nl';

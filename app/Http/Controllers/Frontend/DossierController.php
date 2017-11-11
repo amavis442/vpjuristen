@@ -43,6 +43,9 @@ class DossierController extends Controller
             }
         }
 
+        $rules = array_merge(Dossier::RULES, Invoice::RULES);
+        $this->validate($request, $rules);
+
         $dossier = $request->get('dossier');
         $currentTimestamp = date('Y-m-d H:i:s');
 

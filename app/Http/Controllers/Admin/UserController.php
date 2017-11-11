@@ -23,9 +23,7 @@ class UserController extends Controller
     {
         /** @var \App\Models\Role $roles */
         //$roles = Role::with('users')->where('name', 'admin')->get();
-        $users = User::whereHas('roles', function ($q) {
-            $q->whereNotIn('name', ['admin', 'employee']);
-        })->get()->all();
+        $users = User::whereNotIn('role',['admin','manager','employee'])->get()->all();
 
         return view('employees.index', ['users' => $users]);
     }

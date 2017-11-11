@@ -17,15 +17,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Models\Model'         => 'App\Policies\ModelPolicy',
-        \App\Models\Action::class  => \App\Policies\ActionPolicy::class,
-        \App\Models\Comment::class => \App\Policies\CommentPolicy::class,
-        \App\Models\Company::class => \App\Policies\CompanyPolicy::class,
-        \App\Models\Invoice::class => \App\Policies\InvoicePolicy::class,
-        \App\Models\Contact::class => \App\Policies\ContactPolicy::class,
-        \App\Models\Dossier::class => \App\Policies\DossierPolicy::class,
-        \App\Models\User::class    => \App\Policies\EmployeePolicy::class,
-        \App\Models\File::class    => \App\Policies\FilePolicy::class,
-
     ];
 
     /**
@@ -38,11 +29,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('manage-employees', function ($user) {
-            return $user->hasRole('admin');
+            return $user->isAdmin() || $user->isManager();
         });
 
         Gate::define('search', function ($user) {
-            return $user->hasRole('admin') || $user->hasRole('employee');
+            return $user->isAdmin() || $user->isEmployee() || $user->isManager();
         });
 
         Gate::define('download','App\Policies\InvoicePolicy@download');

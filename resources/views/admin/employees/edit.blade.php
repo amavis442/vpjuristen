@@ -11,7 +11,7 @@
                 User data
             </div>
             <div class="panel-body">
-                @include('employees.partials.form')
+                @include('admin.employees.partials.form')
             </div>
         </div>
 

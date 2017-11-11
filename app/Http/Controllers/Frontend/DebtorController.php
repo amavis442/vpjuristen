@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Http\Requests\CompanyAndContactRequest;
 use App\Models\Company;
 use App\Models\Contact;
 use Illuminate\Http\Request;
@@ -41,12 +42,14 @@ class DebtorController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CompanyAndContactRequest $request)
     {
         if (!session()->has('client_id')) {
             return \Redirect::route('frontend.client.create');
         }
 
+        $rules = array_merge(Company::RULES, Contact::RULES);
+        $this->validate($request, $rules);
 
         $data['company'] = $request->get('company');
         $data['contact'] = $request->get('contact');

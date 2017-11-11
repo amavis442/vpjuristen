@@ -17,32 +17,25 @@ class UsersTableSeeder extends Seeder
     {
         // User 1
         /** @var User $user */
-        $user = User::create([
-                                 'name' => 'patrick',
-                                 'email' => 'patrick@test.nl',
-                                 'password' => \Hash::make('secret'),
-                                 'active' => 1
-                             ]);
+        User::create([
+                         'username' => 'patrick',
+                         'name'     => 'patrick',
+                         'email'    => 'patrick@test.nl',
+                         'password' => \Hash::make('secret'),
+                         'role'     => 'admin',
+                         'status'   => 'active',
+                     ]);
 
-        $role = Role::whereName('admin')->first();
-        if (is_null($role)) {
-            $user->delete();
-            throw new \Exception('Please run the RoleSeeder first');
-        }
-        $user->roles()->save($role);
 
         // User 2
-        $user = User::create([
-            'name' => 'vincent',
-            'email' => 'vin193@hotmail.com',
-            'password' => \Hash::make('secret02'),
-            'active' => 1
-        ]);
+        User::create([
+                         'username' => 'vincent',
+                         'name'     => 'vincent',
+                         'email'    => 'vin193@hotmail.com',
+                         'password' => \Hash::make('secret02'),
+                         'role'     => 'manager',
+                         'status'   => 'active',
+                     ]);
 
-        if (is_null($role)) {
-            $user->delete();
-            throw new \Exception('Please run the RoleSeeder first');
-        }
-        $user->roles()->save($role);
     }
 }

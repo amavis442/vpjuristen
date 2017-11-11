@@ -13,7 +13,7 @@ class CommentPolicy
     public function before(User $user, $ability)
     {
         // Admin and employee may see always
-        if ($user->hasRole('admin') || $user->hasRole('employee')) {
+        if ($user->isAdmin() || $user->isEmployee() || $user->isManager()) {
             return true;
         }
     }

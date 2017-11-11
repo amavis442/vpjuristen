@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Role;
 use App\Models\Company;
 use App\Models\Contact;
 use App\Models\Dossier;
@@ -23,8 +22,6 @@ class DummyDataSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
 
-        $clientUserRole = Role::whereName('prospect')->first();
-
         if (!file_exists(storage_path() .'/app/images')) {
             mkdir(storage_path() .'/app/images');
         }
@@ -40,7 +37,6 @@ class DummyDataSeeder extends Seeder
             // Client
             /** @var Company $company */
             $user = factory(User::class)->create();
-            $user->roles()->save($clientUserRole);
 
             $company = factory(Company::class)->create();
             $user->companies()->save($company);
@@ -51,7 +47,6 @@ class DummyDataSeeder extends Seeder
 
             // Debtor
             $userDeb = factory(User::class)->create();
-            $userDeb->roles()->save($clientUserRole);
 
             $companyDeb = factory(Company::class)->create();
             $userDeb->companies()->save($companyDeb);

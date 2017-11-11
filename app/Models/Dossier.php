@@ -28,6 +28,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Dossier extends Model
 {
+    const RULES = [];
+
     protected $fillable = ['title', 'client_id', 'debtor_id', 'dossierstatus_id'];
 
     public function actions()

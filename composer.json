@@ -9,7 +9,7 @@
         "barryvdh/laravel-debugbar": "^2.3",
         "barryvdh/laravel-ide-helper": "^2.2",
         "doctrine/dbal": "^2.5",
-        "jeroennoten/laravel-adminlte": "^1.19",
+        "jeroennoten/laravel-adminlte": "^1.22.1",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "5.5.x-dev",

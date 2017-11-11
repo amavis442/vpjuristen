@@ -37,8 +37,11 @@ class User extends Authenticatable
     use Notifiable;
 
     const RULES = [
-
+        'email' => 'required|email',
+        'password' => 'required:min:6'
     ];
+
+    const ROLES = ['guest','user','employee','manager','admin'];
 
     //protected $guard = 'dashboard';
     /**
@@ -58,12 +61,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class)->withTimestamps();
-    }
 
     public function companies()
     {
@@ -88,17 +85,38 @@ class User extends Authenticatable
         return $this->status == 'active';
     }
 
-
-
-    public function hasRole($name)
+    public function isPending()
     {
-        foreach ($this->roles as $role) {
-            if ($role->name == $name) {
-                return true;
-            }
-        }
-        return false;
+        return $this->status == 'pending';
     }
 
+    public function isDisabled()
+    {
+        return $this->status == 'disabled';
+    }
 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function isUser()
+    {
+        return $this->role == 'user';
+    }
+
+    public function isEmployee()
+    {
+        return $this->role == 'employee';
+    }
+
+    public function isManager()
+    {
+        return $this->role == 'manager';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role == 'admin';
+    }
 }

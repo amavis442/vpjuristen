@@ -36,6 +36,8 @@ class Invoice extends Model implements HasMedia
 
     use HasMediaTrait;
 
+    const RULES = [];
+
     protected $fillable = ['title', 'remarks', 'amount', 'due_date'];
 
     /**

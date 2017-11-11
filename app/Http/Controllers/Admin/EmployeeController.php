@@ -23,11 +23,9 @@ class EmployeeController extends Controller
     {
         /** @var \App\Models\Role $roles */
         //$roles = Role::with('users')->where('name', 'admin')->get();
-        $users = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['admin', 'employee']);
-        })->get()->all();
+        $users = User::whereIn('role', ['employee', 'manager', 'admin'])->get()->all();
 
-        return view('employees.index', ['users' => $users]);
+        return view('admin.employees.index', ['users' => $users]);
     }
 
     /**
@@ -134,10 +132,9 @@ class EmployeeController extends Controller
 
         $contact = $employee->contacts()->first();
         $company = Company::find(1);
+        $roles   = User::ROLES;
 
-        $roles = (new Role())->getAdminRoles();
-
-        return view('employees.edit ', [
+        return view('admin.employees.edit ', [
             'user'         => $employee,
             'company'      => $company,
             'contact'      => $contact,

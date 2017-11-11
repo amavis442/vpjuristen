@@ -30,11 +30,12 @@
 </div>
 
 <div class="col-sm-10">
-    @foreach($roles as $role)
     <label class="checkbox-inline">
-        {!! Form::checkbox('roles['.$role->name.']', $role->id, $user->hasRole($role->name), [
-        'id' => 'roles_admin'
-        ]) !!} {{ ucfirst($role->name) }}
+        <select name="user[role]">
+            <option></option>
+            @foreach($roles as $role)
+                <option value="{{ $role }}" @if($user->role == $role) selected @endif>{{ $role }}</option>
+            @endforeach
+        </select>
     </label>
-    @endforeach
 </div>

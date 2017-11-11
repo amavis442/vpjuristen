@@ -14,7 +14,7 @@ class ActionPolicy
     public function before(User $user, $ability)
     {
         // Admin and employee may see always
-        if ($user->hasRole('admin') || $user->hasRole('employee')) {
+        if ($user->isAdmin() || $user->isEmployee() || $user->isManager()) {
             return true;
         }
     }
@@ -29,7 +29,7 @@ class ActionPolicy
     public function view(User $user, Action $action)
     {
         /** @var Collection $roles */
-        $roles = $user->roles()->get(['role_id']);//->values()->toArray();
+        //$roles = $user->roles()->get(['role_id']);//->values()->toArray();
 
        return true;
 

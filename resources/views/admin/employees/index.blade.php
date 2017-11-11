@@ -33,9 +33,7 @@
                                         {{ $user->active }}
                                     </td>
                                     <td>
-                                        @foreach ($user->roles as $role)
-                                            {{ $role->name }},
-                                        @endforeach
+                                        {{ $user->role }}
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="...">

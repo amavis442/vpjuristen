@@ -34,19 +34,18 @@ class CompanyService
         $userData['name'] = $contact->name;
         $userData['email'] = $contact->email;
         $userData['password'] = bcrypt('secret');
-        $userData['active'] = 1;
+        $userData['active'] = 0;
         $userData['status'] = 'pending';
         $userData['created_at'] = $currentTimestamp;
         $userData['updated_at'] = $currentTimestamp;
+        $userData['role'] = 'user';
+        $userData['status'] = 'pending';
 
         /** @var \App\Models\User $user */
         $user = $company->users()->create($userData);
+
         // Attach the user to the contact
         $contact->users()->attach($user->id);
-
-        // Give the user a role so he/she can login in with restrictions
-        $roleId = Role::whereName('prospect')->first()->id;
-        $user->roles()->attach($roleId);
 
         return $company;
     }

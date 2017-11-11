@@ -12,16 +12,16 @@ class CompaniesTableSeeder extends Seeder
      */
     public function run()
     {
-        $company = new Company();
-        $company->name = 'admin-prime';
-        $company->street = 'admin';
-        $company->housenr = 1;
-        $company->postcode = '1234AA';
-        $company->city = 'Ede';
-        $company->country = 'NL';
-        $company->phone = '06123456789';
-        $company->email = 'patrick@test.nl';
-        $company->website = '';
+        $company              = new Company();
+        $company->name        = 'admin-prime';
+        $company->street      = 'admin';
+        $company->housenumber = 1;
+        $company->postalcode  = '1234AA';
+        $company->city        = 'Ede';
+        $company->country     = 'NL';
+        $company->phone       = '06123456789';
+        $company->email       = 'patrick@test.nl';
+        $company->website     = '';
         $company->save();
 
         $company->users()->attach(1);

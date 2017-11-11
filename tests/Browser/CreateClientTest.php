@@ -24,7 +24,7 @@ class CreateClientTest extends DuskTestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testCreateClient()
     {
         /** @var Company $company */
         $company = factory(Company::class)->make();
@@ -42,7 +42,6 @@ class CreateClientTest extends DuskTestCase
                     ->type('company[phone]', $company->phone)
                     ->type('company[email]', $company->email)
                     ->type('company[website]', $company->website)
-
                     ->radio('contact[sexe]', 'M')
                     ->type('contact[firstname]', $contact->firstname)
                     ->type('contact[middlename]', $contact->middlename)
@@ -51,6 +50,36 @@ class CreateClientTest extends DuskTestCase
                     ->type('contact[email]', $contact->email)
                     ->click('#btnSubmit')
                     ->assertSee('Zipcode');
+        });
+    }
+
+    /**
+     * @depends testCreateClient
+     */
+    public function testCreateDebtor()
+    {
+        /** @var Company $company */
+        $company = factory(Company::class)->make();
+        $contact = factory(Contact::class)->make();
+
+        $this->browse(function (Browser $browser) use ($company, $contact) {
+            $browser->type('company[name]', $company->name)
+                    ->type('company[street]', $company->street)
+                    ->type('company[housenr]', $company->housenr)
+                    ->type('company[postcode]', $company->postcode)
+                    ->type('company[city]', $company->city)
+                    ->type('company[country]', $company->country)
+                    ->type('company[phone]', $company->phone)
+                    ->type('company[email]', $company->email)
+                    ->type('company[website]', $company->website)
+                    ->radio('contact[sexe]', 'M')
+                    ->type('contact[firstname]', $contact->firstname)
+                    ->type('contact[middlename]', $contact->middlename)
+                    ->type('contact[name]', $contact->name)
+                    ->type('contact[phone]', $contact->phone)
+                    ->type('contact[email]', $contact->email)
+                    ->click('#btnSubmit')
+                    ->assertSee('Dossier');
         });
     }
 }

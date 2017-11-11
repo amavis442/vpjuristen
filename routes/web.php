@@ -63,7 +63,7 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
     // Admin
-    Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'role:admin']], function () {
+    Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'role:admin,manager,employee']], function () {
 
         Route::get('/home', 'HomeController@index')->name('admin.home');
 

@@ -16,10 +16,12 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = \Hash::make('secret'),
-        'active' => true,
+        'username'       => $faker->name,
+        'name'           => $faker->name,
+        'email'          => $faker->unique()->safeEmail,
+        'password'       => $password ?: $password = \Hash::make('secret'),
+        'role'           => 'user',
+        'status'         => 'active',
         'remember_token' => str_random(10),
     ];
 });
@@ -27,51 +29,51 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'street' => $faker->streetName,
-        'housenr' => $faker->buildingNumber,
-        'postcode' => $faker->postcode,
-        'city' => $faker->city,
-        'country' => $faker->country,
-        'phone' => $faker->phoneNumber,
-        'email' => $faker->unique()->safeEmail,
-        'website' => $faker->url,
+        'name'        => $faker->name,
+        'street'      => $faker->streetName,
+        'housenumber' => $faker->buildingNumber,
+        'postalcode'  => $faker->postcode,
+        'city'        => $faker->city,
+        'country'     => $faker->country,
+        'phone'       => $faker->phoneNumber,
+        'email'       => $faker->unique()->safeEmail,
+        'website'     => $faker->url,
     ];
 });
 
 
 $factory->define(App\Models\Contact::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->lastName,
-        'firstname' => $faker->firstNameFemale,
-        'middlename' => 'van den',
-        'sexe' => 'V',
-        'title' => $faker->title,
-        'street' => $faker->streetName,
-        'housenr' => $faker->buildingNumber,
-        'city' => $faker->city,
-        'zipcode' => $faker->postcode,
-        'country' => $faker->country,
-        'phone' => $faker->phoneNumber,
-        'email' => $faker->unique()->safeEmail,
-        'fax' => $faker->url,
-        'remarks' => $faker->paragraph
+        'name'        => $faker->lastName,
+        'firstname'   => $faker->firstNameFemale,
+        'middlename'  => 'van den',
+        'sexe'        => 'V',
+        'title'       => $faker->title,
+        'street'      => $faker->streetName,
+        'housenumber' => $faker->buildingNumber,
+        'postalcode'  => $faker->postcode,
+        'city'        => $faker->city,
+        'country'     => $faker->country,
+        'phone'       => $faker->phoneNumber,
+        'email'       => $faker->unique()->safeEmail,
+        'fax'         => $faker->url,
+        'remarks'     => $faker->paragraph,
     ];
 });
 
 $factory->define(App\Models\Dossier::class, function (Faker\Generator $faker) {
     return [
-        'title' => $faker->title,
-        'dossierstatus_id' => 1
+        'title'            => $faker->title,
+        'dossierstatus_id' => 1,
     ];
 });
 
 
 $factory->define(App\Models\Invoice::class, function (Faker\Generator $faker) {
     return [
-        'title' => $faker->title,
-        'amount' => $faker->numberBetween(10, 4000),
+        'title'    => $faker->title,
+        'amount'   => $faker->numberBetween(10, 4000),
         'due_date' => $faker->dateTimeBetween('-1 years')->format('Y-m-d'),
-        'remarks' => $faker->paragraph(2),
+        'remarks'  => $faker->paragraph(2),
     ];
 });
