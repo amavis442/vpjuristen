@@ -51,7 +51,7 @@ class DossierController extends Controller
 
         $data = $this->getDossier($dossiers);
 
-        return view('dossier.admin.index', ['data' => $data]);
+        return view('admin.dossiers.index', compact('data'));
     }
 
     /**
@@ -87,7 +87,7 @@ class DossierController extends Controller
 
         $summary = $dossierSummaryService->getSummary();
 
-        return view('dossier.admin.view', [
+        return view('admin.dossiers.view', [
             'fileRoute' => 'file.download',
             'invoiceRoute' => 'invoice.show',
             'routeEditClient' => 'admin.client.edit',

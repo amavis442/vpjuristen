@@ -76,7 +76,7 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','as' => 'admin.'], func
 
         /* Dossier admin: update dossier, add action and comments */
         Route::resource('dossiers', 'DossierController');
-        Route::get('/dossiers/search', 'DossierController@search');
+        Route::get('/dossiers/search', 'DossierController@search')->name('dossiers.search');
 
         Route::resource('invoices', 'InvoiceController');
 
@@ -90,14 +90,10 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','as' => 'admin.'], func
 
 
         /* Action admin: add an action to a dossier. An action can be receiving a payment, contact with debtor/client etc. */
-        Route::get('/action/add/{id}', 'ActionController@create')->name('admin.dossier.action.create');
-        Route::get('/action/edit/{id}', 'ActionController@edit')->name('admin.dossier.action.edit');
-        Route::post('/action/store', 'ActionController@store')->name('admin.dossier.action.store');
+        Route::resource('actions', 'ActionController');
 
         /* Comment admin: add an comment to a dossier/action. */
-        Route::get('/comment/add/{id}', 'CommentController@create')->name('admin.comment.create');
-        Route::get('/comment/edit/{comment}', 'CommentController@edit')->name('admin.comment.edit');
-        Route::post('/comment/store', 'CommentController@store')->name('admin.comment.store');
+        Route::resource('comments', 'CommentController');
 
         /* Collection admin: payment received from debtor */
         //Route::get('/collect/add/{id}', 'CollectController@create')->name('admin.action.collect.create');
