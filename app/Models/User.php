@@ -4,37 +4,25 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Lab404\Impersonate\Models\Impersonate;
 
 
 /**
  * App\Models\User
  *
- * @property int
- *               $id
- * @property string
- *               $name
- * @property string
- *               $email
- * @property string
- *               $password
- * @property int
- *               $active
- * @property string|null
- *               $remember_token
- * @property \Carbon\Carbon|null
- *               $created_at
- * @property \Carbon\Carbon|null
- *               $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Company[]
- *                    $companies
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Contact[]
- *                    $contacts
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dossier[]
- *                    $dossiers
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[]
- *                $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[]
- *                    $roles
+ * @property int                                                                                                            $id
+ * @property string                                                                                                         $name
+ * @property string                                                                                                         $email
+ * @property string                                                                                                         $password
+ * @property int                                                                                                            $active
+ * @property string|null                                                                                                    $remember_token
+ * @property \Carbon\Carbon|null                                                                                            $created_at
+ * @property \Carbon\Carbon|null                                                                                            $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Company[]                                            $companies
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Contact[]                                            $contacts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dossier[]                                            $dossiers
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[]                                               $roles
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmail($value)
@@ -44,11 +32,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string                                                                                                         $username
+ * @property string                                                                                                         $role
+ * @property string                                                                                                         $status
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUsername($value)
  */
 class User extends Authenticatable
 {
 
-    use Notifiable;
+    use Notifiable, Impersonate;
 
     const RULES = [
         'name'     => 'required|string|max:255',
@@ -135,6 +129,15 @@ class User extends Authenticatable
     {
         return $this->role == 'manager';
     }
+
+    /**
+     * @return bool
+     */
+    public function canImpersonate()
+    {
+        return $this->isAdmin();
+    }
+
 
     public function isAdmin()
     {

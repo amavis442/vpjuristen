@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 
 Auth::routes();
+Route::impersonate();
+
 Route::get('/home', 'HomeController@index');
 
 /**

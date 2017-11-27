@@ -6,19 +6,20 @@
     "type": "project",
     "require": {
         "php": ">=7.0",
-        "barryvdh/laravel-debugbar": "^2.3",
-        "barryvdh/laravel-ide-helper": "^2.2",
         "doctrine/dbal": "^2.5",
+        "lab404/laravel-impersonate": "^1.2",
         "jeroennoten/laravel-adminlte": "^1.22.1",
         "laravel/framework": "5.5.*",
-        "laravel/tinker": "~1.0",
         "laravelcollective/html": "5.5.x-dev",
         "spatie/laravel-medialibrary": "^6.0.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.1",
+        "barryvdh/laravel-ide-helper": "^2.4",
         "fzaninotto/faker": "~1.4",
         "laracasts/generators": "^1.1",
         "laravel/dusk": "^1.0",
+        "laravel/tinker": "~1.0",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~6.0"
     },
