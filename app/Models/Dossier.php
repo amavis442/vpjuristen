@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Dossier
  *
- * @property int $id
- * @property string $title
- * @property int $dossierstatus_id
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Action[] $actions
+ * @property int                                                                 $id
+ * @property string                                                              $title
+ * @property int                                                                 $dossierstatus_id
+ * @property \Carbon\Carbon|null                                                 $created_at
+ * @property \Carbon\Carbon|null                                                 $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Action[]  $actions
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Company[] $companies
- * @property-read \App\Models\Dossierstatus $dossierstatus
+ * @property-read \App\Models\Dossierstatus                                      $dossierstatus
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Invoice[] $invoices
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[]    $users
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dossier whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dossier whereDossierstatusId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dossier whereId($value)
@@ -34,17 +34,12 @@ class Dossier extends Model
 
     public function actions()
     {
-        return $this->belongsToMany(Action::class)->withPivot('public')->with(['listaction','comments','collection','payment'])->withTimestamps();
+        return $this->belongsToMany(Action::class)->withPivot('public')->with(['listaction', 'comments', 'collection', 'payment'])->withTimestamps();
     }
 
     public function comments()
     {
         return $this->belongsToMany(Comment::class)->withPivot('public')->withTimestamps();
-    }
-
-    public function companies()
-    {
-        return $this->belongsToMany(Company::class)->withPivot('type')->withTimestamps();
     }
 
     public function collections()
@@ -67,9 +62,6 @@ class Dossier extends Model
         $this->hasMany(Payment::class);
     }
 
-    /*
-     *
-     */
     public function users()
     {
         return $this->belongsToMany(User::class)
@@ -77,12 +69,21 @@ class Dossier extends Model
                     ->withTimestamps();
     }
 
+    /*
+     *
+     */
+
     /**
      * @return $this
      */
     public function debtor()
     {
         return $this->companies()->wherePivot('type', '=', 'debtor')->with('contacts');
+    }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class)->withPivot('type')->withTimestamps();
     }
 
     /**

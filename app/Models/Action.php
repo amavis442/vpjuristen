@@ -9,19 +9,19 @@ use Illuminate\Support\Facades\Auth;
 /**
  * App\Models\Action
  *
- * @property int $id
- * @property string $title
- * @property string $description
- * @property int $listaction_id
- * @property string $status
- * @property int $public
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property-read \App\Models\Collection $collection
+ * @property int                                                                 $id
+ * @property string                                                              $title
+ * @property string                                                              $description
+ * @property int                                                                 $listaction_id
+ * @property string                                                              $status
+ * @property int                                                                 $public
+ * @property \Carbon\Carbon|null                                                 $created_at
+ * @property \Carbon\Carbon|null                                                 $updated_at
+ * @property-read \App\Models\Collection                                         $collection
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dossier[] $dossiers
- * @property-read \App\Models\Listaction $listaction
- * @property-read \App\Models\Payment $payment
+ * @property-read \App\Models\Listaction                                         $listaction
+ * @property-read \App\Models\Payment                                            $payment
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Action whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Action whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Action whereId($value)
@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class Action extends Model
 {
-    protected $fillable = ['title','description','status','listaction_id','public'];
+    protected $fillable = ['title', 'description', 'status', 'listaction_id', 'public'];
 
     public function comments()
     {

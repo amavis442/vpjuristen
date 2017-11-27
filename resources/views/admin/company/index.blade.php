@@ -19,6 +19,7 @@
                                     <th>Status</th>
                                 @endif
                                 <th>Dossiers</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -26,10 +27,10 @@
                                 <?php
                                 /** @var \Illuminate\Support\Collection $company */
 
-                                if ($type == 'client') {
+                                //if ($type == 'client') {
                                     $companyUsers = $company->users;
                                     $companyUser = $companyUsers->first();
-                                }
+                                //}
                                 $contact = $company->contacts->first();
                                 $dossiers = $company->dossiers;
                                 ?>
@@ -54,8 +55,15 @@
                                             {{ $companyUser->active }}
                                         </td>
                                     @endif
-                                    <td><a href="{{ route('admin.dossiers.show', $company->id) }}">Dossiers
-                                            #{{ $dossiers->count() }}</a></td>
+                                    <td>
+                                        <a href="{{ route('admin.dossiers.show', $company->id) }}">Dossiers
+                                            #{{ $dossiers->count() }}</a>
+                                    </td>
+                                    <td>
+                                        @canImpersonate
+                                        <a href="{{ route('impersonate', $companyUser->id) }}">Impersonate this user</a>
+                                        @endCanImpersonate
+                                    </td>
                                 </tr>
                                 @empty
                                 <tr>

@@ -10,16 +10,16 @@ use Illuminate\Support\Collection;
 /**
  * App\Models\Invoice
  *
- * @property int                                                              $id
- * @property int                                                              $dossier_id
- * @property string|null                                                      $title
- * @property float                                                            $amount
- * @property string                                                           $due_date
- * @property string|null                                                      $remarks
- * @property \Carbon\Carbon|null                                              $created_at
- * @property \Carbon\Carbon|null                                              $updated_at
- * @property-read \App\Models\Dossier                                         $dossier
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[] $files
+ * @property int                                                                        $id
+ * @property int                                                                        $dossier_id
+ * @property string|null                                                                $title
+ * @property float                                                                      $amount
+ * @property string                                                                     $due_date
+ * @property string|null                                                                $remarks
+ * @property \Carbon\Carbon|null                                                        $created_at
+ * @property \Carbon\Carbon|null                                                        $updated_at
+ * @property-read \App\Models\Dossier                                                   $dossier
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\File[]           $files
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invoice whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invoice whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Invoice whereDossierId($value)
@@ -42,6 +42,7 @@ class Invoice extends Model implements HasMedia
 
     /**
      * @param $id
+     *
      * @return Collection
      */
     public function getInvoicesByDossierId($id): Collection

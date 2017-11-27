@@ -45,10 +45,23 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Contact whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Contact whereZipcode($value)
  * @mixin \Eloquent
+ * @property string|null                                                         $housenumber
+ * @property string|null                                                         $postalcode
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Contact whereHousenumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Contact wherePostalcode($value)
  */
 class Contact extends Model
 {
 
+    const RULES = [
+        'name'        => 'required|string|max:255',
+        'street'      => 'required|string|max:255',
+        'housenumber' => 'required|string|max:10',
+        'postalcode'  => 'required|string|max:10',
+        'city'        => 'required|string|max:255',
+        'email'       => 'email',
+        'website'     => 'max:255',
+    ];
     protected $fillable = [
         'company_id',
         'sexe',
@@ -63,15 +76,6 @@ class Contact extends Model
         'city',
         'fax',
         'country',
-    ];
-    const RULES = [
-        'name'        => 'required|string|max:255',
-        'street'      => 'required|string|max:255',
-        'housenumber' => 'required|string|max:10',
-        'postalcode'  => 'required|string|max:10',
-        'city'        => 'required|string|max:255',
-        'email'       => 'email',
-        'website'     => 'max:255',
     ];
 
     public function companies()

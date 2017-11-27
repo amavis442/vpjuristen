@@ -8,11 +8,11 @@ use Illuminate\Support\Collection;
 /**
  * App\Models\Role
  *
- * @property int $id
- * @property string $name
- * @property string|null $description
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property int                                                              $id
+ * @property string                                                           $name
+ * @property string|null                                                      $description
+ * @property \Carbon\Carbon|null                                              $created_at
+ * @property \Carbon\Carbon|null                                              $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereDescription($value)
@@ -23,7 +23,7 @@ use Illuminate\Support\Collection;
  */
 class Role extends Model
 {
-    protected $fillable = ['name','description'];
+    protected $fillable = ['name', 'description'];
 
     public function users()
     {
@@ -33,8 +33,8 @@ class Role extends Model
     public function getAdminRoles(): Collection
     {
         $adminRoles = ['admin', 'employee'];
-        $roles = new Collection();
-        $allRoles = Role::all();
+        $roles      = new Collection();
+        $allRoles   = Role::all();
 
         foreach ($allRoles as $role) {
             if (in_array($role->name, $adminRoles)) {

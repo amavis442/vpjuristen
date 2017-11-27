@@ -43,11 +43,13 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company client()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company debtor()
+ * @property string                                                              $housenumber
+ * @property string                                                              $postalcode
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereHousenumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company wherePostalcode($value)
  */
 class Company extends Model
 {
-    protected $fillable = ['name', 'street', 'housenumber', 'postalcode', 'city', 'country', 'phone', 'email', 'website'];
-
     const RULES = [
         'name'        => 'required|string|max:255',
         'street'      => 'required|string|max:255',
@@ -57,15 +59,11 @@ class Company extends Model
         'email'       => 'email',
         'website'     => 'max:255',
     ];
+    protected $fillable = ['name', 'street', 'housenumber', 'postalcode', 'city', 'country', 'phone', 'email', 'website'];
 
     public function contacts()
     {
         return $this->belongsToMany(Contact::class)->withTimestamps();
-    }
-
-    public function dossiers()
-    {
-        return $this->belongsToMany(Dossier::class)->withPivot('type')->withTimestamps();
     }
 
     public function users()
@@ -76,6 +74,11 @@ class Company extends Model
     public function getClients()
     {
         return $this->with(Dossier::class)->dossiers()->wherePivot('type', '=', 'client');
+    }
+
+    public function dossiers()
+    {
+        return $this->belongsToMany(Dossier::class)->withPivot('type')->withTimestamps();
     }
 
     public function getDebtors()
